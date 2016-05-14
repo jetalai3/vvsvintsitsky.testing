@@ -1,0 +1,26 @@
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+*.project
+.settings/
+*.classpath
+dataaccess/target/
+datamodel/src/main/java/vvsvintsitsky/testing/datamodel/AbstractModel_.java
+datamodel/src/main/java/vvsvintsitsky/testing/datamodel/AccountProfile_.java
+datamodel/src/main/java/vvsvintsitsky/testing/datamodel/Answer_.java
+datamodel/src/main/java/vvsvintsitsky/testing/datamodel/Account_.java
+datamodel/src/main/java/vvsvintsitsky/testing/datamodel/Examination_.java
+datamodel/src/main/java/vvsvintsitsky/testing/datamodel/Question_.java
+datamodel/src/main/java/vvsvintsitsky/testing/datamodel/Result_.java
+datamodel/target/classes/META-INF/MANIFEST.MF
+datamodel/target/
+services/target/
