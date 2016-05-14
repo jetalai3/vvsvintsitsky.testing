@@ -14,13 +14,5 @@ hs_err_pid*
 .settings/
 *.classpath
 dataaccess/target/
-datamodel/src/main/java/vvsvintsitsky/testing/datamodel/AbstractModel_.java
-datamodel/src/main/java/vvsvintsitsky/testing/datamodel/AccountProfile_.java
-datamodel/src/main/java/vvsvintsitsky/testing/datamodel/Answer_.java
-datamodel/src/main/java/vvsvintsitsky/testing/datamodel/Account_.java
-datamodel/src/main/java/vvsvintsitsky/testing/datamodel/Examination_.java
-datamodel/src/main/java/vvsvintsitsky/testing/datamodel/Question_.java
-datamodel/src/main/java/vvsvintsitsky/testing/datamodel/Result_.java
-datamodel/target/classes/META-INF/MANIFEST.MF
 datamodel/target/
 services/target/

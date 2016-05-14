@@ -63,7 +63,9 @@ public class AccountServiceTest {
 		
 		 AccountFilter filter = new AccountFilter();
 		 filter.setEmail("jetalai3@gmail.com");
-		 filter.setPassword("www");
+//		 filter.setPassword("qqq");
+//		 filter.setId(3L);
+//		 filter.setRole(1);
 		 List<Account> accounts = accountService.find(filter);
 		 for(Account account : accounts){
 			 System.out.println(account.getEmail() +" " + account.getPassword());
