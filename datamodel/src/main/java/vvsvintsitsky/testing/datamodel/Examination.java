@@ -17,23 +17,43 @@ public class Examination extends AbstractModel {
 
 	@ManyToOne(targetEntity = AccountProfile.class, fetch = FetchType.LAZY)
 	private AccountProfile accountProfile;
-	
+
 	@Column
 	private Date beginDate;
-	
+
 	@Column
 	private Date endDate;
-	
+
 	@Column
 	private String name;
-	
-	@JoinTable(name = "examination_2_question", joinColumns = { @JoinColumn(name = "examination_id") }, inverseJoinColumns = { @JoinColumn(name = "question_id") })
-    @ManyToMany(targetEntity = Question.class, fetch = FetchType.LAZY)
-    private List<Question> questions;
-	
+
+	@JoinTable(name = "examination_2_question", joinColumns = {
+			@JoinColumn(name = "examination_id") }, inverseJoinColumns = { @JoinColumn(name = "question_id") })
+	@ManyToMany(targetEntity = Question.class, fetch = FetchType.LAZY)
+	private List<Question> questions;
+
 	@OneToMany(mappedBy = "examination", fetch = FetchType.LAZY)
-    private List<Result> results;
-	
+	private List<Result> results;
+
+	@ManyToOne(targetEntity = Subject.class, fetch = FetchType.LAZY)
+	private Subject subject;
+
+	public List<Result> getResults() {
+		return results;
+	}
+
+	public void setResults(List<Result> results) {
+		this.results = results;
+	}
+
+	public Subject getSubject() {
+		return subject;
+	}
+
+	public void setSubject(Subject subject) {
+		this.subject = subject;
+	}
+
 	public AccountProfile getAccountProfile() {
 		return accountProfile;
 	}
@@ -73,5 +93,5 @@ public class Examination extends AbstractModel {
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
-	
+
 }

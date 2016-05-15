@@ -26,23 +26,9 @@ public class AccountServiceTest {
 
 	@Inject
 	private AccountService accountService;
-	
 	@Inject
-	private AccountProfileDao accountProfileDao;
+	private UserRegistrationService userRegistrationService;
 	
-	@Test
-	public void test() {
-		Assert.assertNotNull(accountService);
-	}
-	
-	@Test
-    public void testEntityManagerInitialization() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        Field f = AbstractDaoImpl.class.getDeclaredField("entityManager");
-        f.setAccessible(true);
-        EntityManager em = (EntityManager) f.get(accountProfileDao);
-
-        Assert.assertNotNull(em);
-    }
 
 	@Test
     public void testRegistration() {
@@ -56,6 +42,7 @@ public class AccountServiceTest {
         account.setPassword("pswd");
         account.setRole(UserRole.ADMIN);
         accountService.register(account, accountProfile);
+//        userRegistrationService.userRegistaration("firstName", "lastName", "email", "password", "ADMIN");
 	}
 	
 	@Test

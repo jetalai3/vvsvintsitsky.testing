@@ -27,6 +27,7 @@ CREATE TABLE "examination" (
 	"begin_date" TIMESTAMP,
 	"end_date" TIMESTAMP,
 	"name" character varying(100),
+	"subject_id" int NOT NULL,
 	CONSTRAINT examination_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -37,7 +38,7 @@ CREATE TABLE "examination" (
 CREATE TABLE "question" (
 	"id" serial NOT NULL,
 	"text" character varying(100),
-	"subject" character varying(100),
+	"subject_id" int,
 	CONSTRAINT question_pk PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -89,11 +90,23 @@ CREATE TABLE "mistakes" (
 
 
 
+CREATE TABLE "subject" (
+	"id" serial NOT NULL,
+	"name" character varying(100),
+	CONSTRAINT subject_pk PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+
+
 ALTER TABLE "account_profile" ADD CONSTRAINT "account_profile_fk0" FOREIGN KEY ("id") REFERENCES "account"("id");
 
 
 ALTER TABLE "examination" ADD CONSTRAINT "examination_fk0" FOREIGN KEY ("account_profile_id") REFERENCES "account_profile"("id");
+ALTER TABLE "examination" ADD CONSTRAINT "examination_fk1" FOREIGN KEY ("subject_id") REFERENCES "subject"("id");
 
+ALTER TABLE "question" ADD CONSTRAINT "question_fk0" FOREIGN KEY ("subject_id") REFERENCES "subject"("id");
 
 ALTER TABLE "examination_2_question" ADD CONSTRAINT "examination_2_question_fk0" FOREIGN KEY ("examination_id") REFERENCES "examination"("id");
 ALTER TABLE "examination_2_question" ADD CONSTRAINT "examination_2_question_fk1" FOREIGN KEY ("question_id") REFERENCES "question"("id");
@@ -105,4 +118,5 @@ ALTER TABLE "answer" ADD CONSTRAINT "answer_fk0" FOREIGN KEY ("question_id") REF
 
 ALTER TABLE "mistakes" ADD CONSTRAINT "mistakes_fk0" FOREIGN KEY ("result_id") REFERENCES "result"("id");
 ALTER TABLE "mistakes" ADD CONSTRAINT "mistakes_fk1" FOREIGN KEY ("answer_id") REFERENCES "answer"("id");
+
 

@@ -25,7 +25,7 @@ public class AnswerServiceTest {
 	public void testAnswerRegistration() {
 		Answer answer = new Answer();
 		answer.setCorrect(false);
-		answer.setText("ty sosesh!!1");
+		answer.setText("answer1");
 		answer.setQuestion(questionService.getQuestion(1L));
 		
 		answerService.register(answer);

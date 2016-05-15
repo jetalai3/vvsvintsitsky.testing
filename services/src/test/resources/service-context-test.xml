@@ -23,5 +23,5 @@
 		p:url="jdbc:postgresql://localhost:5432/testing" 
 		p:username="postgres" 
 		p:password="postgres"
-		p:schema="public" />
+		p:schema="test" />
 </beans>

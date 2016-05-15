@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import vvsvintsitsky.testing.dataaccess.SubjectDao;
 import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.service.AccountService;
@@ -23,7 +24,8 @@ public class ExaminationServiceTest {
 
 	@Inject
 	private ExaminationService examinationService;
-	
+	@Inject
+	private SubjectDao subjectDao;
 	@Inject
 	private AccountService accountService;
 	
@@ -39,7 +41,7 @@ public class ExaminationServiceTest {
 		examination.setEndDate(new Date());
 		examination.setName("math: geometry");
 		examination.setAccountProfile(accountService.getAccountProfile(1L));
-		
+		examination.setSubject(subjectDao.get(2L));
 		List<Question> questions = new LinkedList<Question>();
 		Question question1 = questionService.getQuestion(1L);
 		Question question2 = questionService.getQuestion(2L);

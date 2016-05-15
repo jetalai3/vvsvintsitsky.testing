@@ -4,51 +4,41 @@ import javax.persistence.metamodel.SingularAttribute;
 
 public class AccountFilter extends AbstractFilter {
 
-private Long Id;
-private String password;
-private String email;
-private Integer role;
-private boolean isFetchAccountProfile;
+	private Long Id;
+	private String password;
+	private String email;
+	private Integer role;
 
+	public Long getId() {
+		return Id;
+	}
 
+	public void setId(Long id) {
+		Id = id;
+	}
 
-public Long getId() {
-	return Id;
-}
+	public String getPassword() {
+		return password;
+	}
 
-public void setId(Long id) {
-	Id = id;
-}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-public String getPassword() {
-	return password;
-}
+	public String getEmail() {
+		return email;
+	}
 
-public void setPassword(String password) {
-	this.password = password;
-}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-public String getEmail() {
-	return email;
-}
+	public Integer getRole() {
+		return role;
+	}
 
-public void setEmail(String email) {
-	this.email = email;
-}
+	public void setRole(Integer role) {
+		this.role = role;
+	}
 
-public Integer getRole() {
-	return role;
-}
-
-public void setRole(Integer role) {
-	this.role = role;
-}
-
-public boolean isFetchAccountProfile() {
-    return isFetchAccountProfile;
-}
-
-public void setFetchAccountProfile(boolean isFetchAccountProfile) {
-    this.isFetchAccountProfile = isFetchAccountProfile;
-}
 }

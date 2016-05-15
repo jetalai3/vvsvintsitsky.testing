@@ -9,7 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Question.class)
 public abstract class Question_ extends vvsvintsitsky.testing.datamodel.AbstractModel_ {
 
-	public static volatile SingularAttribute<Question, String> subject;
+	public static volatile SingularAttribute<Question, Subject> subject;
 	public static volatile ListAttribute<Question, Answer> answers;
 	public static volatile SingularAttribute<Question, String> text;
 

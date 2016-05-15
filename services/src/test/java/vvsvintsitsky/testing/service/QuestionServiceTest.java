@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import vvsvintsitsky.testing.dataaccess.SubjectDao;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.service.QuestionService;
 
@@ -16,12 +17,13 @@ public class QuestionServiceTest {
 
 	@Inject
 	private QuestionService questionService;
-	
+	@Inject
+	private SubjectDao subjectDao;
 	@Test
 	public void testQuestionRegistration() {
 		Question question = new Question();
 		question.setText("test task");
-		question.setSubject("geometry");
+		question.setSubject(subjectDao.get(1L));;
 		
 		questionService.register(question);
 	}
