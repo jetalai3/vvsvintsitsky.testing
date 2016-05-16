@@ -3,18 +3,19 @@ package vvsvintsitsky.testing.dataaccess.filters;
 
 	import javax.persistence.criteria.CriteriaBuilder;
 	import javax.persistence.criteria.CriteriaQuery;
-	import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 	import javax.persistence.metamodel.SingularAttribute;
 
 	import vvsvintsitsky.testing.datamodel.AbstractModel;
 
-	public abstract class AbstractFilter {
+	public abstract class AbstractFilter<T> {
 
 		private SingularAttribute sortProperty;
 		private boolean sortOrder;
 		private Integer offset;
 		private Integer limit;
-
+		public abstract Predicate getQueryPredicate(CriteriaBuilder cb, Root<T> from);
 		public SingularAttribute getSortProperty() {
 			return sortProperty;
 		}

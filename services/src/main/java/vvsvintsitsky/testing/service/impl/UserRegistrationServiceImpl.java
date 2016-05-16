@@ -28,7 +28,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 		account.setPassword(password);
 		account.setRole(UserRole.valueOf(role));
 		accountDao.insert(account);
+		System.out.println("account success");
+		accountProfile.setAccount(account);
 		accountProfileDao.insert(accountProfile);
+		
 		return true;
 	}
 

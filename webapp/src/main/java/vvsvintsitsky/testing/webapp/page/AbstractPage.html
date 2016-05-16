@@ -5,6 +5,7 @@
 		<title>Apache Wicket Quickstart</title>
 		<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold' rel='stylesheet' type='text/css' />
 		<link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Stylesheet" />
+		<link rel="stylesheet" href="custom.css" type="text/css" media="screen" title="Stylesheet" />
 	</head>
 	<body>
 		<div id="hd">
@@ -14,6 +15,7 @@
 			</div>
 		</div>
 		<div id="bd">
+			<wicket:container wicket:id="menu-panel"></wicket:container>
 			<wicket:child/>
 		</div>
 		<div id="ft">
