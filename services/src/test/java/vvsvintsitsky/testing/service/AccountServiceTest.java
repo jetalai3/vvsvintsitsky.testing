@@ -32,17 +32,17 @@ public class AccountServiceTest {
 
 	@Test
     public void testRegistration() {
-        AccountProfile accountProfile = new AccountProfile();
-        Account account = new Account();
-
-        accountProfile.setFirstName("testFName");
-        accountProfile.setLastName("testLName");
-
-        account.setEmail(System.currentTimeMillis() + "mail@test.by");
-        account.setPassword("pswd");
-        account.setRole(UserRole.ADMIN);
-        accountService.register(account, accountProfile);
-//        userRegistrationService.userRegistaration("firstName", "lastName", "email", "password", "ADMIN");
+//        AccountProfile accountProfile = new AccountProfile();
+//        Account account = new Account();
+//
+//        accountProfile.setFirstName("testFName");
+//        accountProfile.setLastName("testLName");
+//
+//        account.setEmail(System.currentTimeMillis() + "mail@test.by");
+//        account.setPassword("pswd");
+//        account.setRole(UserRole.ADMIN);
+//        accountService.register(account, accountProfile);
+        userRegistrationService.userRegistaration("firstName", "lastName", "email", "password", "ADMIN");
 	}
 	
 	@Test
