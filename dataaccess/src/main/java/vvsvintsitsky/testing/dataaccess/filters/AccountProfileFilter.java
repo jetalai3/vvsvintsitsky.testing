@@ -1,19 +1,45 @@
 package vvsvintsitsky.testing.dataaccess.filters;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
-import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.AccountProfile_;
-import vvsvintsitsky.testing.datamodel.Account_;
 
 public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 	private Long accountProfileId;
 	private String firstName;
-	private String lastNname;
+	private String lastName;
 	private boolean isFetchAccount;
+	private boolean isFetchExaminations;
+	private boolean isFetchResults;
+
+	public Boolean getIsFetchAccount() {
+		return isFetchAccount;
+	}
+
+	public void setIsFetchAccount(Boolean isFetchAccount) {
+		this.isFetchAccount = isFetchAccount;
+	}
+
+	public Boolean getIsFetchExaminations() {
+		return isFetchExaminations;
+	}
+
+	public void setIsFetchExaminations(Boolean isFetchExaminations) {
+		this.isFetchExaminations = isFetchExaminations;
+	}
+
+	public Boolean getIsFetchResults() {
+		return isFetchResults;
+	}
+
+	public void setIsFetchResults(Boolean isFetchResults) {
+		this.isFetchResults = isFetchResults;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -23,12 +49,12 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 		this.firstName = firstName;
 	}
 
-	public String getLastNname() {
-		return lastNname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLastNname(String lastNname) {
-		this.lastNname = lastNname;
+	public void setLastName(String lastNname) {
+		this.lastName = lastNname;
 	}
 
 	public Long getAccountProfileId() {
@@ -43,62 +69,29 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 		return isFetchAccount;
 	}
 
-	public void setFetchAccounte(boolean isFetchAccount) {
+	public void setFetchAccount(boolean isFetchAccount) {
 		this.isFetchAccount = isFetchAccount;
 	}
 
 	@Override
 	public Predicate getQueryPredicate(CriteriaBuilder cb, Root<AccountProfile> from) {
-		if (allParameters()) {
-			return allParametersPredicate(cb, from);
+		List<Predicate> predicateList = new ArrayList<Predicate>();
+		if (accountProfileId != null) {
+			predicateList.add(idPredicate(cb, from));
 		}
-		if (idFirstNameParameters()) {
-			return idFirstNamePredicate(cb, from);
+		if (firstName != null) {
+			predicateList.add(firstNamePredicate(cb, from));
 		}
-		if (idLastNameParameters()) {
-			return idLastNamePredicate(cb, from);
+		if (lastName != null) {
+			predicateList.add(lastNamePredicate(cb, from));
 		}
-		if (firstNameLastNameParameters()) {
-			return firstNameLastNamePredicate(cb, from);
+		
+		
+		if (!(predicateList.isEmpty())) {
+			return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
 		}
-		if (idParameters()) {
-			return idPredicate(cb, from);
-		}
-		if (firstNameParameters()) {
-			return firstNamePredicate(cb, from);
-		}
-		if (lastNameParameters()) {
-			return lastNamePredicate(cb, from);
-		}
+
 		return null;
-	}
-
-	private boolean allParameters() {
-		return getAccountProfileId() != null && getFirstName() != null && getLastNname() != null;
-	}
-
-	private boolean idFirstNameParameters() {
-		return getAccountProfileId() != null && getFirstName() != null && getLastNname() == null;
-	}
-
-	private boolean idLastNameParameters() {
-		return getAccountProfileId() != null && getFirstName() == null && getLastNname() != null;
-	}
-
-	private boolean firstNameLastNameParameters() {
-		return getAccountProfileId() == null && getFirstName() != null && getLastNname() != null;
-	}
-
-	private boolean idParameters() {
-		return getAccountProfileId() != null && getFirstName() == null && getLastNname() == null;
-	}
-
-	private boolean firstNameParameters() {
-		return getAccountProfileId() == null && getFirstName() != null && getLastNname() == null;
-	}
-
-	private boolean lastNameParameters() {
-		return getAccountProfileId() == null && getFirstName() == null && getLastNname() != null;
 	}
 
 	private Predicate idPredicate(CriteriaBuilder cb, Root<AccountProfile> from) {
@@ -110,22 +103,18 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 	}
 
 	private Predicate lastNamePredicate(CriteriaBuilder cb, Root<AccountProfile> from) {
-		return cb.equal(from.get(AccountProfile_.lastName), getLastNname());
+		return cb.equal(from.get(AccountProfile_.lastName), getLastName());
 	}
 
-	private Predicate idFirstNamePredicate(CriteriaBuilder cb, Root<AccountProfile> from) {
-		return cb.and(idPredicate(cb, from), firstNamePredicate(cb, from));
-	}
-
-	private Predicate idLastNamePredicate(CriteriaBuilder cb, Root<AccountProfile> from) {
-		return cb.and(idPredicate(cb, from), lastNamePredicate(cb, from));
-	}
-
-	private Predicate firstNameLastNamePredicate(CriteriaBuilder cb, Root<AccountProfile> from) {
-		return cb.and(firstNamePredicate(cb, from), lastNamePredicate(cb, from));
-	}
-
-	private Predicate allParametersPredicate(CriteriaBuilder cb, Root<AccountProfile> from) {
-		return cb.and(idFirstNamePredicate(cb, from), lastNamePredicate(cb, from));
+	public void setFetching(Root<AccountProfile> from) {
+		if (isFetchAccount) {
+			from.fetch(AccountProfile_.account, JoinType.LEFT);
+		}
+		if (isFetchExaminations) {
+			from.fetch(AccountProfile_.examintations, JoinType.LEFT);
+		}
+		if (isFetchResults) {
+			from.fetch(AccountProfile_.results, JoinType.LEFT);
+		}
 	}
 }

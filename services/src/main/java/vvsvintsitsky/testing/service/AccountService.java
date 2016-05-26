@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import vvsvintsitsky.testing.dataaccess.filters.AccountFilter;
+import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
 import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
 
@@ -25,5 +26,9 @@ public interface AccountService {
 
     List<AccountProfile> getAll();
     
-    List<Account> find(AccountFilter filter);
+    List<AccountProfile> find(AccountProfileFilter filter);
+
+	long count(AccountProfileFilter accountProfileFilter);
+	@Transactional
+	void saveOrUpdate(AccountProfile accountProfile);
 }

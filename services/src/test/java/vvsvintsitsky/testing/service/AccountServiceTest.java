@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.metamodel.SingularAttribute;
+
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,9 +16,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import vvsvintsitsky.testing.dataaccess.AccountProfileDao;
 import vvsvintsitsky.testing.dataaccess.filters.AccountFilter;
+import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
 import vvsvintsitsky.testing.dataaccess.impl.AbstractDaoImpl;
 import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
+import vvsvintsitsky.testing.datamodel.AccountProfile_;
 import vvsvintsitsky.testing.datamodel.UserRole;
 import vvsvintsitsky.testing.service.AccountService;
 
@@ -47,16 +51,23 @@ public class AccountServiceTest {
 	
 	@Test
 	public void testFilter(){
+		AccountProfileFilter filter = new AccountProfileFilter();
+		//filter.setLastName("lastName");
 		
-		 AccountFilter filter = new AccountFilter();
-		 filter.setEmail("jetalai3@gmail.com");
+		filter.setFetchAccount(true);
+		List<AccountProfile> profiles = accountService.find(filter);
+		 for(AccountProfile profile : profiles){
+			 System.out.println(profile.getFirstName() + " " + profile.getAccount().getEmail());
+		 }
+//		 AccountFilter filter = new AccountFilter();
+//		 filter.setEmail("jetalai3@gmail.com");
 //		 filter.setPassword("qqq");
 //		 filter.setId(3L);
 //		 filter.setRole(1);
-		 List<Account> accounts = accountService.find(filter);
-		 for(Account account : accounts){
-			 System.out.println(account.getEmail() +" " + account.getPassword());
-			 
-		 }
+//		 List<Account> accounts = accountService.find(filter);
+//		 for(Account account : accounts){
+//			 System.out.println(account.getEmail() +" " + account.getPassword());
+//			 
+//		 }
 	}
 }

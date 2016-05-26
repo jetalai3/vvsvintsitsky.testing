@@ -1,6 +1,7 @@
 package vvsvintsitsky.testing.datamodel;
 
 import javax.annotation.Generated;
+import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
@@ -11,6 +12,7 @@ public abstract class Answer_ extends vvsvintsitsky.testing.datamodel.AbstractMo
 	public static volatile SingularAttribute<Answer, Question> question;
 	public static volatile SingularAttribute<Answer, Boolean> correct;
 	public static volatile SingularAttribute<Answer, String> text;
+	public static volatile ListAttribute<Answer, Result> results;
 
 }
 

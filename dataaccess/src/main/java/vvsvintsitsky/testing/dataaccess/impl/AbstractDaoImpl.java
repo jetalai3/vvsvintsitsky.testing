@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.jpa.criteria.OrderImpl;
@@ -79,8 +80,15 @@ public class AbstractDaoImpl<T, ID> implements AbstractDao<T, ID> {
 
 		// set selection
 		cq.select(from);
-		cq.where(filter.getQueryPredicate(cb, from));
+
+		Predicate queryPredicate = filter.getQueryPredicate(cb, from);
+		filter.setFetching(from);
+		if (queryPredicate != null) {
+
+			cq.where(queryPredicate);
+		}
 		// set sort params
+
 		setSorting(filter, cq, from);
 
 		TypedQuery<T> q = entityManager.createQuery(cq);
@@ -90,6 +98,7 @@ public class AbstractDaoImpl<T, ID> implements AbstractDao<T, ID> {
 
 		// set execute query
 		List<T> allitems = q.getResultList();
+
 		return allitems;
 
 	}
@@ -105,5 +114,23 @@ public class AbstractDaoImpl<T, ID> implements AbstractDao<T, ID> {
 		if (filter.getSortProperty() != null) {
 			cq.orderBy(new OrderImpl(from.get(filter.getSortProperty()), filter.isSortOrder()));
 		}
+	}
+
+	@Override
+	public <FL extends AbstractFilter<T>> Long count(FL filter) {
+		EntityManager em = getEntityManager();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+		Root<T> from = cq.from(getEntityClass());
+		cq.select(cb.count(from));
+		Predicate queryPredicate = filter.getQueryPredicate(cb, from);
+
+		if (queryPredicate != null) {
+
+			cq.where(queryPredicate);
+		}
+		TypedQuery<Long> q = em.createQuery(cq);
+		return q.getSingleResult();
+
 	}
 }

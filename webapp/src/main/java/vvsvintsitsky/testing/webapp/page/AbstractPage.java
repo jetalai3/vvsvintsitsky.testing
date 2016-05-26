@@ -5,7 +5,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import vvsvintsitsky.testing.webapp.component.menu.MenuPanel;
 import vvsvintsitsky.testing.webapp.component.menu.MenuPanelLoggedUser;
-import vvsvintsitsky.testing.webapp.page.product.AccountsPage;
+import vvsvintsitsky.testing.webapp.page.account.AccountsPage;
 
 public abstract class AbstractPage extends WebPage {
 

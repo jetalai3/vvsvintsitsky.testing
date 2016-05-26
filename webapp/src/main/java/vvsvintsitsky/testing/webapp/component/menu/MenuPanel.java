@@ -3,8 +3,8 @@ package vvsvintsitsky.testing.webapp.component.menu;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 
+import vvsvintsitsky.testing.webapp.page.account.AccountsPage;
 import vvsvintsitsky.testing.webapp.page.home.HomePage;
-import vvsvintsitsky.testing.webapp.page.product.AccountsPage;
 
 public class MenuPanel extends Panel {
 
@@ -24,7 +24,7 @@ public class MenuPanel extends Panel {
             }
         });
 
-        add(new Link("link-products") {
+        add(new Link("link-accounts") {
             @Override
             public void onClick() {
                 setResponsePage(new AccountsPage());

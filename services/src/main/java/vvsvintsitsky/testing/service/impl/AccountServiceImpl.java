@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import vvsvintsitsky.testing.dataaccess.AccountDao;
 import vvsvintsitsky.testing.dataaccess.AccountProfileDao;
 import vvsvintsitsky.testing.dataaccess.filters.AccountFilter;
+import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
 import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.service.AccountService;
@@ -18,14 +19,14 @@ public class AccountServiceImpl implements AccountService {
 
 	@Inject
 	private AccountDao accountDao;
-	
+
 	@Inject
 	private AccountProfileDao accountProfileDao;
-	
+
 	@Override
 	public void register(Account account, AccountProfile accountProfile) {
 		accountDao.insert(account);
-		
+
 		accountProfile.setAccount(account);
 		accountProfileDao.insert(accountProfile);
 
@@ -58,8 +59,22 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public List<Account> find(AccountFilter filter) {
-		return accountDao.find(filter);
+	public List<AccountProfile> find(AccountProfileFilter filter) {
+		return accountProfileDao.find(filter);
+	}
+
+	@Override
+	public long count(AccountProfileFilter accountProfileFilter) {
+		return accountProfileDao.count(accountProfileFilter);
+	}
+
+	@Override
+	public void saveOrUpdate(AccountProfile accountProfile) {
+		if (accountProfile.getId() != null) {
+			accountProfileDao.update(accountProfile);
+		} else {
+			accountProfileDao.insert(accountProfile);
+		}
 	}
 
 }
