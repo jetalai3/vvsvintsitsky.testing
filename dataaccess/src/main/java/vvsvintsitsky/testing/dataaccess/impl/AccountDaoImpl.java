@@ -13,5 +13,6 @@ public class AccountDaoImpl extends AbstractDaoImpl<Account, Long> implements Ac
 	}
 
 	
+	
 
 }

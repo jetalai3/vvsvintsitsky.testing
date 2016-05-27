@@ -1,5 +1,6 @@
 package vvsvintsitsky.testing.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -31,4 +32,11 @@ public interface AccountService {
 	long count(AccountProfileFilter accountProfileFilter);
 	@Transactional
 	void saveOrUpdate(AccountProfile accountProfile);
+	
+	@Transactional
+	void saveOrUpdate(Account account);
+
+	Collection<? extends String> resolveRoles(Long id);
+
+	List<Account> find(AccountFilter filter);
 }

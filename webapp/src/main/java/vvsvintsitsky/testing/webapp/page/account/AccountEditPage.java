@@ -45,21 +45,32 @@ public class AccountEditPage extends AbstractPage {
         Form<AccountProfile> form = new AccountForm<AccountProfile>("form", new CompoundPropertyModel<AccountProfile>(accountProfile));
         add(form);
 
-        TextField<String> emailField = new TextField<>("firstName");
-        emailField.setRequired(true);
-        form.add(emailField);
+        TextField<String> firstNameField = new TextField<>("firstName");
+        firstNameField.setRequired(true);
+        form.add(firstNameField);
 
-        TextField<String> passwordField = new TextField<>("lastName");
-        passwordField.setRequired(true);
-        form.add(passwordField);
+        TextField<String> lastNameField = new TextField<>("lastName");
+        lastNameField.setRequired(true);
+        form.add(lastNameField);
 
-        
-        
+//        TextField<String> emailField = new TextField<>("email");
+//        emailField.setRequired(true);
+//        form.add(emailField);
+//        
+//        TextField<String> passwordField = new TextField<>("password");
+//        passwordField.setRequired(true);
+//        form.add(passwordField);
+//        
+//
+//        TextField<String> roleField = new TextField<>("role");
+//        roleField.setRequired(true);
+//        form.add(roleField);
 
         form.add(new SubmitLink("save") {
             @Override
             public void onSubmit() {
                 super.onSubmit();
+                //accountService.saveOrUpdate(account);
                 accountService.saveOrUpdate(accountProfile);
                 setResponsePage(new AccountsPage());
             }

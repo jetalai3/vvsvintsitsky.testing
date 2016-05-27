@@ -1,5 +1,7 @@
 package vvsvintsitsky.testing.service.impl;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -62,6 +64,11 @@ public class AccountServiceImpl implements AccountService {
 	public List<AccountProfile> find(AccountProfileFilter filter) {
 		return accountProfileDao.find(filter);
 	}
+	
+	@Override
+	public List<Account> find(AccountFilter filter) {
+		return accountDao.find(filter);
+	}
 
 	@Override
 	public long count(AccountProfileFilter accountProfileFilter) {
@@ -76,5 +83,21 @@ public class AccountServiceImpl implements AccountService {
 			accountProfileDao.insert(accountProfile);
 		}
 	}
+	
+	@Override
+	public void saveOrUpdate(Account account){
+		if (account.getId() != null) {
+			accountDao.update(account);
+		} else {
+			accountDao.insert(account);
+		}
+	}
 
+	@Override
+	public Collection<? extends String> resolveRoles(Long id) {
+		Account account = accountDao.get(id);
+        return Collections.singletonList(account.getRole().name());
+	}
+
+	
 }

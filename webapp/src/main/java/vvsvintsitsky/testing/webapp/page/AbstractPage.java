@@ -21,11 +21,9 @@ public abstract class AbstractPage extends WebPage {
     protected void onInitialize() {
         super.onInitialize();
 
-        if (getPage().getClass().equals(AccountsPage.class)) {
-            add(new MenuPanelLoggedUser("menu-panel"));
-        } else {
+        
             add(new MenuPanel("menu-panel"));
-        }
+        
 
     }
 
