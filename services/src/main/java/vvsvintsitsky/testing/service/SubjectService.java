@@ -21,4 +21,9 @@ public interface SubjectService {
 	List<Subject> getAll();
 	
 	List<Subject> find(SubjectFilter filter);
+	
+	@Transactional
+	void saveOrUpdate(Subject subject);
+	
+	long count(SubjectFilter subjectFilter);
 }

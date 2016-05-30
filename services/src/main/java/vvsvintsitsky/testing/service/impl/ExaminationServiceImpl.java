@@ -17,7 +17,7 @@ public class ExaminationServiceImpl implements ExaminationService {
 	private ExaminationDao examinationDao;
 	
 	@Override
-	public void register(Examination examination) {
+	public void createExamination(Examination examination) {
 		examinationDao.insert(examination);
 	}
 

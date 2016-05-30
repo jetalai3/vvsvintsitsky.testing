@@ -25,19 +25,19 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 		this.isFetchAccount = isFetchAccount;
 	}
 
-	public Boolean getIsFetchExaminations() {
+	public boolean getIsFetchExaminations() {
 		return isFetchExaminations;
 	}
 
-	public void setIsFetchExaminations(Boolean isFetchExaminations) {
+	public void setIsFetchExaminations(boolean isFetchExaminations) {
 		this.isFetchExaminations = isFetchExaminations;
 	}
 
-	public Boolean getIsFetchResults() {
+	public boolean getIsFetchResults() {
 		return isFetchResults;
 	}
 
-	public void setIsFetchResults(Boolean isFetchResults) {
+	public void setIsFetchResults(boolean isFetchResults) {
 		this.isFetchResults = isFetchResults;
 	}
 

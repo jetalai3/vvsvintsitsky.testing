@@ -9,7 +9,7 @@ import vvsvintsitsky.testing.datamodel.Answer;
 public interface AnswerService {
 
 	@Transactional
-    void register(Answer answer);
+    void createAnswer(Answer answer);
 
 	Answer getAnswer(Long id);
 

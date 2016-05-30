@@ -51,7 +51,7 @@ public class ExaminationServiceTest {
 		
 		examination.setQuestions(questions);
 		
-		examinationService.register(examination);		
+		examinationService.createExamination(examination);		
 	}
 	
 }

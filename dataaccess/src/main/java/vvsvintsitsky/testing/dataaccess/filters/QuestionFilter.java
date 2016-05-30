@@ -14,8 +14,8 @@ import vvsvintsitsky.testing.datamodel.Question_;
 public class QuestionFilter extends AbstractFilter<Question> {
 	private Long id;
 	private String text;
-	private Boolean isFetchSubject;
-	private Boolean isFetchAnswers;
+	private boolean isFetchSubject;
+	private boolean isFetchAnswers;
 
 	public Long getId() {
 		return id;
@@ -33,12 +33,20 @@ public class QuestionFilter extends AbstractFilter<Question> {
 		this.text = text;
 	}
 
-	public Boolean getIsFetchSubject() {
-		return isFetchSubject;
+	public boolean isFetchAnswers() {
+		return isFetchAnswers;
 	}
 
-	public void setIsFetchSubject(Boolean isFetchSubject) {
+	public void setFetchAnswers(boolean isFetchAnswers) {
+		this.isFetchAnswers = isFetchAnswers;
+	}
+
+	public void setFetchSubject(boolean isFetchSubject) {
 		this.isFetchSubject = isFetchSubject;
+	}
+
+	public boolean isFetchSubject() {
+		return isFetchSubject;
 	}
 
 	@Override

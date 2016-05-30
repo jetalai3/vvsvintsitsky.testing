@@ -12,22 +12,22 @@ import vvsvintsitsky.testing.datamodel.Subject_;
 public class SubjectFilter extends AbstractFilter<Subject> {
 	private Long id;
 	private String name;
-	private Boolean isFetchExaminations;
-	private Boolean isFetchQuestions;
+	private boolean isFetchExaminations;
+	private boolean isFetchQuestions;
 
-	public Boolean getIsFetchExaminations() {
+	public boolean getIsFetchExaminations() {
 		return isFetchExaminations;
 	}
 
-	public void setIsFetchExaminations(Boolean isFetchExaminations) {
+	public void setIsFetchExaminations(boolean isFetchExaminations) {
 		this.isFetchExaminations = isFetchExaminations;
 	}
 
-	public Boolean getIsFetchQuestions() {
+	public boolean getIsFetchQuestions() {
 		return isFetchQuestions;
 	}
 
-	public void setIsFetchQuestions(Boolean isFetchQuestions) {
+	public void setIsFetchQuestions(boolean isFetchQuestions) {
 		this.isFetchQuestions = isFetchQuestions;
 	}
 

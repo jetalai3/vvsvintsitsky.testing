@@ -25,6 +25,6 @@ public class QuestionServiceTest {
 		question.setText("test task");
 		question.setSubject(subjectDao.get(1L));;
 		
-		questionService.register(question);
+		questionService.createQuestion(question);
 	}
 }

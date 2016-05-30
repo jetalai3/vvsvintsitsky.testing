@@ -17,7 +17,7 @@ public class AnswerServiceImpl implements AnswerService {
 	private AnswerDao answerDao;
 	
 	@Override
-	public void register(Answer answer) {
+	public void createAnswer(Answer answer) {
 		answerDao.insert(answer);
 	}
 

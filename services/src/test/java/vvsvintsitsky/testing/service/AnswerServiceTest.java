@@ -28,6 +28,6 @@ public class AnswerServiceTest {
 		answer.setText("answer1");
 		answer.setQuestion(questionService.getQuestion(1L));
 		
-		answerService.register(answer);
+		answerService.createAnswer(answer);
 	}
 }

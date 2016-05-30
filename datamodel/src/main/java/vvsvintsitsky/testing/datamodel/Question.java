@@ -5,6 +5,9 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -19,6 +22,19 @@ public class Question extends AbstractModel {
 
 	@ManyToOne(targetEntity = Subject.class, fetch = FetchType.LAZY)
 	private Subject subject;
+
+	@JoinTable(name = "examination_2_question", joinColumns = {
+			@JoinColumn(name = "question_id") }, inverseJoinColumns = { @JoinColumn(name = "examination_id") })
+	@ManyToMany(targetEntity = Examination.class, fetch = FetchType.LAZY)
+	private List<Examination> examinations;
+
+	public List<Examination> getExaminations() {
+		return examinations;
+	}
+
+	public void setExaminations(List<Examination> examinations) {
+		this.examinations = examinations;
+	}
 
 	public String getText() {
 		return text;

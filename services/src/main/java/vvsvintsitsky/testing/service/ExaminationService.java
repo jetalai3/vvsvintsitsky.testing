@@ -9,7 +9,7 @@ import vvsvintsitsky.testing.datamodel.Examination;
 public interface ExaminationService {
 
 	@Transactional
-    void register(Examination examination);
+    void createExamination(Examination examination);
 
 	Examination getExamination(Long id);
 

@@ -12,9 +12,9 @@ import vvsvintsitsky.testing.datamodel.Answer_;
 public class AnswerFilter extends AbstractFilter<Answer> {
 	private Long id;
 	private String text;
-	private Boolean correct;
-	private Boolean isFetchResults;
-	private Boolean isFetchQuestions;
+	private boolean correct;
+	private boolean isFetchResults;
+	private boolean isFetchQuestions;
 
 	public Long getId() {
 		return id;
@@ -32,27 +32,27 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 		this.text = text;
 	}
 
-	public Boolean getCorrect() {
+	public boolean getCorrect() {
 		return correct;
 	}
 
-	public void setCorrect(Boolean correct) {
+	public void setCorrect(boolean correct) {
 		this.correct = correct;
 	}
 
-	public Boolean getIsFetchResults() {
+	public boolean getIsFetchResults() {
 		return isFetchResults;
 	}
 
-	public void setIsFetchResults(Boolean isFetchResults) {
+	public void setIsFetchResults(boolean isFetchResults) {
 		this.isFetchResults = isFetchResults;
 	}
 
-	public Boolean getIsFetchQuestions() {
+	public boolean getIsFetchQuestions() {
 		return isFetchQuestions;
 	}
 
-	public void setIsFetchQuestions(Boolean isFetchQuestions) {
+	public void setIsFetchQuestions(boolean isFetchQuestions) {
 		this.isFetchQuestions = isFetchQuestions;
 	}
 
@@ -65,7 +65,7 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 		if (text != null) {
 			predicateList.add(textPredicate(cb, from));
 		}
-		if (correct != null) {
+		if (correct = true) {
 			predicateList.add(correctPredicate(cb, from));
 		}
 		if (!(predicateList.isEmpty())) {

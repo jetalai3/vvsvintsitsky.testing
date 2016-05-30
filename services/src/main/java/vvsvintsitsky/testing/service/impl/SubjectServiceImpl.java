@@ -7,7 +7,9 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import vvsvintsitsky.testing.dataaccess.SubjectDao;
+import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
 import vvsvintsitsky.testing.dataaccess.filters.SubjectFilter;
+import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.Subject;
 import vvsvintsitsky.testing.service.SubjectService;
 
@@ -49,4 +51,17 @@ public class SubjectServiceImpl implements SubjectService {
 		return subjectDao.find(filter);
 	}
 
+	@Override
+	public void saveOrUpdate(Subject subject) {
+		if (subject.getId() != null) {
+			subjectDao.update(subject);
+		} else {
+			subjectDao.insert(subject);
+		}
+	}
+	
+	@Override
+	public long count(SubjectFilter subjectFilter) {
+		return subjectDao.count(subjectFilter);
+	}
 }

@@ -7,6 +7,10 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import vvsvintsitsky.testing.dataaccess.QuestionDao;
+import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
+import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
+import vvsvintsitsky.testing.datamodel.Account;
+import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.service.QuestionService;
 
@@ -16,8 +20,9 @@ public class QuestionServiceImpl implements QuestionService {
 	@Inject
 	private QuestionDao questionDao;
 	
+	
 	@Override
-	public void register(Question question) {
+	public void createQuestion(Question question) {
 		questionDao.insert(question);
 	}
 
@@ -41,4 +46,22 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionDao.getAll();
 	}
 
+	@Override
+	public void saveOrUpdate(Question question){
+		if (question.getId() != null) {
+			questionDao.update(question);
+		} else {
+			questionDao.insert(question);
+		}
+	}
+	
+	@Override
+	public List<Question> find(QuestionFilter filter) {
+		return questionDao.find(filter);
+	}
+	
+	@Override
+	public long count(QuestionFilter questionFilter) {
+		return questionDao.count(questionFilter);
+	}
 }

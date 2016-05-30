@@ -6,15 +6,17 @@ import vvsvintsitsky.testing.dataaccess.filters.AbstractFilter;
 
 public interface AbstractDao<T, ID> {
 
-	 <FL extends AbstractFilter<T>> List<T> find(FL filter);
-	 <FL extends AbstractFilter<T>> Long count(FL filter);
-    List<T> getAll();
+	<FL extends AbstractFilter<T>> List<T> find(FL filter);
 
-    T get(final ID id);
+	<FL extends AbstractFilter<T>> Long count(FL filter);
 
-    T insert(final T entity);
+	List<T> getAll();
 
-    T update(T entity);
+	T get(final ID id);
 
-    void delete(ID id);
+	T insert(final T entity);
+
+	T update(T entity);
+
+	void delete(ID id);
 }

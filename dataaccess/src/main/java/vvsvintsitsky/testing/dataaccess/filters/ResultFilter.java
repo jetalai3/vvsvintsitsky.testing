@@ -12,9 +12,9 @@ import vvsvintsitsky.testing.datamodel.Result_;
 public class ResultFilter extends AbstractFilter<Result> {
 	private Long id;
 	private Integer points;
-	private Boolean isFetchExaminations;
-	private Boolean isFetchAccountProfile;
-	private Boolean isFetchAnswers;
+	private boolean isFetchExaminations;
+	private boolean isFetchAccountProfile;
+	private boolean isFetchAnswers;
 
 	public Long getId() {
 		return id;
@@ -32,27 +32,27 @@ public class ResultFilter extends AbstractFilter<Result> {
 		this.points = points;
 	}
 
-	public Boolean getIsFetchExaminations() {
+	public boolean getIsFetchExaminations() {
 		return isFetchExaminations;
 	}
 
-	public void setIsFetchExaminations(Boolean isFetchExaminations) {
+	public void setIsFetchExaminations(boolean isFetchExaminations) {
 		this.isFetchExaminations = isFetchExaminations;
 	}
 
-	public Boolean getIsFetchAccountProfile() {
+	public boolean getIsFetchAccountProfile() {
 		return isFetchAccountProfile;
 	}
 
-	public void setIsFetchAccountProfile(Boolean isFetchAccountProfile) {
+	public void setIsFetchAccountProfile(boolean isFetchAccountProfile) {
 		this.isFetchAccountProfile = isFetchAccountProfile;
 	}
 
-	public Boolean getIsFetchAnswers() {
+	public boolean getIsFetchAnswers() {
 		return isFetchAnswers;
 	}
 
-	public void setIsFetchAnswers(Boolean isFetchAnswers) {
+	public void setIsFetchAnswers(boolean isFetchAnswers) {
 		this.isFetchAnswers = isFetchAnswers;
 	}
 

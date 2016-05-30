@@ -7,6 +7,8 @@ import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.page.account.AccountsPage;
 import vvsvintsitsky.testing.webapp.page.home.HomePage;
 import vvsvintsitsky.testing.webapp.page.login.LoginPage;
+import vvsvintsitsky.testing.webapp.page.question.QuestionsPage;
+import vvsvintsitsky.testing.webapp.page.subject.SubjectsPage;
 
 public class MenuPanel extends Panel {
 
@@ -31,6 +33,20 @@ public class MenuPanel extends Panel {
             public void onClick() {
                 setResponsePage(new AccountsPage());
             }
+        });
+        add(new Link("link-questions") {
+            @Override
+            public void onClick() {
+                setResponsePage(new QuestionsPage());
+            }
+            
+        });
+        add(new Link("link-subjects") {
+            @Override
+            public void onClick() {
+                setResponsePage(new SubjectsPage());
+            }
+            
         });
         Link link = new Link("link-logout") {
             @Override

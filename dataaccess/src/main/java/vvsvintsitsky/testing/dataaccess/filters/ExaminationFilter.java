@@ -15,10 +15,10 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 	private Date beginDate;
 	private Date endDate;
 	private String name;
-	private Boolean isFetchQuestions;
-	private Boolean isFetchAccountProfile;
-	private Boolean isFetchResults;
-	private Boolean isfetchSubject;
+	private boolean isFetchQuestions;
+	private boolean isFetchAccountProfile;
+	private boolean isFetchResults;
+	private boolean isfetchSubject;
 
 	public Boolean getIsFetchQuestions() {
 		return isFetchQuestions;
@@ -28,27 +28,27 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 		this.isFetchQuestions = isFetchQuestions;
 	}
 
-	public Boolean getIsFetchAccountProfile() {
+	public boolean getIsFetchAccountProfile() {
 		return isFetchAccountProfile;
 	}
 
-	public void setIsFetchAccountProfile(Boolean isFetchAccountProfile) {
+	public void setIsFetchAccountProfile(boolean isFetchAccountProfile) {
 		this.isFetchAccountProfile = isFetchAccountProfile;
 	}
 
-	public Boolean getIsFetchResults() {
+	public boolean getIsFetchResults() {
 		return isFetchResults;
 	}
 
-	public void setIsFetchResults(Boolean isFetchResults) {
+	public void setIsFetchResults(boolean isFetchResults) {
 		this.isFetchResults = isFetchResults;
 	}
 
-	public Boolean getIsfetchSubject() {
+	public boolean getIsfetchSubject() {
 		return isfetchSubject;
 	}
 
-	public void setIsfetchSubject(Boolean isfetchSubject) {
+	public void setIsfetchSubject(boolean isfetchSubject) {
 		this.isfetchSubject = isfetchSubject;
 	}
 

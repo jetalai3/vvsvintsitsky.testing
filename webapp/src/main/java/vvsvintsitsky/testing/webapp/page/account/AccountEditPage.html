@@ -1,7 +1,7 @@
 <wicket:extend xmlns:wicket="http://wicket.apache.org">
 	<h2>AccountProfile edit</h2>
 
-	<form wicket:id="form">
+	<form wicket:id="formAccountProfile">
 
 		<table>
 			<tr>
@@ -12,8 +12,17 @@
 				<td><b>Last name:</b></td>
 				<td><input type="text" wicket:id="lastName" /></td>
 			</tr>
+			
 			<tr>
-			<!-- 	<td><b>Email:</b></td>
+				<td><button type="submit" wicket:id="save">SAVE</button></td>
+				<td></td>
+			</tr>
+		</table>
+	
+	<form wicket:id="formAccount">
+		<table>
+			<tr>
+				<td><b>Email:</b></td>
 				<td><input type="text" wicket:id="email" /></td>
 			</tr>
 			<tr>
@@ -22,14 +31,12 @@
 			</tr>
 			<tr>
 				<td><b>Role:</b></td>
-				<td><input type="text" wicket:id="role" /></td>
+				<td><select wicket:id="role" /></td>
 			</tr>
-			<tr> -->
-				<td><button type="submit" wicket:id="save">SAVE</button></td>
-				<td></td>
-			</tr>
+			
 		</table>
 	</form>
+	</form>
 	<div wicket:id="feedback"></div>
-	
+
 </wicket:extend>
