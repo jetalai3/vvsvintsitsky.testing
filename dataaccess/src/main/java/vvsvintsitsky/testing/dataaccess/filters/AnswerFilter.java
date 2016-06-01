@@ -8,6 +8,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.Answer_;
+import vvsvintsitsky.testing.datamodel.Question_;
 
 public class AnswerFilter extends AbstractFilter<Answer> {
 	private Long id;
@@ -15,6 +16,23 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 	private boolean correct;
 	private boolean isFetchResults;
 	private boolean isFetchQuestions;
+	private Long questionId;
+
+	public Long getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(Long questionId) {
+		this.questionId = questionId;
+	}
+
+	public void setFetchResults(boolean isFetchResults) {
+		this.isFetchResults = isFetchResults;
+	}
+
+	public void setFetchQuestions(boolean isFetchQuestions) {
+		this.isFetchQuestions = isFetchQuestions;
+	}
 
 	public Long getId() {
 		return id;
@@ -68,6 +86,9 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 		if (correct = true) {
 			predicateList.add(correctPredicate(cb, from));
 		}
+		if (questionId != null) {
+			predicateList.add(questionIdPredicate(cb, from));
+		}
 		if (!(predicateList.isEmpty())) {
 			return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
 		}
@@ -86,6 +107,10 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 		return cb.equal(from.get(Answer_.correct), getCorrect());
 	}
 
+	private Predicate questionIdPredicate(CriteriaBuilder cb, Root<Answer> from) {
+		return cb.equal(from.get(Answer_.question).get(Question_.id), getQuestionId());
+	}
+	
 	public void setFetching(Root<Answer> from) {
 		if (isFetchResults) {
 			from.fetch(Answer_.results, JoinType.LEFT);
