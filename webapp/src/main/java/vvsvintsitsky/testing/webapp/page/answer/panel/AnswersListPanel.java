@@ -128,6 +128,7 @@ public class AnswersListPanel extends Panel {
 		public AnswersDataProvider() {
 			super();
 			answerFilter = new AnswerFilter();
+			answerFilter.setFetchQuestion(true);
 			answerFilter.setQuestionId(question.getId());
 			setSort((Serializable) Answer_.id, SortOrder.ASCENDING);
 		}

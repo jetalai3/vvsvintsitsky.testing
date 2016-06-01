@@ -84,13 +84,12 @@ public class QuestionEditPage extends AbstractPage {
 				setResponsePage(new QuestionsPage());
 			}
 		});
-		
+
 		ModalWindow modalWindow = new ModalWindow("modal");
 		AnswersListPanel answersListPanel = new AnswersListPanel("answers-panel", question);
-
-		
-		form.add(modalWindow);
-		form.add(new AjaxLink<Void>("new-answer") {
+		answersListPanel.setOutputMarkupId(true);
+		rowsContainer.add(answersListPanel);
+		rowsContainer.add(new AjaxLink<Void>("new-answer") {
 
 			private static final long serialVersionUID = -4197818843372247766L;
 
@@ -101,9 +100,6 @@ public class QuestionEditPage extends AbstractPage {
 
 			}
 		});
-		rowsContainer.add(answersListPanel);
-		form.add(rowsContainer);
-		add(new FeedbackPanel("feedback"));
 		modalWindow.setWindowClosedCallback(new WindowClosedCallback() {
 
 			private static final long serialVersionUID = 8965470088247585358L;
@@ -113,6 +109,10 @@ public class QuestionEditPage extends AbstractPage {
 				target.add(rowsContainer);
 			}
 		});
+		rowsContainer.add(modalWindow);
+		add(rowsContainer);
+		add(new FeedbackPanel("feedback"));
+
 	}
 
 	@AuthorizeAction(roles = { "ADMIN" }, action = Action.ENABLE)

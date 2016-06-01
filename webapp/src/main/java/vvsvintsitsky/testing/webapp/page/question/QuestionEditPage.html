@@ -2,7 +2,6 @@
 	<h2>Question edit</h2>
 
 	<form wicket:id="form">
-
 		<table>
 			<tr>
 				<td><b>Question text:</b></td>
@@ -16,17 +15,13 @@
 				<td><button type="submit" wicket:id="save">SAVE</button></td>
 				<td></td>
 			</tr>
-
 		</table>
 
+	</form>
+	<div wicket:id="rowsContainer">
+		<div wicket:id="answers-panel"></div>
 		<button wicket:id="new-answer">new answer</button>
 		<div wicket:id="modal"></div>
-		<div wicket:id="rowsContainer">
-			<div wicket:id="answers-panel"></div>
-		</div>
-	</form>
-
-
+	</div>
 	<div wicket:id="feedback"></div>
-
 </wicket:extend>

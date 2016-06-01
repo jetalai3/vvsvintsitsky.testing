@@ -75,7 +75,9 @@ public class AnswerEditPanel extends Panel {
     			@Override
     			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
     				super.onSubmit(target, form);
-    				answer.setQuestion(question);
+    				if(answer.getId() == null){
+    					answer.setQuestion(question);
+    				}
     				answerService.saveOrUpdate(answer);
     				modalWindow.close(target);
     			}

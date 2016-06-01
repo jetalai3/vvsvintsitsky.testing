@@ -13,9 +13,9 @@ import vvsvintsitsky.testing.datamodel.Question_;
 public class AnswerFilter extends AbstractFilter<Answer> {
 	private Long id;
 	private String text;
-	private boolean correct;
+	private Boolean correct;
 	private boolean isFetchResults;
-	private boolean isFetchQuestions;
+	private boolean isFetchQuestion;
 	private Long questionId;
 
 	public Long getQuestionId() {
@@ -30,8 +30,8 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 		this.isFetchResults = isFetchResults;
 	}
 
-	public void setFetchQuestions(boolean isFetchQuestions) {
-		this.isFetchQuestions = isFetchQuestions;
+	public void setFetchQuestion(boolean isFetchQuestion) {
+		this.isFetchQuestion = isFetchQuestion;
 	}
 
 	public Long getId() {
@@ -50,11 +50,11 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 		this.text = text;
 	}
 
-	public boolean getCorrect() {
+	public Boolean getCorrect() {
 		return correct;
 	}
 
-	public void setCorrect(boolean correct) {
+	public void setCorrect(Boolean correct) {
 		this.correct = correct;
 	}
 
@@ -66,12 +66,12 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 		this.isFetchResults = isFetchResults;
 	}
 
-	public boolean getIsFetchQuestions() {
-		return isFetchQuestions;
+	public boolean getIsFetchQuestion() {
+		return isFetchQuestion;
 	}
 
-	public void setIsFetchQuestions(boolean isFetchQuestions) {
-		this.isFetchQuestions = isFetchQuestions;
+	public void setIsFetchQuestion(boolean isFetchQuestion) {
+		this.isFetchQuestion = isFetchQuestion;
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 		if (text != null) {
 			predicateList.add(textPredicate(cb, from));
 		}
-		if (correct = true) {
+		if (correct != null) {
 			predicateList.add(correctPredicate(cb, from));
 		}
 		if (questionId != null) {
@@ -115,7 +115,7 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 		if (isFetchResults) {
 			from.fetch(Answer_.results, JoinType.LEFT);
 		}
-		if (isFetchQuestions) {
+		if (isFetchQuestion) {
 			from.fetch(Answer_.question, JoinType.LEFT);
 		}
 	}
