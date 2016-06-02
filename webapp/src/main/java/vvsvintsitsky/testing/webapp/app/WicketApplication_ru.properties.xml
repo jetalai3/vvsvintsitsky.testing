@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	
+
+	<entry key="US">Английский</entry>
+	<entry key="RU">Русский</entry>
+
+	<entry key="menuPanel.home">Домашняя</entry>
+	<entry key="menuPanel.accounts">Учетные записи</entry>
+	<entry key="menuPanel.question">Вопросы</entry>
+	<entry key="menuPanel.subjects">Предметы</entry>
+	<entry key="menuPanel.examinations">Тесты</entry>
+	<entry key="menuPanel.logout">Выход</entry>
+	
+	
+	
+	<entry key="examination.name.title">Введите имя теста</entry>
+	
+
+
+</properties>

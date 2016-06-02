@@ -6,6 +6,7 @@
 		<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold' rel='stylesheet' type='text/css' />
 		<link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Stylesheet" />
 		<link rel="stylesheet" href="custom.css" type="text/css" media="screen" title="Stylesheet" />
+		<wicket:header-items />
 	</head>
 	<body>
 		<div id="hd">
@@ -13,12 +14,13 @@
 				<img src="logo.png" width="50px" height="50px" alt="Wicket Logo" />
 				<h1>Testing 2016</h1>
 			</div>
-		</div>
-		<div id="bd">
-			<wicket:container wicket:id="menu-panel"></wicket:container>
-			<wicket:child/>
-		</div>
-		<div id="ft">
-		</div>
+		</div><div class="content" ><wicket:container wicket:id="menu-panel"></wicket:container>
+			<wicket:child/></div>
+		<!-- 
+			<div class="ft" wicket:id="footer">
+			<br/><br/><br/>
+			</div>
+		 -->	
+		<div wicket:id="language-select" class="language-comp"></div>
 	</body>
 </html>

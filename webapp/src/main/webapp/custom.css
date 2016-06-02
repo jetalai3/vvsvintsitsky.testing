@@ -3,4 +3,21 @@
 	color: red
 }
 
+table.list-table {
+	border-collapse: collapse;
+}
 
+table.list-table tr th {
+	background-color: #e3f2fd;
+}
+
+table.list-table tr td, table.list-table tr th {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.language-comp select {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+}
