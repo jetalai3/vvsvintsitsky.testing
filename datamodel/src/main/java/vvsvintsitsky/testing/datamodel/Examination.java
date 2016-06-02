@@ -1,5 +1,6 @@
 package vvsvintsitsky.testing.datamodel;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class Examination extends AbstractModel {
 	@JoinTable(name = "examination_2_question", joinColumns = {
 			@JoinColumn(name = "examination_id") }, inverseJoinColumns = { @JoinColumn(name = "question_id") })
 	@ManyToMany(targetEntity = Question.class, fetch = FetchType.LAZY)
-	private List<Question> questions;
+	private List<Question> questions = new ArrayList<Question>();
 
 	@OneToMany(mappedBy = "examination", fetch = FetchType.LAZY)
 	private List<Result> results;

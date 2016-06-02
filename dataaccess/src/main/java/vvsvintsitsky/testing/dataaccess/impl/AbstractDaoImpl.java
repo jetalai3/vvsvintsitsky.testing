@@ -117,7 +117,7 @@ public class AbstractDaoImpl<T, ID> implements AbstractDao<T, ID> {
 	}
 
 	@Override
-	public <FL extends AbstractFilter<T>> Long count(FL filter) {
+	public <FL extends AbstractFilter<T>> long count(FL filter) {
 		EntityManager em = getEntityManager();
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);

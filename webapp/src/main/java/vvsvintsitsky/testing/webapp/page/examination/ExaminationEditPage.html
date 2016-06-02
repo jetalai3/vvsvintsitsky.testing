@@ -1,0 +1,33 @@
+<wicket:extend xmlns:wicket="http://wicket.apache.org">
+	<h2>Examination edit</h2>
+
+	<form wicket:id="form">
+		<table>
+			<tr>
+				<td><b>Examination name:</b></td>
+				<td><input type="text" wicket:id="name" /></td>
+			</tr>
+			<tr>
+				<td><b>Begin date:</b></td>
+				<td><input type="text" wicket:id="beginDate" /></td>
+			</tr>
+			<tr>
+				<td><b>End date:</b></td>
+				<td><input type="text" wicket:id="endDate" /></td>
+			</tr>
+			<tr>
+				<td><b>Subject:</b></td>
+				<td><select wicket:id="subject" /></td>
+			</tr>
+			<tr>
+				<td><b>Questions:</b></td>
+				<td><span wicket:id="questions" /></td>
+			</tr>
+			<tr>
+				<td><button type="submit" wicket:id="save">SAVE</button></td>
+				<td></td>
+			</tr>
+		</table>
+
+	</form>
+</wicket:extend>

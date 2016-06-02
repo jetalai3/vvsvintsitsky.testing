@@ -8,7 +8,7 @@ public interface AbstractDao<T, ID> {
 
 	<FL extends AbstractFilter<T>> List<T> find(FL filter);
 
-	<FL extends AbstractFilter<T>> Long count(FL filter);
+	<FL extends AbstractFilter<T>> long count(FL filter);
 
 	List<T> getAll();
 

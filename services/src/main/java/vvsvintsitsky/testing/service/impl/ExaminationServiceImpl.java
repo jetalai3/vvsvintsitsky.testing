@@ -7,6 +7,9 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import vvsvintsitsky.testing.dataaccess.ExaminationDao;
+import vvsvintsitsky.testing.dataaccess.filters.AnswerFilter;
+import vvsvintsitsky.testing.dataaccess.filters.ExaminationFilter;
+import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.service.ExaminationService;
 
@@ -41,4 +44,22 @@ public class ExaminationServiceImpl implements ExaminationService {
 		return examinationDao.getAll();
 	}
 
+	@Override
+	public List<Examination> find(ExaminationFilter filter) {
+		return examinationDao.find(filter);
+	}
+
+	@Override
+	public void saveOrUpdate(Examination examination) {
+		if (examination.getId() != null) {
+			examinationDao.update(examination);
+		} else {
+			examinationDao.insert(examination);
+		}
+	}
+	
+	@Override
+	public long count(ExaminationFilter examinationFilter) {
+		return examinationDao.count(examinationFilter);
+	}
 }

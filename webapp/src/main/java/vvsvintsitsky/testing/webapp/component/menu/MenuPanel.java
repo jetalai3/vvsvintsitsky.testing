@@ -5,6 +5,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.page.account.AccountsPage;
+import vvsvintsitsky.testing.webapp.page.examination.ExaminationsPage;
 import vvsvintsitsky.testing.webapp.page.home.HomePage;
 import vvsvintsitsky.testing.webapp.page.login.LoginPage;
 import vvsvintsitsky.testing.webapp.page.question.QuestionsPage;
@@ -48,6 +49,13 @@ public class MenuPanel extends Panel {
             }
             
         });
+        add(new Link("link-examinations") {
+            @Override
+            public void onClick() {
+                setResponsePage(new ExaminationsPage());
+            }
+            
+        });
         Link link = new Link("link-logout") {
             @Override
             public void onClick() {
@@ -55,6 +63,7 @@ public class MenuPanel extends Panel {
                 setResponsePage(LoginPage.class);
             }
         };
+        
         link.setVisible(AuthorizedSession.get().isSignedIn());
         add(link);
     }

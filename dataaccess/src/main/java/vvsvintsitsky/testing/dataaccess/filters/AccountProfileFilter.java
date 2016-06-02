@@ -8,6 +8,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.AccountProfile_;
+import vvsvintsitsky.testing.datamodel.Account_;
 
 public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 	private Long accountProfileId;
@@ -16,6 +17,24 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 	private boolean isFetchAccount;
 	private boolean isFetchExaminations;
 	private boolean isFetchResults;
+	private String email;
+	private String password;
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public Boolean getIsFetchAccount() {
 		return isFetchAccount;
@@ -85,7 +104,12 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 		if (lastName != null) {
 			predicateList.add(lastNamePredicate(cb, from));
 		}
-		
+		if (email != null) {
+			predicateList.add(emailPredicate(cb, from));
+		}
+		if (password != null) {
+			predicateList.add(passwordPredicate(cb, from));
+		}
 		
 		if (!(predicateList.isEmpty())) {
 			return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
@@ -106,6 +130,14 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 		return cb.equal(from.get(AccountProfile_.lastName), getLastName());
 	}
 
+	private Predicate emailPredicate(CriteriaBuilder cb, Root<AccountProfile> from) {
+		return cb.equal(from.get(AccountProfile_.account).get(Account_.email), getEmail());
+	}
+	
+	private Predicate passwordPredicate(CriteriaBuilder cb, Root<AccountProfile> from) {
+		return cb.equal(from.get(AccountProfile_.account).get(Account_.password), getPassword());
+	}
+	
 	public void setFetching(Root<AccountProfile> from) {
 		if (isFetchAccount) {
 			from.fetch(AccountProfile_.account, JoinType.LEFT);

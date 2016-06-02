@@ -9,14 +9,16 @@ import org.apache.wicket.injection.Injector;
 import org.apache.wicket.request.Request;
 
 import vvsvintsitsky.testing.dataaccess.filters.AccountFilter;
+import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
 import vvsvintsitsky.testing.datamodel.Account;
+import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.service.AccountService;
 
 public class AuthorizedSession extends AuthenticatedWebSession {
     @Inject
     private AccountService accountService;
 
-    private Account loggedUser;
+    private AccountProfile loggedUser;
 
     private Roles roles;
 
@@ -32,7 +34,7 @@ public class AuthorizedSession extends AuthenticatedWebSession {
 
     @Override
     public boolean authenticate(final String email, final String password) {
-        AccountFilter filter = new AccountFilter();
+        AccountProfileFilter filter = new AccountProfileFilter();
         filter.setEmail(email);
         filter.setPassword(password);
         if(accountService.find(filter).isEmpty() ){
@@ -58,7 +60,7 @@ public class AuthorizedSession extends AuthenticatedWebSession {
         roles = null;
     }
 
-    public Account getLoggedUser() {
+    public AccountProfile getLoggedUser() {
         return loggedUser;
     }
 

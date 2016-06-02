@@ -18,7 +18,7 @@ public class AnswerServiceImpl implements AnswerService {
 
 	@Inject
 	private AnswerDao answerDao;
-	
+
 	@Override
 	public void createAnswer(Answer answer) {
 		answerDao.insert(answer);
@@ -57,6 +57,7 @@ public class AnswerServiceImpl implements AnswerService {
 			answerDao.insert(answer);
 		}
 	}
+
 	@Override
 	public long count(AnswerFilter answerFilter) {
 		return answerDao.count(answerFilter);

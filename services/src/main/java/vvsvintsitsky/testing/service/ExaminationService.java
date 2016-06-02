@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import vvsvintsitsky.testing.dataaccess.filters.ExaminationFilter;
 import vvsvintsitsky.testing.datamodel.Examination;
 
 public interface ExaminationService {
@@ -20,4 +21,12 @@ public interface ExaminationService {
     void delete(Long id);
 
     List<Examination> getAll();
+    
+    List<Examination> find(ExaminationFilter examinationFilter);
+
+    @Transactional
+	void saveOrUpdate(Examination examination);
+
+	long count(ExaminationFilter examinationFilter);
+    
 }

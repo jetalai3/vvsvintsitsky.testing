@@ -20,11 +20,11 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 	private boolean isFetchResults;
 	private boolean isfetchSubject;
 
-	public Boolean getIsFetchQuestions() {
+	public boolean getIsFetchQuestions() {
 		return isFetchQuestions;
 	}
 
-	public void setIsFetchQuestions(Boolean isFetchQuestions) {
+	public void setIsFetchQuestions(boolean isFetchQuestions) {
 		this.isFetchQuestions = isFetchQuestions;
 	}
 
