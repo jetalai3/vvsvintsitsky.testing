@@ -53,6 +53,7 @@ public class AnswersListPanel extends Panel {
 	private AnswerService answerService;
 
 	private Question question;
+
 	public AnswersListPanel(String id, Question question) {
 		super(id);
 		this.question = question;
@@ -67,7 +68,7 @@ public class AnswersListPanel extends Panel {
 				item.add(new Label("id", answer.getId()));
 				item.add(new Label("text", answer.getText()));
 				CheckBox checkbox = new CheckBox("correct", Model.of(answer.getCorrect()));
-                item.add(checkbox);
+				item.add(checkbox);
 				ModalWindow modalWindow = new ModalWindow("modal");
 				item.add(modalWindow);
 				item.add(new AjaxLink<Void>("edit-link") {
@@ -109,15 +110,14 @@ public class AnswersListPanel extends Panel {
 			}
 
 		};
-		
+
 		rowsContainer.add(dataView);
 		rowsContainer.add(new PagingNavigator("paging", dataView));
 		rowsContainer.add(new OrderByBorder("sort-id", Answer_.id, answersDataProvider));
 		rowsContainer.add(new OrderByBorder("sort-text", Answer_.text, answersDataProvider));
 		rowsContainer.add(new OrderByBorder("sort-correct", Answer_.correct, answersDataProvider));
-		
-		add(rowsContainer);
 
+		add(rowsContainer);
 
 	}
 
@@ -129,7 +129,12 @@ public class AnswersListPanel extends Panel {
 			super();
 			answerFilter = new AnswerFilter();
 			answerFilter.setFetchQuestion(true);
-			answerFilter.setQuestionId(question.getId());
+			if (question.getId() == null) {
+				answerFilter.setQuestionId(0L);
+			}
+			if (question.getId() != null) {
+				answerFilter.setQuestionId(question.getId());
+			}
 			setSort((Serializable) Answer_.id, SortOrder.ASCENDING);
 		}
 

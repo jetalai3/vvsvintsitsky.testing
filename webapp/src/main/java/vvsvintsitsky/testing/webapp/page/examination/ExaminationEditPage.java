@@ -80,6 +80,7 @@ public class ExaminationEditPage extends AbstractPage {
         form.add(endDateField);
         List<Subject> allSubjects = subjectService.find(new SubjectFilter());
         DropDownChoice<Subject> dropDownChoice = new DropDownChoice<>("subject", allSubjects, SubjectChoiceRenderer.INSTANCE);
+        dropDownChoice.setRequired(true);
         form.add(dropDownChoice);
         dropDownChoice.add(new AjaxEventBehavior("change") {
             @Override

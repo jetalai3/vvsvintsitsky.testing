@@ -9,6 +9,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.datamodel.Examination_;
+import vvsvintsitsky.testing.datamodel.Question_;
 
 public class ExaminationFilter extends AbstractFilter<Examination> {
 	private Long id;
@@ -18,7 +19,7 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 	private boolean isFetchQuestions;
 	private boolean isFetchAccountProfile;
 	private boolean isFetchResults;
-	private boolean isfetchSubject;
+	private boolean isFetchSubject;
 
 	public boolean getIsFetchQuestions() {
 		return isFetchQuestions;
@@ -45,11 +46,11 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 	}
 
 	public boolean getIsfetchSubject() {
-		return isfetchSubject;
+		return isFetchSubject;
 	}
 
 	public void setIsfetchSubject(boolean isfetchSubject) {
-		this.isfetchSubject = isfetchSubject;
+		this.isFetchSubject = isfetchSubject;
 	}
 
 	public Long getId() {
@@ -131,9 +132,10 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 		if (isFetchResults) {
 			from.fetch(Examination_.results, JoinType.LEFT);
 		}
-		if (isfetchSubject) {
+		if (isFetchSubject) {
 			from.fetch(Examination_.subject, JoinType.LEFT);
 		}
+
 	}
 
 }

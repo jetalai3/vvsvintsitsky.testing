@@ -39,6 +39,7 @@ import vvsvintsitsky.testing.service.ExaminationService;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.webapp.page.account.AccountEditPage;
 import vvsvintsitsky.testing.webapp.page.account.AccountsPage;
+import vvsvintsitsky.testing.webapp.page.completing.CompletingPage;
 import vvsvintsitsky.testing.webapp.page.examination.ExaminationEditPage;
 import vvsvintsitsky.testing.webapp.page.examination.ExaminationsPage;
 import vvsvintsitsky.testing.webapp.page.question.QuestionEditPage;
@@ -81,6 +82,13 @@ public class ExaminationsListPanel extends Panel {
 						}
 
 						setResponsePage(new ExaminationsPage());
+					}
+				});
+				
+				item.add(new Link<Void>("complete-link") {
+					@Override
+					public void onClick() {
+						setResponsePage(new CompletingPage(examination));
 					}
 				});
 

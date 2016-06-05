@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import vvsvintsitsky.testing.dataaccess.SubjectDao;
+import vvsvintsitsky.testing.dataaccess.filters.ExaminationFilter;
 import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.service.AccountService;
@@ -28,15 +29,15 @@ public class ExaminationServiceTest {
 	private SubjectDao subjectDao;
 	@Inject
 	private AccountService accountService;
-	
+
 	@Inject
 	private QuestionService questionService;
-	
+
 	@Test
 	public void testExaminationRegistration() {
 
 		Examination examination = new Examination();
-		
+
 		examination.setBeginDate(new Date());
 		examination.setEndDate(new Date());
 		examination.setName("math: geometry");
@@ -45,13 +46,27 @@ public class ExaminationServiceTest {
 		List<Question> questions = new LinkedList<Question>();
 		Question question1 = questionService.getQuestion(1L);
 		Question question2 = questionService.getQuestion(2L);
-		
+
 		questions.add(question1);
 		questions.add(question2);
-		
+
 		examination.setQuestions(questions);
-		
-		examinationService.createExamination(examination);		
+
+		examinationService.createExamination(examination);
 	}
-	
+
+	@Test
+	public void getQuestionsWithAnswers() {
+		Examination examination = new Examination();
+		ExaminationFilter examinationFilter = new ExaminationFilter();
+		
+		examinationFilter.setIsFetchQuestions(true);
+		List<Examination> result = examinationService.find(examinationFilter);
+		
+		
+		//examinationFilter.setIsFetchQuestions(true);
+		//System.out.println(examination.getQuestions().get(0).getText());
+		//System.out.println(examination.getQuestions().get(0).getAnswers().get(0));
+		
+	}
 }
