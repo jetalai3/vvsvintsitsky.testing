@@ -3,6 +3,7 @@ package vvsvintsitsky.testing.dataaccess.filters;
 import java.io.Serializable;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.SingularAttribute;
@@ -15,7 +16,8 @@ public abstract class AbstractFilter<T> implements Serializable {
 	private Integer limit;
 
 	public abstract Predicate getQueryPredicate(CriteriaBuilder cb, Root<T> from);
-
+	public abstract void setSorting(CriteriaQuery<T> query, Root<T> from);
+	
 	public SingularAttribute getSortProperty() {
 		return sortProperty;
 	}

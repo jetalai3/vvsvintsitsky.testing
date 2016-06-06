@@ -12,8 +12,19 @@
 	<entry key="menuPanel.subjects">Предметы</entry>
 	<entry key="menuPanel.examinations">Тесты</entry>
 	<entry key="menuPanel.logout">Выход</entry>
+	<entry key="menuPanel.login">Вход</entry>
+	<entry key="menuPanel.personal">Личный кабинет</entry>
 	
-	
+	<entry key="examination.id">Идентификатор</entry>
+	<entry key="examination.name">Название</entry>
+	<entry key="examination.beginDate">Дата от</entry>
+	<entry key="examination.endDate">Дата по</entry>
+	<entry key="examination.subject">Предмет</entry>
+	<entry key="examination.accountProfileId">Идентификатор профиля</entry>
+	<entry key="examination.actions">Действия</entry>
+	<entry key="examination.delete">Удалить</entry>
+	<entry key="examination.edit">Редактировать</entry>
+	<entry key="examination.complete">Выполнить</entry>
 	
 	<entry key="examination.name.title">Введите имя теста</entry>
 	

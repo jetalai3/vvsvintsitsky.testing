@@ -7,11 +7,15 @@ import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.metamodel.SingularAttribute;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
+import org.apache.wicket.extensions.ajax.markup.html.repeater.data.sort.AjaxFallbackOrderByBorder;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.link.Link;
@@ -34,9 +38,11 @@ import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.datamodel.Examination_;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Question_;
+import vvsvintsitsky.testing.datamodel.UserRole;
 import vvsvintsitsky.testing.service.AccountService;
 import vvsvintsitsky.testing.service.ExaminationService;
 import vvsvintsitsky.testing.service.QuestionService;
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.page.account.AccountEditPage;
 import vvsvintsitsky.testing.webapp.page.account.AccountsPage;
 import vvsvintsitsky.testing.webapp.page.completing.CompletingPage;
@@ -51,7 +57,8 @@ public class ExaminationsListPanel extends Panel {
 
 	public ExaminationsListPanel(String id) {
 		super(id);
-
+		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
+		rowsContainer.setOutputMarkupId(true);
 		ExaminationsDataProvider examinationsDataProvider = new ExaminationsDataProvider();
 		DataView<Examination> dataView = new DataView<Examination>("rows", examinationsDataProvider, 5) {
 			@Override
@@ -60,17 +67,17 @@ public class ExaminationsListPanel extends Panel {
 
 				item.add(new Label("id", examination.getId()));
 				item.add(new Label("name", examination.getName()));
-				item.add(DateLabel.forDatePattern("begin-date", Model.of(examination.getBeginDate()), "dd-MM-yyyy"));
-				item.add(DateLabel.forDatePattern("end-date", Model.of(examination.getEndDate()), "dd-MM-yyyy"));
+				item.add(DateLabel.forDatePattern("beginDate", Model.of(examination.getBeginDate()), "dd-MM-yyyy"));
+				item.add(DateLabel.forDatePattern("endDate", Model.of(examination.getEndDate()), "dd-MM-yyyy"));
 				item.add(new Label("subject", examination.getSubject().getName()));
-				item.add(new Label("account-id", examination.getAccountProfile().getId()));
+				item.add(new Label("accountId", examination.getAccountProfile().getId()));
 
 				item.add(new Link<Void>("edit-link") {
 					@Override
 					public void onClick() {
 						setResponsePage(new ExaminationEditPage(examination));
 					}
-				});
+				}.setVisible(AuthorizedSession.get().isSignedIn() && AuthorizedSession.get().getLoggedUser().getAccount().getRole().equals(UserRole.ADMIN)));
 
 				item.add(new Link<Void>("delete-link") {
 					@Override
@@ -83,7 +90,7 @@ public class ExaminationsListPanel extends Panel {
 
 						setResponsePage(new ExaminationsPage());
 					}
-				});
+				}.setVisible(AuthorizedSession.get().isSignedIn() && AuthorizedSession.get().getLoggedUser().getAccount().getRole().equals(UserRole.ADMIN)));
 				
 				item.add(new Link<Void>("complete-link") {
 					@Override
@@ -94,16 +101,112 @@ public class ExaminationsListPanel extends Panel {
 
 			}
 		};
-		add(dataView);
-		add(new PagingNavigator("paging", dataView));
+		rowsContainer.add(dataView);
+		rowsContainer.add(new AjaxPagingNavigator("paging", dataView) {
+			private static final long serialVersionUID = 1L;
 
-		add(new OrderByBorder("sort-id", Examination_.id, examinationsDataProvider));
-		add(new OrderByBorder("sort-name", Examination_.name, examinationsDataProvider));
-		add(new OrderByBorder("sort-begin-date", Examination_.beginDate, examinationsDataProvider));
-		add(new OrderByBorder("sort-end-date", Examination_.endDate, examinationsDataProvider));
-		add(new OrderByBorder("sort-subject", Examination_.subject.getName(), examinationsDataProvider));
-		add(new OrderByBorder("sort-account-id", AccountProfile_.id, examinationsDataProvider));
+			@Override
+			protected void onAjaxEvent(AjaxRequestTarget target) {
+				target.add(rowsContainer);
+			}
+		});
 
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderId = new AjaxFallbackOrderByBorder("sort-id", Examination_.id,
+				examinationsDataProvider) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged() {
+				dataView.setCurrentPage(0);
+			}
+
+			@Override
+			protected void onAjaxClick(AjaxRequestTarget target) {
+				target.add(rowsContainer);
+			}
+		};
+		rowsContainer.add(ajaxFallbackOrderByBorderId);
+		
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderName = new AjaxFallbackOrderByBorder("sort-name", Examination_.name,
+				examinationsDataProvider) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged() {
+				dataView.setCurrentPage(0);
+			}
+
+			@Override
+			protected void onAjaxClick(AjaxRequestTarget target) {
+				target.add(rowsContainer);
+			}
+		};
+		rowsContainer.add(ajaxFallbackOrderByBorderName);
+		
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderBeginDate = new AjaxFallbackOrderByBorder("sort-beginDate", Examination_.beginDate,
+				examinationsDataProvider) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged() {
+				dataView.setCurrentPage(0);
+			}
+
+			@Override
+			protected void onAjaxClick(AjaxRequestTarget target) {
+				target.add(rowsContainer);
+			}
+		};
+		rowsContainer.add(ajaxFallbackOrderByBorderBeginDate);
+		
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderEndDate = new AjaxFallbackOrderByBorder("sort-endDate", Examination_.endDate,
+				examinationsDataProvider) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged() {
+				dataView.setCurrentPage(0);
+			}
+
+			@Override
+			protected void onAjaxClick(AjaxRequestTarget target) {
+				target.add(rowsContainer);
+			}
+		};
+		rowsContainer.add(ajaxFallbackOrderByBorderEndDate);
+		
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderSubject = new AjaxFallbackOrderByBorder("sort-subject", Examination_.subject,
+				examinationsDataProvider) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged() {
+				dataView.setCurrentPage(0);
+			}
+
+			@Override
+			protected void onAjaxClick(AjaxRequestTarget target) {
+				target.add(rowsContainer);
+			}
+		};
+		rowsContainer.add(ajaxFallbackOrderByBorderSubject);
+		
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderAccountProfileId = new AjaxFallbackOrderByBorder("sort-accountProfileId", Examination_.accountProfile,
+				examinationsDataProvider) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged() {
+				dataView.setCurrentPage(0);
+			}
+
+			@Override
+			protected void onAjaxClick(AjaxRequestTarget target) {
+				target.add(rowsContainer);
+			}
+		};
+		rowsContainer.add(ajaxFallbackOrderByBorderAccountProfileId);
+		add(rowsContainer);
 	}
 
 	private class ExaminationsDataProvider extends SortableDataProvider<Examination, Serializable> {

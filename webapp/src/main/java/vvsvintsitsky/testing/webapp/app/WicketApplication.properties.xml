@@ -11,8 +11,19 @@
 	<entry key="menuPanel.subjects">Subjects</entry>
 	<entry key="menuPanel.examinations">Examinations</entry>
 	<entry key="menuPanel.logout">Logout</entry>
+	<entry key="menuPanel.login">Login</entry>
+	<entry key="menuPanel.personal">Personal</entry>
 	
-	
+	<entry key="examination.id">Id</entry>
+	<entry key="examination.name">Name</entry>
+	<entry key="examination.beginDate">Begin date</entry>
+	<entry key="examination.endDate">End date</entry>
+	<entry key="examination.subject">Subject</entry>
+	<entry key="examination.accountProfileId">Account profile id</entry>
+	<entry key="examination.actions">Actions</entry>
+	<entry key="examination.delete">Delete</entry>
+	<entry key="examination.edit">Edit</entry>
+	<entry key="examination.complete">Complete</entry>
 	
 	<entry key="examination.name.title">Enter examination name</entry>
 

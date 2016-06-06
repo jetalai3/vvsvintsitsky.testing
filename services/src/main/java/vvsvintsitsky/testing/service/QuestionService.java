@@ -29,6 +29,8 @@ public interface QuestionService {
 	List<Question> getAll();
 	
 	List<Question> find(QuestionFilter filter);
-
+	
+	Question getQuestionWithAnswers(Long id);
+	
 	long count(QuestionFilter questionFilter);
 }

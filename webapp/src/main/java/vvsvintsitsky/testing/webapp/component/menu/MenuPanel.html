@@ -1,8 +1,29 @@
 <wicket:panel>
-	<a wicket:id="link-home"><wicket:message key="menuPanel.home"/></a>|
-    <a wicket:id="link-accounts"><wicket:message key="menuPanel.accounts"/></a>|
-     <a wicket:id="link-questions"><wicket:message key="menuPanel.question"/></a>|
-     <a wicket:id="link-subjects"><wicket:message key="menuPanel.subjects"/></a>|
-     <a wicket:id="link-examinations"><wicket:message key="menuPanel.examinations"/></a>|
-    <a class="red-link" wicket:id="link-logout"><wicket:message key="menuPanel.logout"/></a>|
+	<a wicket:id="link-home"><wicket:message key="menuPanel.home" /></a>|
+	<wicket:enclosure>
+		<a wicket:id="link-accounts"><wicket:message
+				key="menuPanel.accounts" /></a>|
+    </wicket:enclosure>
+	<wicket:enclosure>
+		<a wicket:id="link-questions"><wicket:message
+				key="menuPanel.question" /></a>|
+    </wicket:enclosure>
+	<wicket:enclosure>
+		<a wicket:id="link-subjects"><wicket:message
+				key="menuPanel.subjects" /></a>|
+    </wicket:enclosure>
+	<wicket:enclosure>
+		<a wicket:id="link-examinations"><wicket:message
+				key="menuPanel.examinations" /></a>|
+    </wicket:enclosure>
+    <wicket:enclosure>
+		<a wicket:id="link-personal"><wicket:message
+				key="menuPanel.personal" /></a>|
+    </wicket:enclosure>
+	<wicket:enclosure>
+		<a wicket:id="link-logout"><wicket:message key="menuPanel.logout" /></a>|
+    </wicket:enclosure>
+	<wicket:enclosure>
+		<a wicket:id="link-login"><wicket:message key="menuPanel.login" /></a>|
+</wicket:enclosure>
 </wicket:panel>

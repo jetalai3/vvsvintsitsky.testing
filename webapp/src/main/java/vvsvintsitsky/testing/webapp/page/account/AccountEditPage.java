@@ -23,6 +23,7 @@ import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.UserRole;
 import vvsvintsitsky.testing.service.AccountService;
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.UserRoleChoiceRenderer;
 import vvsvintsitsky.testing.webapp.page.AbstractPage;
 
@@ -80,6 +81,8 @@ public class AccountEditPage extends AbstractPage {
 
 		DropDownChoice<UserRole> roleField = new DropDownChoice<>("role", Arrays.asList(UserRole.values()), UserRoleChoiceRenderer.INSTANCE);
         roleField.setRequired(true);
+        roleField.setVisible(AuthorizedSession.get().isSignedIn() && AuthorizedSession.get().getLoggedUser().getAccount().getRole().equals(UserRole.ADMIN));
+
         formAccount.add(roleField);
 
 		

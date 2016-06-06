@@ -3,6 +3,7 @@ package vvsvintsitsky.testing.dataaccess.filters;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -120,5 +121,11 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 		}
 	}
 	// from.get(Answer_.question).get(Question_.id).getQuestion()
+
+	@Override
+	public void setSorting(CriteriaQuery<Answer> query, Root<Answer> from) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

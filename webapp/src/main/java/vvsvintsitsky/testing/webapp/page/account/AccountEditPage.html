@@ -12,30 +12,32 @@
 				<td><b>Last name:</b></td>
 				<td><input type="text" wicket:id="lastName" /></td>
 			</tr>
-			
+
 			<tr>
 				<td><button type="submit" wicket:id="save">SAVE</button></td>
 				<td></td>
 			</tr>
 		</table>
-	
-	<form wicket:id="formAccount">
-		<table>
-			<tr>
-				<td><b>Email:</b></td>
-				<td><input type="text" wicket:id="email" /></td>
-			</tr>
-			<tr>
-				<td><b>Password:</b></td>
-				<td><input type="text" wicket:id="password" /></td>
-			</tr>
-			<tr>
-				<td><b>Role:</b></td>
-				<td><select wicket:id="role" /></td>
-			</tr>
-			
-		</table>
-	</form>
+
+		<form wicket:id="formAccount">
+			<table>
+				<tr>
+					<td><b>Email:</b></td>
+					<td><input type="text" wicket:id="email" /></td>
+				</tr>
+				<tr>
+					<td><b>Password:</b></td>
+					<td><input type="text" wicket:id="password" /></td>
+				</tr>
+				<tr>
+					<wicket:enclosure>
+						<td><b>Role:</b></td>
+						<td><select wicket:id="role" /></td>
+					</wicket:enclosure>
+				</tr>
+
+			</table>
+		</form>
 	</form>
 	<div wicket:id="feedback"></div>
 

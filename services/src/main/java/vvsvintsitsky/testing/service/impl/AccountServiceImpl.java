@@ -64,7 +64,7 @@ public class AccountServiceImpl implements AccountService {
 	public List<AccountProfile> find(AccountProfileFilter filter) {
 		return accountProfileDao.find(filter);
 	}
-	
+
 	@Override
 	public List<Account> find(AccountFilter filter) {
 		return accountDao.find(filter);
@@ -83,9 +83,9 @@ public class AccountServiceImpl implements AccountService {
 			accountProfileDao.insert(accountProfile);
 		}
 	}
-	
+
 	@Override
-	public void saveOrUpdate(Account account){
+	public void saveOrUpdate(Account account) {
 		if (account.getId() != null) {
 			accountDao.update(account);
 		} else {
@@ -96,8 +96,12 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public Collection<? extends String> resolveRoles(Long id) {
 		Account account = accountDao.get(id);
-        return Collections.singletonList(account.getRole().name());
+		return Collections.singletonList(account.getRole().name());
 	}
 
-	
+	@Override
+	public AccountProfile getByEmailAndPassword(String email, String password) {
+		return accountProfileDao.getByEmailAndPassword(email, password);
+	}
+
 }

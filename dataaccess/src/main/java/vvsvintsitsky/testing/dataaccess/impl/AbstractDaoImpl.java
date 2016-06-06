@@ -89,7 +89,7 @@ public class AbstractDaoImpl<T, ID> implements AbstractDao<T, ID> {
 		}
 		// set sort params
 
-		setSorting(filter, cq, from);
+		filter.setSorting(cq, from);
 
 		TypedQuery<T> q = entityManager.createQuery(cq);
 

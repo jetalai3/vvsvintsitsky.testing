@@ -1,8 +1,6 @@
 <wicket:panel>
-	
-		<form wicket:id="form-question">
-			<td><span wicket:id="question-text" /></td>
-		</form>
+	<div wicket:id="rowsContainer">
+		<td><span wicket:id="question-text" /></td>
 		<table class="list-table">
 			<tbody>
 				<tr wicket:id="rows">
@@ -12,5 +10,7 @@
 				</tr>
 			</tbody>
 		</table>
-	
+		<button wicket:id="previous-question">previous question</button>
+		<button wicket:id="next-question">next question</button>
+	</div>
 </wicket:panel>

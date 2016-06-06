@@ -9,22 +9,28 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
+import org.apache.wicket.extensions.ajax.markup.html.repeater.data.sort.AjaxFallbackOrderByBorder;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.SortOrder;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.validation.validator.RangeValidator;
 
 import vvsvintsitsky.testing.dataaccess.filters.AccountFilter;
 import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
@@ -52,6 +58,8 @@ public class SubjectsListPanel extends Panel {
 	@Inject
 	private SubjectService subjectService;
 
+	private SubjectFilter subjectFilter;
+
 	public SubjectsListPanel(String id) {
 		super(id);
 		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
@@ -62,8 +70,8 @@ public class SubjectsListPanel extends Panel {
 			protected void populateItem(Item<Subject> item) {
 				Subject subject = item.getModelObject();
 
-				item.add(new Label("id", subject.getId()));
-				item.add(new Label("name", subject.getName()));
+				item.add(new Label("subject-id", subject.getId()));
+				item.add(new Label("subject-name", subject.getName()));
 
 				ModalWindow modalWindow = new ModalWindow("modal");
 				item.add(modalWindow);
@@ -107,11 +115,63 @@ public class SubjectsListPanel extends Panel {
 
 		};
 		rowsContainer.add(dataView);
-		rowsContainer.add(new PagingNavigator("paging", dataView));
-		rowsContainer.add(new OrderByBorder("sort-id", Subject_.id, subjectsDataProvider));
-		rowsContainer.add(new OrderByBorder("sort-name", Subject_.name, subjectsDataProvider));
+		rowsContainer.add(new AjaxPagingNavigator("paging", dataView) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onAjaxEvent(AjaxRequestTarget target) {
+				target.add(rowsContainer);
+			}
+		});
+
+		Form<SubjectFilter> formId = new Form<SubjectFilter>("formId", new CompoundPropertyModel<>(subjectFilter));
+		TextField<Long> idField = new TextField<>("id");
+		idField.add(RangeValidator.<Long> range(0L, 100L));
+		formId.add(idField);
+
+		Form<SubjectFilter> formName = new Form<SubjectFilter>("formName", new CompoundPropertyModel<>(subjectFilter));
+		TextField<Integer> nameField = new TextField<>("name");
+		formName.add(nameField);
+
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderId = new AjaxFallbackOrderByBorder("sort-id", Subject_.id,
+				subjectsDataProvider) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged() {
+				dataView.setCurrentPage(0);
+			}
+
+			@Override
+			protected void onAjaxClick(AjaxRequestTarget target) {
+				target.add(rowsContainer);
+			}
+		};
+		formId.add(ajaxFallbackOrderByBorderId);
+
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderText = new AjaxFallbackOrderByBorder("sort-name",
+				Subject_.name, subjectsDataProvider) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void onSortChanged() {
+				dataView.setCurrentPage(0);
+			}
+
+			@Override
+			protected void onAjaxClick(AjaxRequestTarget target) {
+				target.add(rowsContainer);
+			}
+		};
+		formName.add(ajaxFallbackOrderByBorderText);
+		rowsContainer.add(formId);
+		rowsContainer.add(formName);
+
+		// rowsContainer.add(new OrderByBorder("sort-id", Subject_.id,
+		// subjectsDataProvider));
+		// rowsContainer.add(new OrderByBorder("sort-name", Subject_.name,
+		// subjectsDataProvider));
 		add(rowsContainer);
-		
 
 	}
 

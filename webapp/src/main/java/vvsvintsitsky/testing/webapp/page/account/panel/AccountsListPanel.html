@@ -1,28 +1,32 @@
 <wicket:panel>
-	<table class="list-table">
-		<thead>
-			<tr>
-				<th><a wicket:id="sort-id">id</a></th>
-				<th><a wicket:id="sort-firstName">first name</a></th>
-				<th><a wicket:id="sort-lastName">last name</a></th>
-				<th><a wicket:id="sort-email">email</a></th>
-				<th><a wicket:id="sort-password">password</a></th>
-				
-				<th>actions</th>
-			</tr>
-		
-		</thead>
-		<tbody>
-			<tr wicket:id="rows">
-				<td><span wicket:id="id"/></td>
-				<td><span wicket:id="firstName"/></td>
-				<td><span wicket:id="lastName"/></td>
-				<td><span wicket:id="email"/></td>
-				<td><span wicket:id="password"/> </td>
-				<td><a wicket:id="delete-link">delete</a>/<a wicket:id="edit-link">edit</a></td>
-			</tr>
-		</tbody>
-	</table>
-	<div wicket:id="paging"></div>
+	<div wicket:id="rowsContainer">
+		<table class="list-table">
+			<thead>
+				<tr>
+					<th><a wicket:id="sort-id">id</a></th>
+					<th><a wicket:id="sort-firstName">first name</a></th>
+					<th><a wicket:id="sort-lastName">last name</a></th>
+					<th><a wicket:id="sort-email">email</a></th>
+					<th><a wicket:id="sort-password">password</a></th>
+					<th><a wicket:id="sort-role">role</a></th>
 
+					<th>actions</th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr wicket:id="rows">
+					<td><span wicket:id="id" /></td>
+					<td><span wicket:id="firstName" /></td>
+					<td><span wicket:id="lastName" /></td>
+					<td><span wicket:id="email" /></td>
+					<td><span wicket:id="password" /></td>
+					<td><span wicket:id="role" /></td>
+					<td><a wicket:id="delete-link">delete</a>/<a
+						wicket:id="edit-link">edit</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div wicket:id="paging"></div>
+	</div>
 </wicket:panel>

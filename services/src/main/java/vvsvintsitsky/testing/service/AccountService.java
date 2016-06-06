@@ -19,6 +19,8 @@ public interface AccountService {
 
 	AccountProfile getAccountProfile(Long id);
 	
+	AccountProfile getByEmailAndPassword(String email, String password);
+	
     @Transactional
     void update(AccountProfile accountProfile);
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import vvsvintsitsky.testing.datamodel.Account;
@@ -87,6 +88,12 @@ public class AccountFilter extends AbstractFilter<Account> {
 
 	@Override
 	public void setFetching(Root<Account> from) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSorting(CriteriaQuery<Account> query, Root<Account> from) {
 		// TODO Auto-generated method stub
 		
 	}

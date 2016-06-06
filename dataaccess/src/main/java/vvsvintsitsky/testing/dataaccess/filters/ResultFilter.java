@@ -3,6 +3,7 @@ package vvsvintsitsky.testing.dataaccess.filters;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -89,6 +90,12 @@ public class ResultFilter extends AbstractFilter<Result> {
 		if (isFetchAnswers) {
 			from.fetch(Result_.answers, JoinType.LEFT);
 		}
+	}
+
+	@Override
+	public void setSorting(CriteriaQuery<Result> query, Root<Result> from) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

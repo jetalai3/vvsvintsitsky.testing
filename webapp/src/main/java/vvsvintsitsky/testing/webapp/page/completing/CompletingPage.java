@@ -28,36 +28,24 @@ public class CompletingPage extends AbstractPage {
 
 	private Examination examination;
 
-	private Iterator<Question> iterator;
-	
 	public CompletingPage(Examination examination) {
-        super();
-        this.examination = examination;
-        
-        add(new Label("examination-name", examination.getName()));
-        	
-       
-        iterator = examination.getQuestions().iterator();
-        
-        	
-        WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
-		rowsContainer.setOutputMarkupId(true);
-        
-        CompletingListPanel completingListPanel = new CompletingListPanel("list-panel", iterator.next());
-		rowsContainer.add(completingListPanel);
+		super();
+		this.examination = examination;
 		
+	}
+
+	@Override
+	protected void onInitialize() {
+		super.onInitialize();
 		
-        rowsContainer.add(new AjaxLink("next-question") {
-            
-        	private static final long serialVersionUID = 8930268252094829030L;
-        	
-        	@Override
-			public void onClick(AjaxRequestTarget target) {
-				System.out.println(iterator.next().getText());
-        		target.add(rowsContainer);
-				
-			}
-        });
-        
-    }
+		add(new Label("examination-name", examination.getName()));
+
+		
+
+		CompletingListPanel completingListPanel = new CompletingListPanel("list-panel", examination);
+		add(completingListPanel);
+		
+
+		
+	}
 }

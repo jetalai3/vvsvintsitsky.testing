@@ -3,12 +3,18 @@ package vvsvintsitsky.testing.dataaccess.filters;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.hibernate.jpa.criteria.OrderImpl;
+
 import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.AccountProfile_;
 import vvsvintsitsky.testing.datamodel.Account_;
+import vvsvintsitsky.testing.datamodel.Question_;
+import vvsvintsitsky.testing.datamodel.Subject_;
 
 public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 	private Long accountProfileId;
@@ -148,5 +154,34 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 		if (isFetchResults) {
 			from.fetch(AccountProfile_.results, JoinType.LEFT);
 		}
+	}
+
+	@Override
+	public void setSorting(CriteriaQuery<AccountProfile> query, Root<AccountProfile> from) {
+		if (getSortProperty() == AccountProfile_.id) {
+			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == AccountProfile_.firstName) {
+			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == AccountProfile_.lastName) {
+			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == Account_.email) {
+			query.orderBy(new OrderImpl(from.get(AccountProfile_.account).get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == Account_.password) {
+			query.orderBy(new OrderImpl(from.get(AccountProfile_.account).get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == Account_.role) {
+			query.orderBy(new OrderImpl(from.get(AccountProfile_.account).get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		
 	}
 }

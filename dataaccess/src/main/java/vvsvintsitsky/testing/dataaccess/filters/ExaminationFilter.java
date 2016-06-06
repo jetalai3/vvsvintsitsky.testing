@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.hibernate.jpa.criteria.OrderImpl;
+
+import vvsvintsitsky.testing.datamodel.AccountProfile_;
 import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.datamodel.Examination_;
 import vvsvintsitsky.testing.datamodel.Question_;
+import vvsvintsitsky.testing.datamodel.Subject_;
 
 public class ExaminationFilter extends AbstractFilter<Examination> {
 	private Long id;
@@ -136,6 +142,35 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 			from.fetch(Examination_.subject, JoinType.LEFT);
 		}
 
+	}
+
+	@Override
+	public void setSorting(CriteriaQuery<Examination> query, Root<Examination> from) {
+		if (getSortProperty() == Examination_.id) {
+			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == Examination_.name) {
+			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == Examination_.beginDate) {
+			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == Examination_.endDate) {
+			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == Subject_.name) {
+			query.orderBy(new OrderImpl(from.get(Examination_.subject).get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == AccountProfile_.id) {
+			query.orderBy(new OrderImpl(from.get(Examination_.accountProfile).get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		
 	}
 
 }

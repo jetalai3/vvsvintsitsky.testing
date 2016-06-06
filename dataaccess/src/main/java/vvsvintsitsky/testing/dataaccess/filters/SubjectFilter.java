@@ -3,9 +3,14 @@ package vvsvintsitsky.testing.dataaccess.filters;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.hibernate.jpa.criteria.OrderImpl;
+
+import vvsvintsitsky.testing.datamodel.Question_;
 import vvsvintsitsky.testing.datamodel.Subject;
 import vvsvintsitsky.testing.datamodel.Subject_;
 
@@ -76,6 +81,19 @@ public class SubjectFilter extends AbstractFilter<Subject> {
 		}
 		if (isFetchQuestions) {
 			from.fetch(Subject_.questions, JoinType.LEFT);
+		}
+	}
+
+	@Override
+	public void setSorting(CriteriaQuery<Subject> query, Root<Subject> from) {
+		if (getSortProperty() == Subject_.id) {
+			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == Subject_.name) {
+			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
+			return;
+
 		}
 	}
 }

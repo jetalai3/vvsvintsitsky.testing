@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.jpa.criteria.OrderImpl;
+
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Question_;
+import vvsvintsitsky.testing.datamodel.Subject_;
 
 public class QuestionFilter extends AbstractFilter<Question> {
 	private Long id;
@@ -33,20 +37,20 @@ public class QuestionFilter extends AbstractFilter<Question> {
 		this.text = text;
 	}
 
-	public boolean isFetchAnswers() {
-		return isFetchAnswers;
-	}
-
-	public void setFetchAnswers(boolean isFetchAnswers) {
-		this.isFetchAnswers = isFetchAnswers;
+	public boolean isFetchSubject() {
+		return isFetchSubject;
 	}
 
 	public void setFetchSubject(boolean isFetchSubject) {
 		this.isFetchSubject = isFetchSubject;
 	}
 
-	public boolean isFetchSubject() {
-		return isFetchSubject;
+	public boolean isFetchAnswers() {
+		return isFetchAnswers;
+	}
+
+	public void setFetchAnswers(boolean isFetchAnswers) {
+		this.isFetchAnswers = isFetchAnswers;
 	}
 
 	@Override
@@ -78,6 +82,22 @@ public class QuestionFilter extends AbstractFilter<Question> {
 		}
 		if (isFetchAnswers) {
 			from.fetch(Question_.answers, JoinType.LEFT);
+		}
+	}
+
+	@Override
+	public void setSorting(CriteriaQuery<Question> query, Root<Question> from) {
+		if (getSortProperty() == Question_.id) {
+			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == Question_.text) {
+			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
+			return;
+		}
+		if (getSortProperty() == Subject_.name) {
+			query.orderBy(new OrderImpl(from.get(Question_.subject).get(getSortProperty()), isSortOrder()));
+			return;
 		}
 	}
 

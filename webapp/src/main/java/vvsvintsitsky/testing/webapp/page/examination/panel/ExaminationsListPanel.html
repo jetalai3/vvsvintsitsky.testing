@@ -1,31 +1,34 @@
 <wicket:panel>
-	<table class="list-table">
-		<thead>
-			<tr>
-				<th><a wicket:id="sort-id">id</a></th>
-				<th><a wicket:id="sort-name">examination name</a></th>
-				<th><a wicket:id="sort-begin-date">begin date</a></th>
-				<th><a wicket:id="sort-end-date">end date</a></th>
-				<th><a wicket:id="sort-subject">subject</a></th>
-				<th><a wicket:id="sort-account-id">account id</a></th>
-				
-				
-				<th>actions</th>
-			</tr>
-		
-		</thead>
-		<tbody>
-			<tr wicket:id="rows">
-				<td><span wicket:id="id"/></td>
-				<td><span wicket:id="name"/></td>
-				<td><span wicket:id="begin-date"/></td>
-				<td><span wicket:id="end-date"/></td>
-				<td><span wicket:id="subject"/></td>
-				<td><span wicket:id="account-id"/></td>
-				<td><a wicket:id="delete-link">delete</a>/<a wicket:id="edit-link">edit</a>/<a wicket:id="complete-link">complete</a></td>
-			</tr>
-		</tbody>
-	</table>
-	<div wicket:id="paging"></div>
+	<div wicket:id="rowsContainer">
+		<table class="list-table">
+			<thead>
+				<tr>
+					<th><a wicket:id="sort-id"><wicket:message key="examination.id" /></a></th>
+					<th><a wicket:id="sort-name"><wicket:message key="examination.name" /></a></th>
+					<th><a wicket:id="sort-beginDate"><wicket:message key="examination.beginDate" /></a></th>
+					<th><a wicket:id="sort-endDate"><wicket:message key="examination.endDate" /></a></th>
+					<th><a wicket:id="sort-subject"><wicket:message key="examination.subject" /></a></th>
+					<th><a wicket:id="sort-accountProfileId"><wicket:message key="examination.accountProfileId" /></a></th>
 
+
+					<th><wicket:message key="examination.actions" /></th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr wicket:id="rows">
+					<td><span wicket:id="id" /></td>
+					<td><span wicket:id="name" /></td>
+					<td><span wicket:id="beginDate" /></td>
+					<td><span wicket:id="endDate" /></td>
+					<td><span wicket:id="subject" /></td>
+					<td><span wicket:id="accountId" /></td>
+					<td><wicket:enclosure>
+							<a wicket:id="delete-link"><wicket:message key="examination.delete" /></a>/</wicket:enclosure> <wicket:enclosure>
+							<a wicket:id="edit-link"><wicket:message key="examination.edit" /></a>/</wicket:enclosure> <a wicket:id="complete-link"><wicket:message key="examination.complete" /></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div wicket:id="paging"></div>
+	</div>
 </wicket:panel>

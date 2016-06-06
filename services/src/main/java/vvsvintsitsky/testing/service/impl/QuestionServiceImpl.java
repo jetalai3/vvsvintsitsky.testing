@@ -64,4 +64,9 @@ public class QuestionServiceImpl implements QuestionService {
 	public long count(QuestionFilter questionFilter) {
 		return questionDao.count(questionFilter);
 	}
+
+	@Override
+	public Question getQuestionWithAnswers(Long id) {
+		return questionDao.getQuestionWithAnswers(id);
+	}
 }

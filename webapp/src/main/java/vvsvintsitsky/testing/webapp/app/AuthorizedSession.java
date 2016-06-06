@@ -37,6 +37,7 @@ public class AuthorizedSession extends AuthenticatedWebSession {
         AccountProfileFilter filter = new AccountProfileFilter();
         filter.setEmail(email);
         filter.setPassword(password);
+        filter.setFetchAccount(true);
         if(accountService.find(filter).isEmpty() ){
         	return false;
         }
