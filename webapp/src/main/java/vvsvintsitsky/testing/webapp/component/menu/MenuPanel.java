@@ -53,7 +53,7 @@ public class MenuPanel extends Panel {
                 setResponsePage(new QuestionsPage());
             }
             
-        });
+        }.setVisible(isSignedIn));
         
         add(new Link("link-subjects") {
             @Override

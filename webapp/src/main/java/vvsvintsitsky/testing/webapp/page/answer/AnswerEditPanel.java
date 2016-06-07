@@ -66,8 +66,8 @@ public class AnswerEditPanel extends Panel {
     		add(form);
 
     		form.add(new TextField<>("text"));
-    		CheckBox activeField = new CheckBox("correct");
-            form.add(activeField);
+    		CheckBox correctField = new CheckBox("correct");
+            form.add(correctField);
     		form.add(new AjaxSubmitLink("save") {
 
     			private static final long serialVersionUID = -5210362644590530669L;

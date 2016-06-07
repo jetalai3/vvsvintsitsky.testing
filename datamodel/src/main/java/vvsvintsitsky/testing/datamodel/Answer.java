@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Answer extends AbstractModel {
@@ -22,6 +23,9 @@ public class Answer extends AbstractModel {
 	@Column
 	private Boolean correct;
 
+	@Transient
+	private Boolean answered = new Boolean(false);
+	
 	@JoinTable(name = "mistakes", joinColumns = { @JoinColumn(name = "answer_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "result_id") })
 	@ManyToMany(targetEntity = Answer.class, fetch = FetchType.LAZY)
@@ -57,6 +61,16 @@ public class Answer extends AbstractModel {
 
 	public void setCorrect(Boolean correct) {
 		this.correct = correct;
+	}
+
+	@Transient
+	public Boolean getAnswered() {
+		return answered;
+	}
+
+	@Transient
+	public void setAnswered(Boolean answered) {
+		this.answered = answered;
 	}
 
 }

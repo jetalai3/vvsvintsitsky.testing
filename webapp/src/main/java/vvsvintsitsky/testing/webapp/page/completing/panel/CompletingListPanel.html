@@ -6,11 +6,16 @@
 				<tr wicket:id="rows">
 					<td><span wicket:id="id" /></td>
 					<td><span wicket:id="answer-text" /></td>
-					<td><input type="checkbox" wicket:id="select-answer" /></td>
+					<td><form wicket:id="form">
+							<input type="checkbox" wicket:id="answered" />
+						</form></td>
 				</tr>
 			</tbody>
 		</table>
 		<button wicket:id="previous-question">previous question</button>
 		<button wicket:id="next-question">next question</button>
+		<wicket:enclosure>
+			<button wicket:id="finish-examination">finish examination</button>
+		</wicket:enclosure>
 	</div>
 </wicket:panel>

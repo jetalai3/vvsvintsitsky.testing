@@ -64,46 +64,46 @@ public class ExaminationEditPage extends AbstractPage {
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
-		
+
 		Form<Examination> form = new Form<Examination>("form", new CompoundPropertyModel<>(examination));
-        add(form);
+		add(form);
 
-        
-        form.add(new TextField<>("name"));
-        DateTextField beginDateField = new DateTextField("beginDate");
-        beginDateField.add(new DatePicker());
-        beginDateField.setRequired(true);
-        form.add(beginDateField);
-        DateTextField endDateField = new DateTextField("endDate");
-        endDateField.add(new DatePicker());
-        endDateField.setRequired(true);
-        form.add(endDateField);
-        List<Subject> allSubjects = subjectService.find(new SubjectFilter());
-        DropDownChoice<Subject> dropDownChoice = new DropDownChoice<>("subject", allSubjects, SubjectChoiceRenderer.INSTANCE);
-        dropDownChoice.setRequired(true);
-        form.add(dropDownChoice);
-        dropDownChoice.add(new AjaxEventBehavior("change") {
-            @Override
-            protected void onEvent(AjaxRequestTarget target) {
-                send(getPage(), Broadcast.BREADTH, new SubjectChangeEvent());
-            }
-        });
+		form.add(new TextField<>("name"));
+		DateTextField beginDateField = new DateTextField("beginDate");
+		beginDateField.add(new DatePicker());
+		beginDateField.setRequired(true);
+		form.add(beginDateField);
+		DateTextField endDateField = new DateTextField("endDate");
+		endDateField.add(new DatePicker());
+		endDateField.setRequired(true);
+		form.add(endDateField);
+		List<Subject> allSubjects = subjectService.find(new SubjectFilter());
+		DropDownChoice<Subject> dropDownChoice = new DropDownChoice<>("subject", allSubjects,
+				SubjectChoiceRenderer.INSTANCE);
+		dropDownChoice.setRequired(true);
+		form.add(dropDownChoice);
+		dropDownChoice.add(new AjaxEventBehavior("change") {
+			@Override
+			protected void onEvent(AjaxRequestTarget target) {
+				send(getPage(), Broadcast.BREADTH, new SubjectChangeEvent());
+			}
+		});
 
-        List<Question> allQuestions = questionService.find(new QuestionFilter());
-        final Palette<Question> palette = new Palette<Question>("questions", Model.ofList(examination.getQuestions()), new CollectionModel<Question>(
-                allQuestions), QuestionChoiceRenderer.INSTANCE, 15, false, true);
-        palette.add(new DefaultTheme());
-        form.add(palette);
+		List<Question> allQuestions = questionService.find(new QuestionFilter());
+		final Palette<Question> palette = new Palette<Question>("questions", Model.ofList(examination.getQuestions()),
+				new CollectionModel<Question>(allQuestions), QuestionChoiceRenderer.INSTANCE, 15, false, true);
+		palette.add(new DefaultTheme());
+		form.add(palette);
 
-        form.add(new SubmitLink("save") {
-            @Override
-            public void onSubmit() {
-                super.onSubmit();
-                examination.setAccountProfile(AuthorizedSession.get().getLoggedUser());
-                examinationService.saveOrUpdate(examination);
-                setResponsePage(new ExaminationsPage());
-            }
-        });
+		form.add(new SubmitLink("save") {
+			@Override
+			public void onSubmit() {
+				super.onSubmit();
+				examination.setAccountProfile(AuthorizedSession.get().getLoggedUser());
+				examinationService.saveOrUpdate(examination);
+				setResponsePage(new ExaminationsPage());
+			}
+		});
 	}
 
 	@AuthorizeAction(roles = { "ADMIN" }, action = Action.ENABLE)
