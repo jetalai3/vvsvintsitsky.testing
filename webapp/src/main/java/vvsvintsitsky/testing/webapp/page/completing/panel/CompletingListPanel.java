@@ -32,8 +32,11 @@ import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
 import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.datamodel.Question;
+import vvsvintsitsky.testing.datamodel.Result;
 import vvsvintsitsky.testing.service.ExaminationService;
 import vvsvintsitsky.testing.service.QuestionService;
+import vvsvintsitsky.testing.service.ResultService;
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.AnswerChoiceRenderer;
 import vvsvintsitsky.testing.webapp.common.QuestionChoiceRenderer;
 
@@ -42,12 +45,19 @@ public class CompletingListPanel extends Panel {
 	@Inject
 	private QuestionService questionService;
 
+	@Inject
+	private ResultService resultService;
+	
 	private Question question;
 
 	private Examination examination;
 
 	private List<Question> questions;
 
+	private Result result;
+	
+	private List<Answer> mistakes;
+	
 	private QuestionFilter questionFilter;
 
 	private Integer length;
@@ -57,8 +67,19 @@ public class CompletingListPanel extends Panel {
 	public CompletingListPanel(String id, Examination examination) {
 		super(id);
 		this.examination = examination;
-
+		result = new Result();
+		result.setAccountProfile(AuthorizedSession.get().getLoggedUser());
+		result.setExamination(examination);
+		mistakes = new ArrayList<Answer>();
 		this.questions = examination.getQuestions();
+		questionFilter = new QuestionFilter();
+		questionFilter.setFetchAnswers(true);
+		
+		for(Question question : examination.getQuestions()){
+//			question = questionService.getQuestionWithAnswers(question.getId());
+			questionFilter.setId(question.getId());
+			question = questionService.find(questionFilter).get(0);
+		}
 
 	}
 
@@ -76,9 +97,9 @@ public class CompletingListPanel extends Panel {
 			question = sListiterator.next();
 		}
 
-		questionFilter = new QuestionFilter();
-		questionFilter.setFetchAnswers(true);
-		questionFilter.setId(question.getId());
+//		questionFilter = new QuestionFilter();
+//		questionFilter.setFetchAnswers(true);
+//		questionFilter.setId(question.getId());
 
 		question = questionService.find(questionFilter).get(0);
 
@@ -112,18 +133,28 @@ public class CompletingListPanel extends Panel {
 			public void onClick(AjaxRequestTarget target) {
 				if (sListiterator.hasNext()) {
 					question = sListiterator.next();
-					questionFilter.setId(question.getId());
-					question = questionService.find(questionFilter).get(0);
+					System.out.println("1");
+//					questionFilter.setId(question.getId());
+//					question = questionService.find(questionFilter).get(0);
 
 					Iterator<Item<Answer>> it = dataView.getItems();
+					System.out.println("2");
+
 					Answer a;
 					while(it.hasNext()){
 						a = it.next().getModelObject();
-						System.out.println(a.getText()+" "+a.getAnswered());
+						if(a.getCorrect() != a.getAnswered() && a.getAnswered() == true){
+							mistakes.add(a);
+						}
+						//System.out.println(a.getText()+ " correct:" + a.getCorrect() + " answered:"+a.getAnswered());
 					}
-					
+					System.out.println("3");
+
 					answers.clear();
+					System.out.println("4");
+
 					answers.addAll(question.getAnswers());
+					System.out.println("5");
 
 					questionModel.setObject(question.getText());
 
@@ -140,9 +171,17 @@ public class CompletingListPanel extends Panel {
 			public void onClick(AjaxRequestTarget target) {
 				if (sListiterator.hasPrevious()) {
 					question = sListiterator.previous();
-					questionFilter.setId(question.getId());
-					question = questionService.find(questionFilter).get(0);
+//					questionFilter.setId(question.getId());
+//					question = questionService.find(questionFilter).get(0);
 
+					Iterator<Item<Answer>> it = dataView.getItems();
+					Answer a;
+					while(it.hasNext()){
+						a = it.next().getModelObject();
+							
+							mistakes.remove(a);
+					}
+					
 					answers.clear();
 					answers.addAll(question.getAnswers());
 
@@ -160,7 +199,20 @@ public class CompletingListPanel extends Panel {
 			public void onClick(AjaxRequestTarget target) {
 				
 				target.add(rowsContainer);
-
+				
+				Iterator<Item<Answer>> it = dataView.getItems();
+				Answer a;
+				while(it.hasNext()){
+					a = it.next().getModelObject();
+					if(a.getCorrect() != a.getAnswered() && a.getAnswered() == true){
+						mistakes.add(a);
+					}
+					//System.out.println(a.getText()+ " correct:" + a.getCorrect() + " answered:"+a.getAnswered());
+				}
+				
+				result.setAnswers(mistakes);
+				
+				//resultService.insert(result);
 			}
 		});
 		rowsContainer.add(dataView);

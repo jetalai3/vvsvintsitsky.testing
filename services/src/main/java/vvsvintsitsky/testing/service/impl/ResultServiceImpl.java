@@ -17,7 +17,7 @@ public class ResultServiceImpl implements ResultService {
 	private ResultDao resultDao;
 	
 	@Override
-	public void register(Result result) {
+	public void insert(Result result) {
 		resultDao.insert(result);
 	}
 

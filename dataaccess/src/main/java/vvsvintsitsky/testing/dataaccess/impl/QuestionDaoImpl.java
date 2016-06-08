@@ -42,7 +42,7 @@ public class QuestionDaoImpl extends AbstractDaoImpl<Question, Long> implements 
 
 		List<Question> list = q.getResultList();
 		for(Question qq : list){
-			System.out.println(qq.getText());
+			//System.out.println(qq.getText());
 		}
  		if (list.isEmpty()) {
 			return null;

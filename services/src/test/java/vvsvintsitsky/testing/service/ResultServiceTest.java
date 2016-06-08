@@ -45,6 +45,6 @@ public class ResultServiceTest {
 		
 		result.setAnswers(answers);
 		
-		resultService.register(result);
+		resultService.insert(result);
 	}
 }

@@ -69,4 +69,13 @@ public class ExaminationServiceTest {
 		//System.out.println(examination.getQuestions().get(0).getAnswers().get(0));
 		
 	}
+	
+	@Test
+	public void getExaminationWithQuestionsAndAnswers(){
+		Examination examination = new Examination();
+		examination = examinationService.getExaminationWithQuestionsAndAnswers(12L);
+		for(Question question : examination.getQuestions()){
+			System.out.println(question.getText());
+		}
+	}
 }

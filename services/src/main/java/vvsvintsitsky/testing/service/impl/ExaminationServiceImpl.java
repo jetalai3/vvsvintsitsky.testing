@@ -62,4 +62,10 @@ public class ExaminationServiceImpl implements ExaminationService {
 	public long count(ExaminationFilter examinationFilter) {
 		return examinationDao.count(examinationFilter);
 	}
+
+	@Override
+	public Examination getExaminationWithQuestionsAndAnswers(Long id) {
+		
+		return examinationDao.getExaminationWithQuestionsAndAnswers(id);
+	}
 }

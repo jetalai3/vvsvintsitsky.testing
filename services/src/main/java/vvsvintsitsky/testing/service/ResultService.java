@@ -9,7 +9,7 @@ import vvsvintsitsky.testing.datamodel.Result;
 public interface ResultService {
 
 	@Transactional
-    void register(Result result);
+    void insert(Result result);
 
 	Result getResult(Long id);
 

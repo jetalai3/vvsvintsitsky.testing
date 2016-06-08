@@ -29,4 +29,5 @@ public interface ExaminationService {
 
 	long count(ExaminationFilter examinationFilter);
     
+	 Examination getExaminationWithQuestionsAndAnswers(Long id);
 }
