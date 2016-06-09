@@ -1,5 +1,7 @@
 package vvsvintsitsky.testing.dataaccess.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -15,5 +17,4 @@ public class ExaminationDaoImpl extends AbstractDaoImpl<Examination, Long> imple
 		super(Examination.class);
 	}
 
-	
 }

@@ -63,5 +63,4 @@ public class ExaminationServiceImpl implements ExaminationService {
 		return examinationDao.count(examinationFilter);
 	}
 
-
 }

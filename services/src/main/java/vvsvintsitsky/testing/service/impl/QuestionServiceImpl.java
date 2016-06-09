@@ -11,6 +11,7 @@ import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
 import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
 import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
+import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.service.QuestionService;
 
@@ -19,8 +20,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Inject
 	private QuestionDao questionDao;
-	
-	
+
 	@Override
 	public void createQuestion(Question question) {
 		questionDao.insert(question);
@@ -47,26 +47,26 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void saveOrUpdate(Question question){
+	public void saveOrUpdate(Question question) {
 		if (question.getId() != null) {
 			questionDao.update(question);
 		} else {
 			questionDao.insert(question);
 		}
 	}
-	
+
 	@Override
 	public List<Question> find(QuestionFilter filter) {
 		return questionDao.find(filter);
 	}
-	
+
 	@Override
 	public long count(QuestionFilter questionFilter) {
 		return questionDao.count(questionFilter);
 	}
 
 	@Override
-	public Question getQuestionWithAnswers(Long id) {
-		return questionDao.getQuestionWithAnswers(id);
+	public void getQuestionsWithAnswers(Examination examination) {
+		examination.setQuestions(questionDao.getQuestionsWithAnswers(examination.getId()));
 	}
 }

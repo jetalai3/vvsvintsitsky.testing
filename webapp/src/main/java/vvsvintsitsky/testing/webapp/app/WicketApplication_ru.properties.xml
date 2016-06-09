@@ -14,6 +14,7 @@
 	<entry key="menuPanel.logout">Выход</entry>
 	<entry key="menuPanel.login">Вход</entry>
 	<entry key="menuPanel.personal">Личный кабинет</entry>
+	<entry key="menuPanel.result">Результаты</entry>
 	
 	<entry key="examination.id">Идентификатор</entry>
 	<entry key="examination.name">Название</entry>

@@ -8,6 +8,7 @@ import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
 import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.Answer;
+import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.datamodel.Question;
 
 public interface QuestionService {
@@ -30,7 +31,8 @@ public interface QuestionService {
 	
 	List<Question> find(QuestionFilter filter);
 	
-	Question getQuestionWithAnswers(Long id);
-	
 	long count(QuestionFilter questionFilter);
+
+	void getQuestionsWithAnswers(Examination examination);
+
 }

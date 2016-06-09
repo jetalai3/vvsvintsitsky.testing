@@ -12,6 +12,7 @@ import vvsvintsitsky.testing.webapp.page.examination.ExaminationsPage;
 import vvsvintsitsky.testing.webapp.page.home.HomePage;
 import vvsvintsitsky.testing.webapp.page.login.LoginPage;
 import vvsvintsitsky.testing.webapp.page.question.QuestionsPage;
+import vvsvintsitsky.testing.webapp.page.result.ResultsPage;
 import vvsvintsitsky.testing.webapp.page.subject.SubjectsPage;
 
 public class MenuPanel extends Panel {
@@ -70,6 +71,13 @@ public class MenuPanel extends Panel {
             }
             
         }.setVisible(isSignedIn));
+        
+        add(new Link("link-result") {
+            @Override
+            public void onClick() {
+                setResponsePage(new ResultsPage());
+            }
+        });
         
         add(new Link<Void>("link-personal") {
 

@@ -13,6 +13,7 @@
 	<entry key="menuPanel.logout">Logout</entry>
 	<entry key="menuPanel.login">Login</entry>
 	<entry key="menuPanel.personal">Personal</entry>
+	<entry key="menuPanel.result">Result</entry>
 	
 	<entry key="examination.id">Id</entry>
 	<entry key="examination.name">Name</entry>

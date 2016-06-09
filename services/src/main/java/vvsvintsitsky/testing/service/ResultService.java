@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import vvsvintsitsky.testing.dataaccess.filters.ResultFilter;
 import vvsvintsitsky.testing.datamodel.Result;
 
 public interface ResultService {
@@ -20,4 +21,13 @@ public interface ResultService {
     void delete(Long id);
 
     List<Result> getAll();
+
+	List<Result> find(ResultFilter filter);
+
+	long count(ResultFilter filter);
+
+	@Transactional
+	void saveOrUpdate(Result result);
+
+	Result getResultWithAnswersAndQuestions(Long id);
 }

@@ -1,0 +1,28 @@
+<wicket:panel>
+	<div wicket:id="rowsContainer">
+		<table class="list-table">
+			<thead>
+				<tr>
+					<th><a wicket:id="sort-id">id</a></th>
+					<th><a wicket:id="sort-examination">examination</a></th>
+					<th><a wicket:id="sort-account">account</a></th>
+					<th><a wicket:id="sort-points">points</a></th>
+
+					<th>actions</th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr wicket:id="rows">
+					<td><span wicket:id="result-id" /></td>
+					<td><span wicket:id="examination-name" /></td>
+					<td><span wicket:id="account" /></td>
+					<td><span wicket:id="points" /></td>
+					<td><a wicket:id="delete-link">delete</a>/<a
+						wicket:id="view-link">view</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div wicket:id="paging"></div>
+	</div>
+</wicket:panel>

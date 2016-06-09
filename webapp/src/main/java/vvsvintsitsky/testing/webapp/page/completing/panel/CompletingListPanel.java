@@ -28,6 +28,8 @@ import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Result;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.ResultService;
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
+import vvsvintsitsky.testing.webapp.common.iterator.CustomIterator;
 
 @SuppressWarnings("serial")
 public class CompletingListPanel extends Panel {
@@ -47,9 +49,7 @@ public class CompletingListPanel extends Panel {
 	public CompletingListPanel(String id, Examination examination) {
 		super(id);
 		this.examination = examination;
-		for (Question question : examination.getQuestions()) {
-			question.setAnswers(questionService.getQuestionWithAnswers(question.getId()).getAnswers());
-		}
+		questionService.getQuestionsWithAnswers(this.examination);
 		this.questions = examination.getQuestions();
 
 	}
@@ -63,7 +63,7 @@ public class CompletingListPanel extends Panel {
 		rowsContainer.setOutputMarkupId(true);
 		add(rowsContainer);
 
-		SListIterator sListiterator = new SListIterator(questions);
+		CustomIterator<Question> sListiterator = new CustomIterator<Question>(questions);
 
 		if (sListiterator.hasNext()) {
 			question = sListiterator.next();
@@ -110,6 +110,8 @@ public class CompletingListPanel extends Panel {
 				}
 				Result result = new Result();
 				result.setAnswers(mistakes);
+				result.setAccountProfile(AuthorizedSession.get().getLoggedUser());
+				result.setExamination(examination);
 				total = (total - mistakes.size()) * 100 / total;
 				result.setPoints(total);
 				resultService.insert(result);
@@ -168,37 +170,6 @@ public class CompletingListPanel extends Panel {
 
 	}
 
-	private class SListIterator implements Serializable {
-
-		private static final long serialVersionUID = 1L;
-		private List<Question> list;
-		private int cursor;
-
-		public SListIterator(List<Question> list) {
-			this.list = list;
-			cursor = -1;
-		}
-
-		public boolean hasPrevious() {
-			return cursor > 0;
-		}
-
-		public boolean hasNext() {
-			return cursor < list.size() - 1;
-		}
-
-		public Question previous() {
-			if (!hasPrevious())
-				throw new NoSuchElementException();
-			return list.get(--cursor);
-		}
-
-		public Question next() {
-			if (!hasNext())
-				throw new NoSuchElementException();
-			return list.get(++cursor);
-		}
-	}
 
 	@AuthorizeAction(roles = { "ADMIN" }, action = Action.ENABLE)
 	private class QuestionForm<T> extends Form<T> {

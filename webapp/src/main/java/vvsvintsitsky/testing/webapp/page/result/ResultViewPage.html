@@ -1,0 +1,27 @@
+<wicket:extend xmlns:wicket="http://wicket.apache.org">
+	<h2>Question edit</h2>
+
+	<form wicket:id="form">
+		<table>
+			<tr>
+				<td><b>Question text:</b></td>
+				<td><input type="text" wicket:id="text" /></td>
+			</tr>
+			<tr>
+				<td><b>Subject:</b></td>
+				<td><select wicket:id="subject" /></td>
+			</tr>
+			<tr>
+				<td><button type="submit" wicket:id="save">SAVE</button></td>
+				<td></td>
+			</tr>
+		</table>
+
+	</form>
+	<div wicket:id="rowsContainer">
+		<div wicket:id="answers-panel"></div>
+		<button wicket:id="new-answer">new answer</button>
+		<div wicket:id="modal"></div>
+	</div>
+	<div wicket:id="feedback"></div>
+</wicket:extend>

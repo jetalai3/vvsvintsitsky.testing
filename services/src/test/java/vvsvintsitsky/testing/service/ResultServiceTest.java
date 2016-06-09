@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import vvsvintsitsky.testing.datamodel.Answer;
+import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Result;
 import vvsvintsitsky.testing.service.AccountService;
 import vvsvintsitsky.testing.service.AnswerService;
@@ -46,5 +47,14 @@ public class ResultServiceTest {
 		result.setAnswers(answers);
 		
 		resultService.insert(result);
+	}
+	
+	@Test
+	public void testResultWithAnswersAndQuestions(){
+		Result result = resultService.getResultWithAnswersAndQuestions(3L);
+		for(Answer answer : result.getAnswers()){
+			System.out.println(answer.getText());
+			System.out.println(answer.getQuestion().getText());
+		}
 	}
 }

@@ -7,6 +7,9 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import vvsvintsitsky.testing.dataaccess.ResultDao;
+import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
+import vvsvintsitsky.testing.dataaccess.filters.ResultFilter;
+import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Result;
 import vvsvintsitsky.testing.service.ResultService;
 
@@ -40,5 +43,29 @@ public class ResultServiceImpl implements ResultService {
 	public List<Result> getAll() {
 		return resultDao.getAll();
 	}
+	
+	@Override
+	public void saveOrUpdate(Result result){
+		if (result.getId() != null) {
+			resultDao.update(result);
+		} else {
+			resultDao.insert(result);
+		}
+	}
+	
+	@Override
+	public List<Result> find(ResultFilter filter) {
+		return resultDao.find(filter);
+	}
+	
+	@Override
+	public long count(ResultFilter filter) {
+		return resultDao.count(filter);
+	}
 
+	@Override
+	public Result getResultWithAnswersAndQuestions(Long id){
+		return resultDao.getResultWithAnswersAndQuestions(id);
+	}
+	
 }
