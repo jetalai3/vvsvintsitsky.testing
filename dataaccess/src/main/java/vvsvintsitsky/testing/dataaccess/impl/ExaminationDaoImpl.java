@@ -15,14 +15,5 @@ public class ExaminationDaoImpl extends AbstractDaoImpl<Examination, Long> imple
 		super(Examination.class);
 	}
 
-	@Override
-	public Examination getExaminationWithQuestionsAndAnswers(Long id) {
-		EntityManager em = getEntityManager();
-		Query query = em.createNamedQuery("examinationWithQuestionsAndAnswers");
-		query.setParameter("exId", id);
-		Examination ex = (Examination) query.getResultList().get(0);
-		
-		
-		return ex;
-	}
+	
 }

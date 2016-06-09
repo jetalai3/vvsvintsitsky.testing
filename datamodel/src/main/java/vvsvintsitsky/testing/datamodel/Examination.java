@@ -16,9 +16,6 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
-@NamedQuery(name = "examinationWithQuestionsAndAnswers",
-query = "SELECT DISTINCT e, q, a FROM Examination e LEFT JOIN e.questions q LEFT JOIN q.answers a WHERE e.id = :exId")
-
 public class Examination extends AbstractModel {
 
 	@ManyToOne(targetEntity = AccountProfile.class, fetch = FetchType.LAZY)

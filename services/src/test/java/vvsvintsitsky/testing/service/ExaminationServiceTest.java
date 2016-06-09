@@ -59,23 +59,14 @@ public class ExaminationServiceTest {
 	public void getQuestionsWithAnswers() {
 		Examination examination = new Examination();
 		ExaminationFilter examinationFilter = new ExaminationFilter();
-		
+
 		examinationFilter.setIsFetchQuestions(true);
 		List<Examination> result = examinationService.find(examinationFilter);
-		
-		
-		//examinationFilter.setIsFetchQuestions(true);
-		//System.out.println(examination.getQuestions().get(0).getText());
-		//System.out.println(examination.getQuestions().get(0).getAnswers().get(0));
-		
+
+		// examinationFilter.setIsFetchQuestions(true);
+		// System.out.println(examination.getQuestions().get(0).getText());
+		// System.out.println(examination.getQuestions().get(0).getAnswers().get(0));
+
 	}
-	
-	@Test
-	public void getExaminationWithQuestionsAndAnswers(){
-		Examination examination = new Examination();
-		examination = examinationService.getExaminationWithQuestionsAndAnswers(12L);
-		for(Question question : examination.getQuestions()){
-			System.out.println(question.getText());
-		}
-	}
+
 }

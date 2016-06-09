@@ -10,24 +10,23 @@ import vvsvintsitsky.testing.datamodel.Examination;
 public interface ExaminationService {
 
 	@Transactional
-    void createExamination(Examination examination);
+	void createExamination(Examination examination);
 
 	Examination getExamination(Long id);
 
-    @Transactional
-    void update(Examination examination);
+	@Transactional
+	void update(Examination examination);
 
-    @Transactional
-    void delete(Long id);
+	@Transactional
+	void delete(Long id);
 
-    List<Examination> getAll();
-    
-    List<Examination> find(ExaminationFilter examinationFilter);
+	List<Examination> getAll();
 
-    @Transactional
+	List<Examination> find(ExaminationFilter examinationFilter);
+
+	@Transactional
 	void saveOrUpdate(Examination examination);
 
 	long count(ExaminationFilter examinationFilter);
-    
-	 Examination getExaminationWithQuestionsAndAnswers(Long id);
+
 }
