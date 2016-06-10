@@ -24,7 +24,7 @@ public class ResultDaoImpl extends AbstractDaoImpl<Result, Long> implements Resu
 		EntityManager em = getEntityManager();
 //		Query query = em.createQuery("Select distinct q from Question q left join fetch q.answers a");
 		
-		Query qq = em.createQuery("select distinct r from Result r left join fetch r.answers a left join fetch a.question q where r.id = :res");
+		Query qq = em.createQuery("select distinct r from Result r left join fetch r.answers a left join fetch a.question q where r.id = :res order by q.id");
 		qq.setParameter("res", id);
 		
 		List<Result> result = (List<Result>) qq.getResultList();

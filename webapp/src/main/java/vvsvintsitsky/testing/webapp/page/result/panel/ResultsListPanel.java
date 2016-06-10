@@ -36,6 +36,7 @@ import vvsvintsitsky.testing.datamodel.UserRole;
 import vvsvintsitsky.testing.service.ResultService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.page.question.QuestionsPage;
+import vvsvintsitsky.testing.webapp.page.result.ResultViewPage;
 
 public class ResultsListPanel extends Panel {
 
@@ -75,7 +76,7 @@ public class ResultsListPanel extends Panel {
 				item.add(new Link<Void>("view-link") {
 					@Override
 					public void onClick() {
-//						setResponsePage(new ResultViewPage(result));
+						setResponsePage(new ResultViewPage(result));
 					}
 				});
 
