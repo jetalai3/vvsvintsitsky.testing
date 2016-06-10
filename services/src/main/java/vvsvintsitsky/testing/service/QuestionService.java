@@ -34,5 +34,7 @@ public interface QuestionService {
 	long count(QuestionFilter questionFilter);
 
 	void getQuestionsWithAnswers(Examination examination);
+	
+	Question getQuestionWithAnswers(Long id);
 
 }

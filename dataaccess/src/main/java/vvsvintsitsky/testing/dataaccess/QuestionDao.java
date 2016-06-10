@@ -8,6 +8,8 @@ public interface QuestionDao extends AbstractDao<Question, Long> {
 
 	List<Question> getQuestionsWithAnswers(Long id);
 
+	Question getQuestionWithAnswers(Long id);
+
 	
 	
 }

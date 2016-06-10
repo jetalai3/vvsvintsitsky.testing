@@ -30,6 +30,8 @@ import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.ResultService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.iterator.CustomIterator;
+import vvsvintsitsky.testing.webapp.page.home.HomePage;
+import vvsvintsitsky.testing.webapp.page.result.ResultsPage;
 
 @SuppressWarnings("serial")
 public class CompletingListPanel extends Panel {
@@ -103,7 +105,8 @@ public class CompletingListPanel extends Panel {
 				for(Question question : examination.getQuestions()){
 					for(Answer answer : question.getAnswers()){
 						total++;
-						if(answer.getCorrect() != answer.getAnswered()){
+						if(answer.getCorrect().compareTo(answer.getAnswered()) != 0){
+							System.out.println("correct: " + answer.getCorrect() + " answered: " +answer.getAnswered());
 							mistakes.add(answer);
 						}
 					}
@@ -115,6 +118,7 @@ public class CompletingListPanel extends Panel {
 				total = (total - mistakes.size()) * 100 / total;
 				result.setPoints(total);
 				resultService.insert(result);
+				setResponsePage(new HomePage());
 			}
 		};
 		finishLink.setVisible(false);

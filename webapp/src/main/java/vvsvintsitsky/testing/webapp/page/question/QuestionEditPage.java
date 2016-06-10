@@ -1,5 +1,6 @@
 package vvsvintsitsky.testing.webapp.page.question;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ import org.apache.wicket.validation.validator.RangeValidator;
 
 import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
+import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Subject;
 import vvsvintsitsky.testing.datamodel.UserRole;
@@ -95,7 +97,10 @@ public class QuestionEditPage extends AbstractPage {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-				modalWindow.setContent(new AnswerEditPanel(modalWindow, question));
+				if(question.getAnswers() == null){
+					question.setAnswers(new ArrayList<Answer>());
+				}
+				modalWindow.setContent(new AnswerEditPanel(modalWindow, question.getAnswers()));
 				modalWindow.show(target);
 
 			}

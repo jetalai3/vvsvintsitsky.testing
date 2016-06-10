@@ -1,7 +1,9 @@
 package vvsvintsitsky.testing.webapp.page.answer.panel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
@@ -23,6 +25,7 @@ import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
@@ -52,15 +55,29 @@ public class AnswersListPanel extends Panel {
 	@Inject
 	private AnswerService answerService;
 
+	@Inject
+	private QuestionService questionService;
+
 	private Question question;
 
 	public AnswersListPanel(String id, Question question) {
 		super(id);
-		this.question = question;
+		if (question.getId() != null) {
+			this.question = questionService.getQuestionWithAnswers(question.getId());
+		} else {
+			this.question = question;
+			this.question.setAnswers(new ArrayList<Answer>());
+		}
+
 		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
 		rowsContainer.setOutputMarkupId(true);
-		AnswersDataProvider answersDataProvider = new AnswersDataProvider();
-		DataView<Answer> dataView = new DataView<Answer>("rows", answersDataProvider, 5) {
+		
+		List<Answer> answers = new ArrayList<Answer>(this.question.getAnswers());
+		
+//		AnswersDataProvider answersDataProvider = new AnswersDataProvider();
+		
+		ListDataProvider<Answer> listDataProvider = new ListDataProvider<Answer>(answers);
+		DataView<Answer> dataView = new DataView<Answer>("rows", listDataProvider) {
 			@Override
 			protected void populateItem(Item<Answer> item) {
 				Answer answer = item.getModelObject();
@@ -104,6 +121,11 @@ public class AnswersListPanel extends Panel {
 
 					@Override
 					public void onClose(AjaxRequestTarget target) {
+						answers.clear();
+
+						answers.addAll(question.getAnswers());
+						
+						
 						target.add(rowsContainer);
 					}
 				});
@@ -112,55 +134,55 @@ public class AnswersListPanel extends Panel {
 		};
 
 		rowsContainer.add(dataView);
-		rowsContainer.add(new PagingNavigator("paging", dataView));
-		rowsContainer.add(new OrderByBorder("sort-id", Answer_.id, answersDataProvider));
-		rowsContainer.add(new OrderByBorder("sort-text", Answer_.text, answersDataProvider));
-		rowsContainer.add(new OrderByBorder("sort-correct", Answer_.correct, answersDataProvider));
+//		rowsContainer.add(new PagingNavigator("paging", dataView));
+//		rowsContainer.add(new OrderByBorder("sort-id", Answer_.id, answersDataProvider));
+//		rowsContainer.add(new OrderByBorder("sort-text", Answer_.text, answersDataProvider));
+//		rowsContainer.add(new OrderByBorder("sort-correct", Answer_.correct, answersDataProvider));
 
 		add(rowsContainer);
 
 	}
 
-	private class AnswersDataProvider extends SortableDataProvider<Answer, Serializable> {
-
-		private AnswerFilter answerFilter;
-
-		public AnswersDataProvider() {
-			super();
-			answerFilter = new AnswerFilter();
-			answerFilter.setFetchQuestion(true);
-			if (question.getId() == null) {
-				answerFilter.setQuestionId(0L);
-			}
-			if (question.getId() != null) {
-				answerFilter.setQuestionId(question.getId());
-			}
-			setSort((Serializable) Answer_.id, SortOrder.ASCENDING);
-		}
-
-		@Override
-		public Iterator<Answer> iterator(long first, long count) {
-			Serializable property = getSort().getProperty();
-			SortOrder propertySortOrder = getSortState().getPropertySortOrder(property);
-
-			answerFilter.setSortProperty((SingularAttribute) property);
-			answerFilter.setSortOrder(propertySortOrder.equals(SortOrder.ASCENDING) ? true : false);
-
-			answerFilter.setLimit((int) count);
-			answerFilter.setOffset((int) first);
-			return answerService.find(answerFilter).iterator();
-		}
-
-		@Override
-		public long size() {
-			return answerService.count(answerFilter);
-		}
-
-		@Override
-		public IModel<Answer> model(Answer object) {
-			return new Model(object);
-		}
-
-	}
+//	private class AnswersDataProvider extends SortableDataProvider<Answer, Serializable> {
+//
+//		private AnswerFilter answerFilter;
+//
+//		public AnswersDataProvider() {
+//			super();
+//			answerFilter = new AnswerFilter();
+//			answerFilter.setFetchQuestion(true);
+//			if (question.getId() == null) {
+//				answerFilter.setQuestionId(0L);
+//			}
+//			if (question.getId() != null) {
+//				answerFilter.setQuestionId(question.getId());
+//			}
+//			setSort((Serializable) Answer_.id, SortOrder.ASCENDING);
+//		}
+//
+//		@Override
+//		public Iterator<Answer> iterator(long first, long count) {
+//			Serializable property = getSort().getProperty();
+//			SortOrder propertySortOrder = getSortState().getPropertySortOrder(property);
+//
+//			answerFilter.setSortProperty((SingularAttribute) property);
+//			answerFilter.setSortOrder(propertySortOrder.equals(SortOrder.ASCENDING) ? true : false);
+//
+//			answerFilter.setLimit((int) count);
+//			answerFilter.setOffset((int) first);
+//			return answerService.find(answerFilter).iterator();
+//		}
+//
+//		@Override
+//		public long size() {
+//			return answerService.count(answerFilter);
+//		}
+//
+//		@Override
+//		public IModel<Answer> model(Answer object) {
+//			return new Model(object);
+//		}
+//
+//	}
 
 }

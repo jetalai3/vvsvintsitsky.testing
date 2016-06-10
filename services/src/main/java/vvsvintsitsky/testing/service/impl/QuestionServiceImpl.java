@@ -69,4 +69,10 @@ public class QuestionServiceImpl implements QuestionService {
 	public void getQuestionsWithAnswers(Examination examination) {
 		examination.setQuestions(questionDao.getQuestionsWithAnswers(examination.getId()));
 	}
+
+	@Override
+	public Question getQuestionWithAnswers(Long id) {
+		return questionDao.getQuestionWithAnswers(id);
+		
+	}
 }

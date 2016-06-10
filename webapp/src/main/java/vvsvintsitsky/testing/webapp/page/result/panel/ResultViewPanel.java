@@ -32,6 +32,7 @@ import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.ResultService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.iterator.CustomIterator;
+import vvsvintsitsky.testing.webapp.page.home.HomePage;
 
 @SuppressWarnings("serial")
 public class ResultViewPanel extends Panel {
@@ -85,11 +86,19 @@ public class ResultViewPanel extends Panel {
 
 		CustomIterator<Question> sListiterator = new CustomIterator<Question>(questions);
 
+		boolean linkVisible;
+		Model<String> questionModel;
 		if (sListiterator.hasNext()) {
 			question = sListiterator.next();
+			questionModel = Model.of(question.getText());
+			linkVisible = true;
+		} else {
+			questionModel = Model.of(getString("resultViewPanel.noMistakes"));
+			question = new Question();
+			question.setAnswers(new ArrayList<Answer>());
+			linkVisible = false;
 		}
 
-		Model<String> questionModel = Model.of(question.getText());
 		rowsContainer.add(new Label("question-text", questionModel));
 
 		List<Answer> answers = new ArrayList<Answer>(question.getAnswers());
@@ -125,6 +134,7 @@ public class ResultViewPanel extends Panel {
 
 			}
 		};
+		nextLink.setVisible(linkVisible);
 		rowsContainer.add(nextLink);
 
 		rowsContainer.add(new AjaxLink("previous-question") {
@@ -145,7 +155,7 @@ public class ResultViewPanel extends Panel {
 				target.add(rowsContainer);
 
 			}
-		});
+		}.setVisible(linkVisible));
 
 		rowsContainer.add(dataView);
 

@@ -26,6 +26,8 @@
 	<entry key="examination.edit">Edit</entry>
 	<entry key="examination.complete">Complete</entry>
 	
+	<entry key="resultViewPanel.noMistakes">No mistakes</entry>
+	
 	<entry key="examination.name.title">Enter examination name</entry>
 
 

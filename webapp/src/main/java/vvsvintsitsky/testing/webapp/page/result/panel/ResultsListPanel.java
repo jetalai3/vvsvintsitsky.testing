@@ -37,6 +37,7 @@ import vvsvintsitsky.testing.service.ResultService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.page.question.QuestionsPage;
 import vvsvintsitsky.testing.webapp.page.result.ResultViewPage;
+import vvsvintsitsky.testing.webapp.page.result.ResultsPage;
 
 public class ResultsListPanel extends Panel {
 
@@ -48,6 +49,7 @@ public class ResultsListPanel extends Panel {
 	public ResultsListPanel(String id) {
 		super(id);
 			if(AuthorizedSession.get().getLoggedUser().getAccount().getRole() == UserRole.USER){
+				resultFilter = new ResultFilter();
 				resultFilter.setAccountProfileId(AuthorizedSession.get().getLoggedUser().getId());
 			} else {
 				resultFilter = new ResultFilter();
@@ -89,7 +91,7 @@ public class ResultsListPanel extends Panel {
 							System.out.println("caughth persistance exception");
 						}
 
-						setResponsePage(new QuestionsPage());
+						setResponsePage(new ResultsPage());
 					}
 				});
 
@@ -176,7 +178,6 @@ public class ResultsListPanel extends Panel {
 
 		public ResultsDataProvider() {
 			super();
-			resultFilter = new ResultFilter();
 			resultFilter.setIsFetchAccountProfile(true);
 			resultFilter.setIsFetchExaminations(true);
 			

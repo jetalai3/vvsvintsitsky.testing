@@ -77,7 +77,7 @@ public class MenuPanel extends Panel {
             public void onClick() {
                 setResponsePage(new ResultsPage());
             }
-        });
+        }.setVisible(isSignedIn));
         
         add(new Link<Void>("link-personal") {
 

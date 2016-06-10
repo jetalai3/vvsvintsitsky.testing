@@ -1,6 +1,7 @@
 package vvsvintsitsky.testing.webapp.page.answer;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -38,59 +39,63 @@ import vvsvintsitsky.testing.webapp.page.AbstractPage;
 
 public class AnswerEditPanel extends Panel {
 
-    @Inject
-    private AnswerService answerService;
+	@Inject
+	private AnswerService answerService;
 
-    private Question question;
-    
-    private Answer answer;
+	private Question question;
 
-    private ModalWindow modalWindow;
-    
-    public AnswerEditPanel(ModalWindow modalWindow, Answer answer) {
-    		super(modalWindow.getContentId());
-    		this.answer = answer;
-    		this.modalWindow = modalWindow;
-    	}
-    public AnswerEditPanel(ModalWindow modalWindow,  Question question) {
+	private Answer answer;
+
+	private List<Answer> answers;
+
+	private ModalWindow modalWindow;
+
+	public AnswerEditPanel(ModalWindow modalWindow, Answer answer) {
 		super(modalWindow.getContentId());
-		this.question = question;
-		this.answer = new Answer();
+		this.answer = answer;
 		this.modalWindow = modalWindow;
 	}
 
-    	@Override
-    	protected void onInitialize() {
-    		super.onInitialize();
-    		Form<Answer> form = new Form<Answer>("form", new CompoundPropertyModel<>(answer));
-    		add(form);
+	public AnswerEditPanel(ModalWindow modalWindow, List<Answer> answers) {
+		super(modalWindow.getContentId());
+		this.answer = new Answer();
+		this.modalWindow = modalWindow;
+		this.answers = answers;
+	}
 
-    		form.add(new TextField<>("text"));
-    		CheckBox correctField = new CheckBox("correct");
-            form.add(correctField);
-    		form.add(new AjaxSubmitLink("save") {
+	@Override
+	protected void onInitialize() {
+		super.onInitialize();
+		Form<Answer> form = new Form<Answer>("form", new CompoundPropertyModel<>(answer));
+		add(form);
 
-    			private static final long serialVersionUID = -5210362644590530669L;
+		form.add(new TextField<>("text"));
+		CheckBox correctField = new CheckBox("correct");
+		form.add(correctField);
+		form.add(new AjaxSubmitLink("save") {
 
-    			@Override
-    			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-    				super.onSubmit(target, form);
-    				if(answer.getId() == null){
-    					answer.setQuestion(question);
-    				}
-    				answerService.saveOrUpdate(answer);
-    				modalWindow.close(target);
-    			}
-    		});
-    		
-    		form.add(new AjaxLink<Object>("cancel") {
+			private static final long serialVersionUID = -5210362644590530669L;
 
-    			private static final long serialVersionUID = 2020843267475126323L;
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				super.onSubmit(target, form);
+				if (answer.getId() == null) {
+					answers.add(answer);
+				} else {
+					answerService.saveOrUpdate(answer);
+				}
+				modalWindow.close(target);
+			}
+		});
 
-    			@Override
-    			public void onClick(AjaxRequestTarget target) {
-    				modalWindow.close(target);
-    			}
-    		});
-    	}
+		form.add(new AjaxLink<Object>("cancel") {
+
+			private static final long serialVersionUID = 2020843267475126323L;
+
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				modalWindow.close(target);
+			}
+		});
+	}
 }

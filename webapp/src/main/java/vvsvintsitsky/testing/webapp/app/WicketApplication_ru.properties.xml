@@ -27,6 +27,8 @@
 	<entry key="examination.edit">Редактировать</entry>
 	<entry key="examination.complete">Выполнить</entry>
 	
+	<entry key="resultViewPanel.noMistakes">Ошибок нет</entry>
+	
 	<entry key="examination.name.title">Введите имя теста</entry>
 	
 
