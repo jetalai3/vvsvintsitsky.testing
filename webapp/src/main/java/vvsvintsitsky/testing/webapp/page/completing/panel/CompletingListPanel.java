@@ -1,10 +1,7 @@
 package vvsvintsitsky.testing.webapp.page.completing.panel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-
 import javax.inject.Inject;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -31,7 +28,6 @@ import vvsvintsitsky.testing.service.ResultService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.iterator.CustomIterator;
 import vvsvintsitsky.testing.webapp.page.home.HomePage;
-import vvsvintsitsky.testing.webapp.page.result.ResultsPage;
 
 @SuppressWarnings("serial")
 public class CompletingListPanel extends Panel {

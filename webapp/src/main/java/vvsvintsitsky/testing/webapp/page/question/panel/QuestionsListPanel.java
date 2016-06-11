@@ -40,6 +40,7 @@ import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Question_;
 import vvsvintsitsky.testing.datamodel.Subject_;
 import vvsvintsitsky.testing.service.AccountService;
+import vvsvintsitsky.testing.service.AnswerService;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.webapp.page.account.AccountEditPage;
 import vvsvintsitsky.testing.webapp.page.account.AccountsPage;
@@ -51,6 +52,9 @@ public class QuestionsListPanel extends Panel {
 	@Inject
 	private QuestionService questionService;
 
+	@Inject
+	private AnswerService answerService;
+	
 	private QuestionFilter questionFilter;
 
 	public QuestionsListPanel(String id) {
@@ -83,6 +87,7 @@ public class QuestionsListPanel extends Panel {
 					@Override
 					public void onClick() {
 						try {
+							answerService.deleteAnswerByQuestionId(question.getId());
 							questionService.delete(question.getId());
 						} catch (PersistenceException e) {
 							System.out.println("caughth persistance exception");

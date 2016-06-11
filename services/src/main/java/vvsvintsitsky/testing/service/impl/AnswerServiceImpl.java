@@ -63,4 +63,8 @@ public class AnswerServiceImpl implements AnswerService {
 		return answerDao.count(answerFilter);
 	}
 
+	@Override
+	public void deleteAnswerByQuestionId(Long id){
+		answerDao.deleteAnswerByQuestionId(id);
+	}
 }

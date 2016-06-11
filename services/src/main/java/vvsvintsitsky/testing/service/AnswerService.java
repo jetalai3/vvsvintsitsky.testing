@@ -28,4 +28,7 @@ public interface AnswerService {
 
 	@Transactional
 	void saveOrUpdate(Answer answer);
+
+	@Transactional
+	void deleteAnswerByQuestionId(Long id);
 }

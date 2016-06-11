@@ -1,7 +1,7 @@
 package vvsvintsitsky.testing.webapp.page.question;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -11,10 +11,7 @@ import org.apache.wicket.authorization.Action;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeAction;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
-import org.apache.wicket.extensions.markup.html.form.DateTextField;
-import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
@@ -23,19 +20,14 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.validation.validator.RangeValidator;
 
-import vvsvintsitsky.testing.datamodel.Account;
-import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Subject;
-import vvsvintsitsky.testing.datamodel.UserRole;
-import vvsvintsitsky.testing.service.AccountService;
+import vvsvintsitsky.testing.service.AnswerService;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.SubjectService;
 import vvsvintsitsky.testing.webapp.common.SubjectChoiceRenderer;
-import vvsvintsitsky.testing.webapp.common.UserRoleChoiceRenderer;
 import vvsvintsitsky.testing.webapp.page.AbstractPage;
 import vvsvintsitsky.testing.webapp.page.answer.AnswerEditPanel;
 import vvsvintsitsky.testing.webapp.page.answer.panel.AnswersListPanel;
@@ -48,6 +40,9 @@ public class QuestionEditPage extends AbstractPage {
 	@Inject
 	private SubjectService subjectService;
 
+	@Inject
+	private AnswerService answerService;
+
 	private Question question;
 
 	public QuestionEditPage(PageParameters parameters) {
@@ -56,7 +51,18 @@ public class QuestionEditPage extends AbstractPage {
 
 	public QuestionEditPage(Question question) {
 		super();
-		this.question = question;
+
+		if (question.getId() != null) {
+			this.question = questionService.getQuestionWithAnswers(question.getId());
+			this.question.setSubject(question.getSubject());
+		} else {
+			this.question = question;
+			
+			
+			this.question.setAnswers(new ArrayList<Answer>());
+			
+			
+		}
 	}
 
 	@Override
@@ -81,8 +87,17 @@ public class QuestionEditPage extends AbstractPage {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				// accountService.saveOrUpdate(account);
+				
+				List<Answer> answers = question.getAnswers();
+
 				questionService.saveOrUpdate(question);
+				for (Answer answer : answers) {
+					answer.setQuestion(question);
+					answerService.saveOrUpdate(answer);
+				}
+				
+				
+				
 				setResponsePage(new QuestionsPage());
 			}
 		});
@@ -97,10 +112,11 @@ public class QuestionEditPage extends AbstractPage {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-				if(question.getAnswers() == null){
-					question.setAnswers(new ArrayList<Answer>());
-				}
-				modalWindow.setContent(new AnswerEditPanel(modalWindow, question.getAnswers()));
+//				if (question.getAnswers() == null) {
+//					question.setAnswers(new ArrayList<Answer>());
+//				}
+				modalWindow.setContent(new AnswerEditPanel(modalWindow, question));
+				
 				modalWindow.show(target);
 
 			}

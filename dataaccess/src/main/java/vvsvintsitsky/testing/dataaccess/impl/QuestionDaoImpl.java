@@ -44,7 +44,7 @@ public class QuestionDaoImpl extends AbstractDaoImpl<Question, Long> implements 
 		Query query = em.createQuery(
 				"select distinct q from Question q left join fetch q.answers a where q.id = :questionId order by q.id");
 		query.setParameter("questionId", id);
-		return (Question) query.getResultList();
+		return (Question) query.getResultList().get(0);
 		
 	}
 }

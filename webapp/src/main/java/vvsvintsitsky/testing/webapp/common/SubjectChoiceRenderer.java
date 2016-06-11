@@ -3,7 +3,6 @@ package vvsvintsitsky.testing.webapp.common;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 
 import vvsvintsitsky.testing.datamodel.Subject;
-import vvsvintsitsky.testing.datamodel.UserRole;
 
 public class SubjectChoiceRenderer extends ChoiceRenderer<Subject> {
 

@@ -30,4 +30,9 @@ public class AnswerServiceTest {
 		
 		answerService.createAnswer(answer);
 	}
+	
+	@Test
+	public void testDeleteAnswersByQuestionId(){
+		answerService.deleteAnswerByQuestionId(17L);
+	}
 }
