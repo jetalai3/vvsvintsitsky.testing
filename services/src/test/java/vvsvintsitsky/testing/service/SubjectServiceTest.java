@@ -33,7 +33,7 @@ public class SubjectServiceTest {
 	}
 	
 	@Test
-	private void searchSubjects(){
+	public void searchSubjects(){
 		clearDataTables();
 		
 		List<Subject> subjects = fillDatabaseWithSubjects(20);
@@ -112,6 +112,7 @@ public class SubjectServiceTest {
 			subject = new Subject();
 			subject.setName("subject " + i);
 			subjects.add(subject);
+			subjectService.saveOrUpdate(subject);
 		}
 
 		return subjects;

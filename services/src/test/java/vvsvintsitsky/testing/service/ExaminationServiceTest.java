@@ -38,7 +38,7 @@ public class ExaminationServiceTest {
 	private QuestionService questionService;
 
 	@Test
-	private void createExamination() {
+	public void createExamination() {
 		clearDataTables();
 		
 		Examination examination = new Examination();
@@ -60,7 +60,7 @@ public class ExaminationServiceTest {
 	}
 	
 	@Test
-	private void searchExamination(){
+	public void searchExamination(){
 		clearDataTables();
 
 		List<Examination> examinations = fillDatabaseWithExaminations(20);
@@ -68,8 +68,8 @@ public class ExaminationServiceTest {
 		ExaminationFilter examinationFilter = new ExaminationFilter();
 		Examination examination = examinations.get(examinations.size() - 1);
 		
-		examinationFilter.setBeginDate(new Date());
-		examinationFilter.setEndDate(new Date());
+		examinationFilter.setBeginDate(examination.getBeginDate());
+		examinationFilter.setEndDate(examination.getEndDate());
 		examinationFilter.setName(examination.getName());
 		examinationFilter.setAccountProfileId(examination.getAccountProfile().getId());
 		examinationFilter.setSubjectId(examination.getSubject().getId());
@@ -78,7 +78,7 @@ public class ExaminationServiceTest {
 		examinationFilter.setSortOrder(false);
 		examinationFilter.setLimit(30);
 		
-		
+		System.out.println(examinationService.find(examinationFilter).size());
 		if (examinationService.find(examinationFilter).size() != 1) {
 			throw new IllegalStateException("more than 1 examination found");
 		}
@@ -156,6 +156,7 @@ public class ExaminationServiceTest {
 			examination.setQuestions(questions);
 			
 			examinations.add(examination);
+			examinationService.saveOrUpdate(examination);
 		}
 		return examinations;
 	}
@@ -193,6 +194,7 @@ public class ExaminationServiceTest {
 			question.setSubject(subjects.get(i));
 			question.setText("question " + i);
 			questions.add(question);
+			questionService.saveOrUpdate(question);
 		}
 		return questions;
 	}
@@ -205,6 +207,7 @@ public class ExaminationServiceTest {
 			subject = new Subject();
 			subject.setName("subject " + i);
 			subjects.add(subject);
+			subjectService.saveOrUpdate(subject);
 		}
 
 		return subjects;
@@ -213,8 +216,8 @@ public class ExaminationServiceTest {
 	
 	private void clearDataTables() {
 		questionService.deleteAll();
-		subjectService.deleteAll();
-		accountService.deleteAll();
 		examinationService.deleteAll();
+		accountService.deleteAll();
+		subjectService.deleteAll();
 	}
 }

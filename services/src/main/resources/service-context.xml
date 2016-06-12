@@ -24,7 +24,7 @@
 		class="vvsvintsitsky.testing.datamodel.util.SchemaNameAwareBasicDataSource"
 		destroy-method="close" p:driverClassName="org.postgresql.Driver"
 		p:url="jdbc:postgresql://localhost:5432/testing" p:username="postgres"
-		p:password="postgres" p:schema="test" />
+		p:password="postgres" p:schema="public" />
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"

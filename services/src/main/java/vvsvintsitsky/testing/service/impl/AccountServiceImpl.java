@@ -62,8 +62,8 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Override
 	public void deleteAll(){
-		accountDao.deleteAll();
 		accountProfileDao.deleteAll();
+		accountDao.deleteAll();
 	}
 
 	@Override

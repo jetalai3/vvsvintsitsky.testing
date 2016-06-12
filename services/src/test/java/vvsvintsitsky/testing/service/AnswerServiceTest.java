@@ -170,6 +170,7 @@ public class AnswerServiceTest {
 			question.setSubject(subjects.get(i));
 			question.setText("question " + i);
 			questions.add(question);
+			questionService.saveOrUpdate(question);
 		}
 		return questions;
 	}
@@ -182,6 +183,7 @@ public class AnswerServiceTest {
 			subject = new Subject();
 			subject.setName("subject " + i);
 			subjects.add(subject);
+			subjectService.saveOrUpdate(subject);
 		}
 
 		return subjects;

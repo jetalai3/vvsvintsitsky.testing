@@ -50,7 +50,7 @@ public class ResultServiceTest {
 	private AnswerService answerService;
 	
 	@Test
-	private void createResult(){
+	public void createResult(){
 		clearDataTables();
 		
 		Result result = new Result();
@@ -65,7 +65,7 @@ public class ResultServiceTest {
 	}
 	
 	@Test
-	private void searchResults(){
+	public void searchResults(){
 		clearDataTables();
 		
 		List<Result> results = fillDatabaseWithResults(20);
@@ -171,7 +171,9 @@ public class ResultServiceTest {
 			result.setAccountProfile(accountProfiles.get(i));
 			result.setExamination(examinations.get(i));
 			result.setAnswers(answers);
-			result.setPoints(100);
+			result.setPoints(i);
+			resultService.saveOrUpdate(result);
+			results.add(result);
 		}
 		return results;
 	}
@@ -194,6 +196,7 @@ public class ResultServiceTest {
 			examination.setQuestions(questions);
 			
 			examinations.add(examination);
+			examinationService.saveOrUpdate(examination);
 		}
 		return examinations;
 	}
@@ -209,6 +212,7 @@ public class ResultServiceTest {
 			question.setSubject(subjects.get(i));
 			question.setText("question " + i);
 			questions.add(question);
+			questionService.saveOrUpdate(question);
 		}
 		return questions;
 	}
@@ -221,6 +225,7 @@ public class ResultServiceTest {
 			subject = new Subject();
 			subject.setName("subject " + i);
 			subjects.add(subject);
+			subjectService.saveOrUpdate(subject);
 		}
 
 		return subjects;
@@ -251,10 +256,11 @@ public class ResultServiceTest {
 	}
 	
 	private void clearDataTables() {
+		answerService.deleteAll();
 		questionService.deleteAll();
-		subjectService.deleteAll();
-		accountService.deleteAll();
 		resultService.deleteAll();
 		examinationService.deleteAll();
+		subjectService.deleteAll();
+		accountService.deleteAll();
 	}
 }
