@@ -48,11 +48,22 @@ public class AccountServiceImpl implements AccountService {
 	public void update(AccountProfile accountProfile) {
 		accountProfileDao.update(accountProfile);
 	}
+	
+	@Override
+	public void update(Account account) {
+		accountDao.update(account);
+	}
 
 	@Override
 	public void delete(Long id) {
 		accountProfileDao.delete(id);
 		accountDao.delete(id);
+	}
+	
+	@Override
+	public void deleteAll(){
+		accountDao.deleteAll();
+		accountProfileDao.deleteAll();
 	}
 
 	@Override

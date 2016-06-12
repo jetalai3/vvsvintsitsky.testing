@@ -38,6 +38,11 @@ public class ResultServiceImpl implements ResultService {
 	public void delete(Long id) {
 		resultDao.delete(id);
 	}
+	
+	@Override
+	public void deleteAll(){
+		resultDao.deleteAll();
+	}
 
 	@Override
 	public List<Result> getAll() {

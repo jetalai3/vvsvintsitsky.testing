@@ -37,4 +37,7 @@ public interface QuestionService {
 	
 	Question getQuestionWithAnswers(Long id);
 
+	@Transactional
+	void deleteAll();
+
 }

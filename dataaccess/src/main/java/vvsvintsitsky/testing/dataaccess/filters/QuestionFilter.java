@@ -20,7 +20,8 @@ public class QuestionFilter extends AbstractFilter<Question> {
 	private String text;
 	private boolean isFetchSubject;
 	private boolean isFetchAnswers;
-
+	private String subjectName;
+	
 	public Long getId() {
 		return id;
 	}
@@ -53,6 +54,14 @@ public class QuestionFilter extends AbstractFilter<Question> {
 		this.isFetchAnswers = isFetchAnswers;
 	}
 
+	public String getSubjectName() {
+		return subjectName;
+	}
+
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
+	}
+
 	@Override
 	public Predicate getQueryPredicate(CriteriaBuilder cb, Root<Question> from) {
 		List<Predicate> predicateList = new ArrayList<Predicate>();
@@ -61,6 +70,9 @@ public class QuestionFilter extends AbstractFilter<Question> {
 		}
 		if (text != null) {
 			predicateList.add(textPredicate(cb, from));
+		}
+		if (subjectName != null) {
+			predicateList.add(subjectNamePredicate(cb, from));
 		}
 		if (!(predicateList.isEmpty())) {
 			return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
@@ -73,7 +85,11 @@ public class QuestionFilter extends AbstractFilter<Question> {
 	}
 
 	private Predicate textPredicate(CriteriaBuilder cb, Root<Question> from) {
-		return cb.equal(from.get(Question_.text), getId());
+		return cb.equal(from.get(Question_.text), getText());
+	}
+	
+	private Predicate subjectNamePredicate(CriteriaBuilder cb, Root<Question> from) {
+		return cb.equal(from.get(Question_.subject).get(Subject_.name), getSubjectName());
 	}
 
 	public void setFetching(Root<Question> from) {

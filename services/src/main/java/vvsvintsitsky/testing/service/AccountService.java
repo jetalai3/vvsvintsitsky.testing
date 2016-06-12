@@ -41,4 +41,10 @@ public interface AccountService {
 	Collection<? extends String> resolveRoles(Long id);
 
 	List<Account> find(AccountFilter filter);
+
+	@Transactional
+	void deleteAll();
+
+	@Transactional
+	void update(Account account);
 }

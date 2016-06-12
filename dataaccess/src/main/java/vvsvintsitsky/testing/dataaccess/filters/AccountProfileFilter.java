@@ -13,8 +13,7 @@ import org.hibernate.jpa.criteria.OrderImpl;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.AccountProfile_;
 import vvsvintsitsky.testing.datamodel.Account_;
-import vvsvintsitsky.testing.datamodel.Question_;
-import vvsvintsitsky.testing.datamodel.Subject_;
+import vvsvintsitsky.testing.datamodel.UserRole;
 
 public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 	private Long accountProfileId;
@@ -25,6 +24,7 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 	private boolean isFetchResults;
 	private String email;
 	private String password;
+	private UserRole role;
 
 	public String getEmail() {
 		return email;
@@ -86,6 +86,14 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 		return accountProfileId;
 	}
 
+	public UserRole getRole() {
+		return role;
+	}
+
+	public void setRole(UserRole role) {
+		this.role = role;
+	}
+
 	public void setAccountProfileId(Long accountProfileId) {
 		this.accountProfileId = accountProfileId;
 	}
@@ -117,6 +125,10 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 			predicateList.add(passwordPredicate(cb, from));
 		}
 		
+		if (role != null) {
+			predicateList.add(rolePredicate(cb, from));
+		}
+		
 		if (!(predicateList.isEmpty())) {
 			return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
 		}
@@ -142,6 +154,10 @@ public class AccountProfileFilter extends AbstractFilter<AccountProfile> {
 	
 	private Predicate passwordPredicate(CriteriaBuilder cb, Root<AccountProfile> from) {
 		return cb.equal(from.get(AccountProfile_.account).get(Account_.password), getPassword());
+	}
+	
+	private Predicate rolePredicate(CriteriaBuilder cb, Root<AccountProfile> from) {
+		return cb.equal(from.get(AccountProfile_.account).get(Account_.role), getRole());
 	}
 	
 	public void setFetching(Root<AccountProfile> from) {

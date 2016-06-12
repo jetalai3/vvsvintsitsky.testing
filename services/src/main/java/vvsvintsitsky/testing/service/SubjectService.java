@@ -26,4 +26,7 @@ public interface SubjectService {
 	void saveOrUpdate(Subject subject);
 	
 	long count(SubjectFilter subjectFilter);
+
+	@Transactional
+	void deleteAll();
 }

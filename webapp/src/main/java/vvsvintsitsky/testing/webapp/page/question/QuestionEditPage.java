@@ -57,11 +57,9 @@ public class QuestionEditPage extends AbstractPage {
 			this.question.setSubject(question.getSubject());
 		} else {
 			this.question = question;
-			
-			
+
 			this.question.setAnswers(new ArrayList<Answer>());
-			
-			
+
 		}
 	}
 
@@ -87,7 +85,7 @@ public class QuestionEditPage extends AbstractPage {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				
+
 				List<Answer> answers = question.getAnswers();
 
 				questionService.saveOrUpdate(question);
@@ -95,9 +93,7 @@ public class QuestionEditPage extends AbstractPage {
 					answer.setQuestion(question);
 					answerService.saveOrUpdate(answer);
 				}
-				
-				
-				
+
 				setResponsePage(new QuestionsPage());
 			}
 		});
@@ -112,11 +108,9 @@ public class QuestionEditPage extends AbstractPage {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
-//				if (question.getAnswers() == null) {
-//					question.setAnswers(new ArrayList<Answer>());
-//				}
+
 				modalWindow.setContent(new AnswerEditPanel(modalWindow, question));
-				
+
 				modalWindow.show(target);
 
 			}

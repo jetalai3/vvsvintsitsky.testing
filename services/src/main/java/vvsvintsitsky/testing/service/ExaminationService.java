@@ -29,4 +29,7 @@ public interface ExaminationService {
 
 	long count(ExaminationFilter examinationFilter);
 
+	@Transactional
+	void deleteAll();
+
 }

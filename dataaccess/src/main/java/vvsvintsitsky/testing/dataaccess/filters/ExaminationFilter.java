@@ -26,6 +26,8 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 	private boolean isFetchAccountProfile;
 	private boolean isFetchResults;
 	private boolean isFetchSubject;
+	private Long accountProfileId;
+	private Long subjectId;
 
 	public boolean getIsFetchQuestions() {
 		return isFetchQuestions;
@@ -91,6 +93,22 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 		this.name = name;
 	}
 
+	public Long getAccountProfileId() {
+		return accountProfileId;
+	}
+
+	public void setAccountProfileId(Long accountProfileId) {
+		this.accountProfileId = accountProfileId;
+	}
+
+	public Long getSubjectId() {
+		return subjectId;
+	}
+
+	public void setSubjectId(Long subjectId) {
+		this.subjectId = subjectId;
+	}
+
 	@Override
 	public Predicate getQueryPredicate(CriteriaBuilder cb, Root<Examination> from) {
 		List<Predicate> predicateList = new ArrayList<Predicate>();
@@ -106,6 +124,12 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 		if (name != null) {
 			predicateList.add(namePredicate(cb, from));
 		}
+		if (accountProfileId != null) {
+			predicateList.add(accountProfilePredicate(cb, from));
+		}
+		if (subjectId != null) {
+			predicateList.add(subjectPredicate(cb, from));
+		}
 		if (!(predicateList.isEmpty())) {
 			return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
 		}
@@ -117,15 +141,23 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 	}
 
 	private Predicate beginDatePredicate(CriteriaBuilder cb, Root<Examination> from) {
-		return cb.equal(from.get(Examination_.beginDate), getId());
+		return cb.equal(from.get(Examination_.beginDate), getBeginDate());
 	}
 
 	private Predicate endDatePredicate(CriteriaBuilder cb, Root<Examination> from) {
-		return cb.equal(from.get(Examination_.endDate), getId());
+		return cb.equal(from.get(Examination_.endDate), getEndDate());
 	}
 
 	private Predicate namePredicate(CriteriaBuilder cb, Root<Examination> from) {
-		return cb.equal(from.get(Examination_.name), getId());
+		return cb.equal(from.get(Examination_.name), getName());
+	}
+	
+	private Predicate accountProfilePredicate(CriteriaBuilder cb, Root<Examination> from) {
+		return cb.equal(from.get(Examination_.accountProfile).get(AccountProfile_.id), getAccountProfileId());
+	}
+	
+	private Predicate subjectPredicate(CriteriaBuilder cb, Root<Examination> from) {
+		return cb.equal(from.get(Examination_.subject).get(Subject_.id), getSubjectId());
 	}
 
 	public void setFetching(Root<Examination> from) {

@@ -60,6 +60,11 @@ public class AbstractDaoImpl<T, ID> implements AbstractDao<T, ID> {
 		entityManager.createQuery(String.format("delete from %s e where e.id = :id", entityClass.getSimpleName()))
 				.setParameter("id", id).executeUpdate();
 	}
+	
+	@Override
+	public void deleteAll(){
+		entityManager.createQuery(String.format("delete from %s e", entityClass.getSimpleName())).executeUpdate();
+	}
 
 	public Class<T> getEntityClass() {
 		return entityClass;

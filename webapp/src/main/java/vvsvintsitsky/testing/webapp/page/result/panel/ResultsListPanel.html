@@ -3,12 +3,12 @@
 		<table class="list-table">
 			<thead>
 				<tr>
-					<th><a wicket:id="sort-id">id</a></th>
-					<th><a wicket:id="sort-examination">examination</a></th>
-					<th><a wicket:id="sort-account">account</a></th>
-					<th><a wicket:id="sort-points">points</a></th>
+					<th><a wicket:id="sort-id"><wicket:message key="resultsListPanel.id" /></a></th>
+					<th><a wicket:id="sort-examination"><wicket:message key="resultsListPanel.examination" /></a></th>
+					<th><a wicket:id="sort-account"><wicket:message key="resultsListPanel.account" /></a></th>
+					<th><a wicket:id="sort-points"><wicket:message key="resultsListPanel.points" /></a></th>
 
-					<th>actions</th>
+					<th><wicket:message key="resultsListPanel.actions" /></th>
 				</tr>
 
 			</thead>
@@ -18,8 +18,8 @@
 					<td><span wicket:id="examination-name" /></td>
 					<td><span wicket:id="account" /></td>
 					<td><span wicket:id="points" /></td>
-					<td><a wicket:id="delete-link">delete</a>/<a
-						wicket:id="view-link">view</a></td>
+					<td><a wicket:id="delete-link"><wicket:message key="resultsListPanel.delete" /></a>/<a
+						wicket:id="view-link"><wicket:message key="resultsListPanel.view" /></a></td>
 				</tr>
 			</tbody>
 		</table>

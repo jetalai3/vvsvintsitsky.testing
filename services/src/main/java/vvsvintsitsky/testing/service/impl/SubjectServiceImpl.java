@@ -40,6 +40,11 @@ public class SubjectServiceImpl implements SubjectService {
 		subjectDao.delete(id);
 		
 	}
+	
+	@Override
+	public void deleteAll(){
+		subjectDao.deleteAll();
+	}
 
 	@Override
 	public List<Subject> getAll() {

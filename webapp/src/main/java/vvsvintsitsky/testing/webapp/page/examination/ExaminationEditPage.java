@@ -13,17 +13,16 @@ import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.extensions.markup.html.form.palette.theme.DefaultTheme;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.CollectionModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import vvsvintsitsky.testing.dataaccess.filters.ExaminationFilter;
 import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
 import vvsvintsitsky.testing.dataaccess.filters.SubjectFilter;
 import vvsvintsitsky.testing.datamodel.Examination;
@@ -33,7 +32,6 @@ import vvsvintsitsky.testing.service.ExaminationService;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.SubjectService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
-import vvsvintsitsky.testing.webapp.common.ExaminationChoiceRenderer;
 import vvsvintsitsky.testing.webapp.common.QuestionChoiceRenderer;
 import vvsvintsitsky.testing.webapp.common.SubjectChoiceRenderer;
 import vvsvintsitsky.testing.webapp.common.events.SubjectChangeEvent;
@@ -65,8 +63,12 @@ public class ExaminationEditPage extends AbstractPage {
 	protected void onInitialize() {
 		super.onInitialize();
 
+		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
+		rowsContainer.setOutputMarkupId(true);
+		add(rowsContainer);
+		
 		Form<Examination> form = new Form<Examination>("form", new CompoundPropertyModel<>(examination));
-		add(form);
+		rowsContainer.add(form);
 
 		form.add(new TextField<>("name"));
 		DateTextField beginDateField = new DateTextField("beginDate");

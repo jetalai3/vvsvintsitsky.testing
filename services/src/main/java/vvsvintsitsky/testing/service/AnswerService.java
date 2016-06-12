@@ -31,4 +31,7 @@ public interface AnswerService {
 
 	@Transactional
 	void deleteAnswerByQuestionId(Long id);
+
+	@Transactional
+	void deleteAll();
 }

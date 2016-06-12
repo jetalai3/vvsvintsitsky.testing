@@ -19,6 +19,7 @@ public class ResultFilter extends AbstractFilter<Result> {
 	private Long id;
 	private Integer points;
 	private Long accountProfileId;
+	private Long examinationId;
 	private boolean isFetchExaminations;
 	private boolean isFetchAccountProfile;
 	private boolean isFetchAnswers;
@@ -43,8 +44,16 @@ public class ResultFilter extends AbstractFilter<Result> {
 		return accountProfileId;
 	}
 
-	public void setAccountProfileId(Long long1) {
-		this.accountProfileId = long1;
+	public void setAccountProfileId(Long accountProfileId) {
+		this.accountProfileId = accountProfileId;
+	}
+
+	public Long getExaminationId() {
+		return examinationId;
+	}
+
+	public void setExaminationId(Long examinationId) {
+		this.examinationId = examinationId;
 	}
 
 	public boolean getIsFetchExaminations() {
@@ -83,6 +92,9 @@ public class ResultFilter extends AbstractFilter<Result> {
 		if (accountProfileId != null) {
 			predicateList.add(accountProfileIdPredicate(cb, from));
 		}
+		if (examinationId != null) {
+			predicateList.add(examinationPredicate(cb, from));
+		}
 		if (!(predicateList.isEmpty())) {
 			return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
 		}
@@ -94,11 +106,15 @@ public class ResultFilter extends AbstractFilter<Result> {
 	}
 
 	private Predicate pointsPredicate(CriteriaBuilder cb, Root<Result> from) {
-		return cb.equal(from.get(Result_.points), getId());
+		return cb.equal(from.get(Result_.points), getPoints());
 	}
 	
 	private Predicate accountProfileIdPredicate(CriteriaBuilder cb, Root<Result> from) {
-		return cb.equal(from.get(Result_.accountProfile), getId());
+		return cb.equal(from.get(Result_.accountProfile).get(AccountProfile_.id), getAccountProfileId());
+	}
+	
+	private Predicate examinationPredicate(CriteriaBuilder cb, Root<Result> from) {
+		return cb.equal(from.get(Result_.examination).get(Examination_.id), getExaminationId());
 	}
 
 	public void setFetching(Root<Result> from) {

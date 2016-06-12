@@ -9,13 +9,14 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.Account_;
+import vvsvintsitsky.testing.datamodel.UserRole;
 
 public class AccountFilter extends AbstractFilter<Account> {
 
 	private Long id;
 	private String password;
 	private String email;
-	private Integer role;
+	private UserRole role;
 
 	public Long getId() {
 		return id;
@@ -41,11 +42,11 @@ public class AccountFilter extends AbstractFilter<Account> {
 		this.email = email;
 	}
 
-	public Integer getRole() {
+	public UserRole getRole() {
 		return role;
 	}
 
-	public void setRole(Integer role) {
+	public void setRole(UserRole role) {
 		this.role = role;
 	}
 

@@ -1,20 +1,20 @@
 <wicket:extend xmlns:wicket="http://wicket.apache.org">
-	<h2>AccountProfile edit</h2>
+	<h2><wicket:message key="accountEditPage.mainText" /></h2>
 
 	<form wicket:id="formAccountProfile">
 
 		<table>
 			<tr>
-				<td><b>First name:</b></td>
+				<td><b><wicket:message key="accountEditPage.firstName" />:</b></td>
 				<td><input type="text" wicket:id="firstName" /></td>
 			</tr>
 			<tr>
-				<td><b>Last name:</b></td>
+				<td><b><wicket:message key="accountEditPage.lastName" />:</b></td>
 				<td><input type="text" wicket:id="lastName" /></td>
 			</tr>
 
 			<tr>
-				<td><button type="submit" wicket:id="save">SAVE</button></td>
+				<td><button type="submit" wicket:id="save"><wicket:message key="accountEditPage.save" /></button></td>
 				<td></td>
 			</tr>
 		</table>
@@ -22,16 +22,16 @@
 		<form wicket:id="formAccount">
 			<table>
 				<tr>
-					<td><b>Email:</b></td>
+					<td><b><wicket:message key="accountEditPage.email" />:</b></td>
 					<td><input type="text" wicket:id="email" /></td>
 				</tr>
 				<tr>
-					<td><b>Password:</b></td>
+					<td><b><wicket:message key="accountEditPage.password" />:</b></td>
 					<td><input type="text" wicket:id="password" /></td>
 				</tr>
 				<tr>
 					<wicket:enclosure>
-						<td><b>Role:</b></td>
+						<td><b><wicket:message key="accountEditPage.role" />:</b></td>
 						<td><select wicket:id="role" /></td>
 					</wicket:enclosure>
 				</tr>

@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import vvsvintsitsky.testing.dataaccess.AnswerDao;
 import vvsvintsitsky.testing.dataaccess.filters.AnswerFilter;
-import vvsvintsitsky.testing.dataaccess.filters.AnswerFilter;
-import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.service.AnswerService;
 
@@ -37,6 +35,11 @@ public class AnswerServiceImpl implements AnswerService {
 	@Override
 	public void delete(Long id) {
 		answerDao.delete(id);
+	}
+	
+	@Override
+	public void deleteAll(){
+		answerDao.deleteAll();
 	}
 
 	@Override

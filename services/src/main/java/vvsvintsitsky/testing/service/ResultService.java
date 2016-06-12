@@ -30,4 +30,7 @@ public interface ResultService {
 	void saveOrUpdate(Result result);
 
 	Result getResultWithAnswersAndQuestions(Long id);
+
+	@Transactional
+	void deleteAll();
 }

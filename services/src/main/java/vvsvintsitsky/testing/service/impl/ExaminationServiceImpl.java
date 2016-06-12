@@ -38,6 +38,11 @@ public class ExaminationServiceImpl implements ExaminationService {
 	public void delete(Long id) {
 		examinationDao.delete(id);
 	}
+	
+	@Override
+	public void deleteAll(){
+		examinationDao.deleteAll();
+	}
 
 	@Override
 	public List<Examination> getAll() {
