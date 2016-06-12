@@ -80,6 +80,8 @@ public class ExaminationEditPage extends AbstractPage {
 		endDateField.setRequired(true);
 		form.add(endDateField);
 		List<Subject> allSubjects = subjectService.find(new SubjectFilter());
+		QuestionFilter questionFilter = new QuestionFilter();
+		List<Question> allQuestions = questionService.find(questionFilter);
 		DropDownChoice<Subject> dropDownChoice = new DropDownChoice<>("subject", allSubjects,
 				SubjectChoiceRenderer.INSTANCE);
 		dropDownChoice.setRequired(true);
@@ -87,11 +89,16 @@ public class ExaminationEditPage extends AbstractPage {
 		dropDownChoice.add(new AjaxEventBehavior("change") {
 			@Override
 			protected void onEvent(AjaxRequestTarget target) {
-				send(getPage(), Broadcast.BREADTH, new SubjectChangeEvent());
+				dropDownChoice.onSelectionChanged();
+				Subject subject = dropDownChoice.getModelObject();
+				questionFilter.setSubjectName(subject.getName());
+				allQuestions.clear();
+				allQuestions.addAll(questionService.find(questionFilter));
+				target.add(rowsContainer);
 			}
 		});
 
-		List<Question> allQuestions = questionService.find(new QuestionFilter());
+		
 		final Palette<Question> palette = new Palette<Question>("questions", Model.ofList(examination.getQuestions()),
 				new CollectionModel<Question>(allQuestions), QuestionChoiceRenderer.INSTANCE, 15, false, true);
 		palette.add(new DefaultTheme());

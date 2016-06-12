@@ -33,12 +33,12 @@
 	<entry key="answerEditPanel.save">Сохранить</entry>
 	<entry key="answerEditPanel.cancel">Отмена</entry>
 	
-	<entry key="answerEditPanel.id">Идентификатор</entry>
-	<entry key="answerEditPanel.answerText">Текст ответа</entry>
-	<entry key="answerEditPanel.correct">Правильный</entry>
-	<entry key="answerEditPanel.actions">Действия</entry>
-	<entry key="answerEditPanel.delete">Удалить</entry>
-	<entry key="answerEditPanel.edit">Редактировать</entry>
+	<entry key="answersListPanel.id">Идентификатор</entry>
+	<entry key="answersListPanel.answerText">Текст ответа</entry>
+	<entry key="answersListPanel.correct">Правильный</entry>
+	<entry key="answersListPanel.actions">Действия</entry>
+	<entry key="answersListPanel.delete">Удалить</entry>
+	<entry key="answersListPanel.edit">Редактировать</entry>
 	
 	<entry key="completingPage.mainText">Ответьте на вопросы теста</entry>
 	
