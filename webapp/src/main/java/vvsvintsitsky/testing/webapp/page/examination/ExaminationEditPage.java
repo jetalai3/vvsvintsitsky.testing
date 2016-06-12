@@ -1,14 +1,15 @@
 package vvsvintsitsky.testing.webapp.page.examination;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.authorization.Action;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeAction;
-import org.apache.wicket.event.Broadcast;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.extensions.markup.html.form.palette.theme.DefaultTheme;
@@ -18,11 +19,15 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.CollectionModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+
+import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
+
 import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
 import vvsvintsitsky.testing.dataaccess.filters.SubjectFilter;
 import vvsvintsitsky.testing.datamodel.Examination;
@@ -34,7 +39,6 @@ import vvsvintsitsky.testing.service.SubjectService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.QuestionChoiceRenderer;
 import vvsvintsitsky.testing.webapp.common.SubjectChoiceRenderer;
-import vvsvintsitsky.testing.webapp.common.events.SubjectChangeEvent;
 import vvsvintsitsky.testing.webapp.page.AbstractPage;
 
 public class ExaminationEditPage extends AbstractPage {
@@ -70,7 +74,7 @@ public class ExaminationEditPage extends AbstractPage {
 		Form<Examination> form = new Form<Examination>("form", new CompoundPropertyModel<>(examination));
 		rowsContainer.add(form);
 
-		form.add(new TextField<>("name"));
+		form.add(new TextField<>("name").setRequired(true));
 		DateTextField beginDateField = new DateTextField("beginDate");
 		beginDateField.add(new DatePicker());
 		beginDateField.setRequired(true);
@@ -104,13 +108,26 @@ public class ExaminationEditPage extends AbstractPage {
 		palette.add(new DefaultTheme());
 		form.add(palette);
 
-		form.add(new SubmitLink("save") {
+		FeedbackPanel feedbackPanel = new JQueryFeedbackPanel("feedback");
+		feedbackPanel.setOutputMarkupId(true);
+		form.add(feedbackPanel);
+		
+		form.add(new AjaxSubmitLink("save") {
 			@Override
-			public void onSubmit() {
-				super.onSubmit();
-				examination.setAccountProfile(AuthorizedSession.get().getLoggedUser());
-				examinationService.saveOrUpdate(examination);
-				setResponsePage(new ExaminationsPage());
+			public void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				super.onSubmit(target, form);
+				Date currentDate = new Date();
+				boolean conditionOne = beginDateField.getModelObject().getTime() > endDateField.getModelObject().getTime();
+				boolean conditionTwo = beginDateField.getModelObject().getTime() < currentDate.getTime();
+				if(conditionOne || conditionTwo){
+					feedbackPanel.info("Wrong dates");
+					target.add(rowsContainer);
+				} else {
+					examination.setAccountProfile(AuthorizedSession.get().getLoggedUser());
+					examinationService.saveOrUpdate(examination);
+					setResponsePage(new ExaminationsPage());
+				}
+				
 			}
 		});
 	}

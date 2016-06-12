@@ -71,8 +71,10 @@
 	<entry key="homePage.mainText">Домашняя страница</entry>
 	
 	<entry key="loginPage.title">Вход под учетной записью</entry>
-	<entry key="loginPage.loginHeader">Имя пользователя</entry>
+	<entry key="loginPage.loginHeader">Вход под учетной записью</entry>
 	<entry key="loginPage.login">Вход</entry>
+	<entry key="loginPage.email">Электронная почта</entry>
+	<entry key="loginPage.password">Пароль</entry>
 	
 	<entry key="questionEditPage.mainText">Ввод вопроса</entry>
 	<entry key="questionEditPage.questionText">Текст вопроса</entry>

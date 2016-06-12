@@ -1,27 +1,31 @@
 <wicket:panel>
-<div wicket:id="rowsContainer">
-	<table class="list-table">
-		<thead>
-			<tr>
-				<th><form wicket:id="formId">
-							<input type="text" wicket:id="id" /><a wicket:id="sort-id"><wicket:message key="subjectsListPanel.id" /></a></form></th>
-				<th><form wicket:id="formName">
-							<input type="text" wicket:id="name" /><a wicket:id="sort-name"><wicket:message key="subjectsListPanel.name" /></a></form></th>
-				
-				
-				<th><wicket:message key="subjectsListPanel.actions" /></th>
-			</tr>
-		
-		</thead>
-		<tbody>
-			<tr wicket:id="rows">
-				<td><span wicket:id="subject-id"/></td>
-				<td><span wicket:id="subject-name"/></td>
-				<td><a wicket:id="delete-link"><wicket:message key="subjectsListPanel.delete" /></a>/<a wicket:id="edit-link"><wicket:message key="subjectsListPanel.edit" /></a> <div wicket:id="modal"></div></td>
-				
-			</tr>
-		</tbody>
-	</table>
-	<div wicket:id="paging"></div>
-</div>
+	<div wicket:id="rowsContainer">
+		<table class="list-table">
+			<thead>
+				<tr>
+					<th><a
+						wicket:id="sort-id"><wicket:message key="subjectsListPanel.id" /></a></th>
+					<th><a
+						wicket:id="sort-name"><wicket:message
+								key="subjectsListPanel.name" /></a></th>
+
+
+					<th><wicket:message key="subjectsListPanel.actions" /></th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr wicket:id="rows">
+					<td><span wicket:id="subject-id" /></td>
+					<td><span wicket:id="subject-name" /></td>
+					<td><a wicket:id="delete-link"><wicket:message
+								key="subjectsListPanel.delete" /></a>/<a wicket:id="edit-link"><wicket:message
+								key="subjectsListPanel.edit" /></a>
+						<div wicket:id="modal"></div></td>
+
+				</tr>
+			</tbody>
+		</table>
+		<div wicket:id="paging"></div>
+	</div>
 </wicket:panel>

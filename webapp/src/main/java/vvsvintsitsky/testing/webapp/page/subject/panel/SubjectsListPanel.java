@@ -124,14 +124,6 @@ public class SubjectsListPanel extends Panel {
 			}
 		});
 
-		Form<SubjectFilter> formId = new Form<SubjectFilter>("formId", new CompoundPropertyModel<>(subjectFilter));
-		TextField<Long> idField = new TextField<>("id");
-		idField.add(RangeValidator.<Long> range(0L, 100L));
-		formId.add(idField);
-
-		Form<SubjectFilter> formName = new Form<SubjectFilter>("formName", new CompoundPropertyModel<>(subjectFilter));
-		TextField<Integer> nameField = new TextField<>("name");
-		formName.add(nameField);
 
 		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderId = new AjaxFallbackOrderByBorder("sort-id", Subject_.id,
 				subjectsDataProvider) {
@@ -147,7 +139,7 @@ public class SubjectsListPanel extends Panel {
 				target.add(rowsContainer);
 			}
 		};
-		formId.add(ajaxFallbackOrderByBorderId);
+		rowsContainer.add(ajaxFallbackOrderByBorderId);
 
 		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderText = new AjaxFallbackOrderByBorder("sort-name",
 				Subject_.name, subjectsDataProvider) {
@@ -163,14 +155,7 @@ public class SubjectsListPanel extends Panel {
 				target.add(rowsContainer);
 			}
 		};
-		formName.add(ajaxFallbackOrderByBorderText);
-		rowsContainer.add(formId);
-		rowsContainer.add(formName);
-
-		// rowsContainer.add(new OrderByBorder("sort-id", Subject_.id,
-		// subjectsDataProvider));
-		// rowsContainer.add(new OrderByBorder("sort-name", Subject_.name,
-		// subjectsDataProvider));
+		rowsContainer.add(ajaxFallbackOrderByBorderText);
 		add(rowsContainer);
 
 	}

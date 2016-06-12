@@ -70,8 +70,10 @@
 	<entry key="homePage.mainText">Home page</entry>
 	
 	<entry key="loginPage.title">Logging in</entry>
-	<entry key="loginPage.loginHeader">Username</entry>
+	<entry key="loginPage.loginHeader">Log in</entry>
 	<entry key="loginPage.login">Login</entry>
+	<entry key="loginPage.email">Email</entry>
+	<entry key="loginPage.password">Password</entry>
 	
 	<entry key="questionEditPage.mainText">Question data input</entry>
 	<entry key="questionEditPage.questionText">Question text</entry>

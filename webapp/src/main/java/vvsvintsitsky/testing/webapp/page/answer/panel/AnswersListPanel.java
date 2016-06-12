@@ -21,7 +21,6 @@ import org.apache.wicket.model.Model;
 
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Answer;
-import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.AnswerService;
 import vvsvintsitsky.testing.webapp.common.events.AnswerAddEvent;
 import vvsvintsitsky.testing.webapp.page.answer.AnswerEditPanel;
@@ -30,9 +29,6 @@ public class AnswersListPanel extends Panel {
 
 	@Inject
 	private AnswerService answerService;
-
-	@Inject
-	private QuestionService questionService;
 
 	private List<Answer> answers;
 

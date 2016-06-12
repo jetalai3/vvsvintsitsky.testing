@@ -11,12 +11,14 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.util.string.Strings;
 
+import vvsvintsitsky.testing.webapp.page.AbstractPage;
+
 /**
  * 
  * 
  * @since Mar 11, 2014
  */
-public class LoginPage extends WebPage {
+public class LoginPage extends AbstractPage {
 
     public static final String ID_FORM = "form";
 

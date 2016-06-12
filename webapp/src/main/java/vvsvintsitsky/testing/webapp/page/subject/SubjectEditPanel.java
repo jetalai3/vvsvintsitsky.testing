@@ -59,7 +59,7 @@ public class SubjectEditPanel extends Panel {
     		Form<Subject> form = new Form<Subject>("form", new CompoundPropertyModel<>(subject));
     		add(form);
 
-    		form.add(new TextField<>("name"));
+    		form.add(new TextField<>("name").setRequired(true));
 
     		form.add(new AjaxSubmitLink("save") {
 

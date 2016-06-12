@@ -1,34 +1,42 @@
 <wicket:extend xmlns:wicket="http://wicket.apache.org">
-	<h2><wicket:message key="examinationEditPage.mainText" /></h2>
-<div wicket:id="rowsContainer">
-	<form wicket:id="form">
-		<table>
-			<tr>
-				<td><b><wicket:message key="examinationEditPage.examinationName" />:</b></td>
-				<td><input wicket:message="title:examination.name.title" type="text" wicket:id="name" /></td>
-			</tr>
-			<tr>
-				<td><b><wicket:message key="examinationEditPage.beginDate" />:</b></td>
-				<td><input type="text" wicket:id="beginDate" /></td>
-			</tr>
-			<tr>
-				<td><b><wicket:message key="examinationEditPage.endDate" />:</b></td>
-				<td><input type="text" wicket:id="endDate" /></td>
-			</tr>
-			<tr>
-				<td><b><wicket:message key="examinationEditPage.subject" />:</b></td>
-				<td><select wicket:id="subject" /></td>
-			</tr>
-			<tr>
-				<td><b><wicket:message key="examinationEditPage.questions" />:</b></td>
-				<td><span wicket:id="questions" /></td>
-			</tr>
-			<tr>
-				<td><button type="submit" wicket:id="save"><wicket:message key="examinationEditPage.save" /></button></td>
-				<td></td>
-			</tr>
-		</table>
+	<h2>
+		<wicket:message key="examinationEditPage.mainText" />
+	</h2>
+	<div wicket:id="rowsContainer">
+		<form wicket:id="form">
+			<table>
+				<tr>
+					<td><b><wicket:message
+								key="examinationEditPage.examinationName" />:</b></td>
+					<td><input wicket:message="title:examination.name.title"
+						type="text" wicket:id="name" /></td>
+				</tr>
+				<tr>
+					<td><b><wicket:message key="examinationEditPage.beginDate" />:</b></td>
+					<td><input type="text" wicket:id="beginDate" /></td>
+				</tr>
+				<tr>
+					<td><b><wicket:message key="examinationEditPage.endDate" />:</b></td>
+					<td><input type="text" wicket:id="endDate" /></td>
+				</tr>
+				<tr>
+					<td><b><wicket:message key="examinationEditPage.subject" />:</b></td>
+					<td><select wicket:id="subject" /></td>
+				</tr>
+				<tr>
+					<td><b><wicket:message key="examinationEditPage.questions" />:</b></td>
+					<td><span wicket:id="questions" /></td>
+				</tr>
+				<tr>
+					<td><button class="submitButton" type="submit"
+							wicket:id="save">
+							<wicket:message key="examinationEditPage.save" />
+						</button></td>
+					<td></td>
+				</tr>
+			</table>
 
-	</form>
+			<div wicket:id="feedback" style="width: 360px;"></div>
+		</form>
 	</div>
 </wicket:extend>

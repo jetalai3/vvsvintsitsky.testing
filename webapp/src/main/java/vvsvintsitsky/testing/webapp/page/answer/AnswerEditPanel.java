@@ -44,7 +44,7 @@ public class AnswerEditPanel extends Panel {
 		Form<Answer> form = new Form<Answer>("form", new CompoundPropertyModel<>(answer));
 		add(form);
 
-		form.add(new TextField<>("text"));
+		form.add(new TextField<>("text").setRequired(true));
 		CheckBox correctField = new CheckBox("correct");
 		form.add(correctField);
 		form.add(new AjaxSubmitLink("save") {

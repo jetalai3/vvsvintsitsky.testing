@@ -12,7 +12,7 @@
 				<td><select wicket:id="subject" /></td>
 			</tr>
 			<tr>
-				<td><button type="submit" wicket:id="save"><wicket:message key="questionEditPage.save" /></button></td>
+				<td><button class="submitButton" type="submit" wicket:id="save"><wicket:message key="questionEditPage.save" /></button></td>
 				<td></td>
 			</tr>
 		</table>
@@ -20,7 +20,7 @@
 	</form>
 	<div wicket:id="rowsContainer">
 		<div wicket:id="answers-panel"></div>
-		<button wicket:id="new-answer"><wicket:message key="questionEditPage.newAnswer" /></button>
+		<button class="generalButton" wicket:id="new-answer"><wicket:message key="questionEditPage.newAnswer" /></button>
 		<div wicket:id="modal"></div>
 	</div>
 	<div wicket:id="feedback"></div>

@@ -1,18 +1,10 @@
 package vvsvintsitsky.testing.webapp.page;
 
-import java.util.Calendar;
-
-import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import vvsvintsitsky.testing.webapp.component.localization.LanguageSelectionComponent;
 import vvsvintsitsky.testing.webapp.component.menu.MenuPanel;
-import vvsvintsitsky.testing.webapp.component.menu.MenuPanelLoggedUser;
-import vvsvintsitsky.testing.webapp.page.account.AccountsPage;
 
 public abstract class AbstractPage extends WebPage {
 
