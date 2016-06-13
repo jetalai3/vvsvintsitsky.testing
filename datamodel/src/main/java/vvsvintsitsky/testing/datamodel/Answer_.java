@@ -11,8 +11,7 @@ public abstract class Answer_ extends vvsvintsitsky.testing.datamodel.AbstractMo
 
 	public static volatile SingularAttribute<Answer, Question> question;
 	public static volatile SingularAttribute<Answer, Boolean> correct;
-	public static volatile SingularAttribute<Answer, String> text;
 	public static volatile ListAttribute<Answer, Result> results;
-
+	public static volatile SingularAttribute<Answer, LocalTexts> answerTexts;
 }
 

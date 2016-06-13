@@ -17,6 +17,9 @@ public interface SubjectService {
 
 	@Transactional
 	void delete(Long id);
+	
+	@Transactional
+	void delete(Subject subject);
 
 	List<Subject> getAll();
 	
@@ -29,4 +32,8 @@ public interface SubjectService {
 
 	@Transactional
 	void deleteAll();
+	
+	Subject getWithAllTexts(Long id);
+	
+	List<Subject> getAllWithLanguageText(String language);
 }

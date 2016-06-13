@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="form.name.Required">Поле "Название" не может быть пустым</entry>
+	<!-- <entry key="form.apartmentClass.Required">class field is empty</entry>
+	<entry key="form.rentBegins.Required">rent begin field is empty</entry>
+	<entry key="form.pickerContainer.rentEnds.Required">rent end field is empty</entry> -->
+
+</properties>

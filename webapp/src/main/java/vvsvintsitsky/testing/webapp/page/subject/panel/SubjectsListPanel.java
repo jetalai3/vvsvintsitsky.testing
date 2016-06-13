@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.metamodel.SingularAttribute;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
@@ -40,6 +41,7 @@ import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.AccountProfile_;
 import vvsvintsitsky.testing.datamodel.Account_;
+import vvsvintsitsky.testing.datamodel.LocalTexts;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Question_;
 import vvsvintsitsky.testing.datamodel.Subject;
@@ -60,6 +62,8 @@ public class SubjectsListPanel extends Panel {
 
 	private SubjectFilter subjectFilter;
 
+	private String language;
+	
 	public SubjectsListPanel(String id) {
 		super(id);
 		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
@@ -69,9 +73,9 @@ public class SubjectsListPanel extends Panel {
 			@Override
 			protected void populateItem(Item<Subject> item) {
 				Subject subject = item.getModelObject();
-
+				LocalTexts subjectNames = subject.getSubjectNames();
 				item.add(new Label("subject-id", subject.getId()));
-				item.add(new Label("subject-name", subject.getName()));
+				item.add(new Label("subject-name", subjectNames.getText(language)));
 
 				ModalWindow modalWindow = new ModalWindow("modal");
 				item.add(modalWindow);
@@ -94,7 +98,7 @@ public class SubjectsListPanel extends Panel {
 					@Override
 					public void onClick(AjaxRequestTarget target) {
 						try {
-							subjectService.delete(subject.getId());
+							subjectService.delete(subject);
 						} catch (PersistenceException e) {
 							System.out.println("caught PersistenceException");
 						}
@@ -142,7 +146,7 @@ public class SubjectsListPanel extends Panel {
 		rowsContainer.add(ajaxFallbackOrderByBorderId);
 
 		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderText = new AjaxFallbackOrderByBorder("sort-name",
-				Subject_.name, subjectsDataProvider) {
+				Subject_.subjectNames, subjectsDataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -157,7 +161,6 @@ public class SubjectsListPanel extends Panel {
 		};
 		rowsContainer.add(ajaxFallbackOrderByBorderText);
 		add(rowsContainer);
-
 	}
 
 	private class SubjectsDataProvider extends SortableDataProvider<Subject, Serializable> {
@@ -174,10 +177,11 @@ public class SubjectsListPanel extends Panel {
 		public Iterator<Subject> iterator(long first, long count) {
 			Serializable property = getSort().getProperty();
 			SortOrder propertySortOrder = getSortState().getPropertySortOrder(property);
-
+			language = Session.get().getLocale().getLanguage();
 			subjectFilter.setSortProperty((SingularAttribute) property);
 			subjectFilter.setSortOrder(propertySortOrder.equals(SortOrder.ASCENDING) ? true : false);
-
+			subjectFilter.setLanguage(language);
+			
 			subjectFilter.setLimit((int) count);
 			subjectFilter.setOffset((int) first);
 			return subjectService.find(subjectFilter).iterator();

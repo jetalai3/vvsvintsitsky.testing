@@ -6,22 +6,23 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Subject extends AbstractModel {
-	@Column
-	private String name;
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	private LocalTexts subjectNames;
 	@OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
 	private List<Examination> examinations;
 	@OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
 	private List<Question> questions;
 
-	public String getName() {
-		return name;
+	public LocalTexts getSubjectNames() {
+		return subjectNames;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setSubjectNames(LocalTexts subjectNames) {
+		this.subjectNames = subjectNames;
 	}
 
 	public List<Examination> getExaminations() {

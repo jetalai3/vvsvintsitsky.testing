@@ -6,12 +6,17 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import vvsvintsitsky.testing.dataaccess.LocalTextsDao;
 import vvsvintsitsky.testing.dataaccess.QuestionDao;
+import vvsvintsitsky.testing.dataaccess.VariousTextsDao;
 import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
 import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
 import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
+import vvsvintsitsky.testing.datamodel.Answer;
+import vvsvintsitsky.testing.datamodel.LocalTexts;
 import vvsvintsitsky.testing.datamodel.Examination;
+import vvsvintsitsky.testing.datamodel.LanguageVariant;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.service.QuestionService;
 
@@ -21,6 +26,12 @@ public class QuestionServiceImpl implements QuestionService {
 	@Inject
 	private QuestionDao questionDao;
 
+	@Inject
+	private LocalTextsDao localTextsDao;
+	
+	@Inject
+	private VariousTextsDao variousTextsDao;
+	
 	@Override
 	public void createQuestion(Question question) {
 		questionDao.insert(question);
@@ -53,16 +64,24 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public void saveOrUpdate(Question question) {
+		
 		if (question.getId() != null) {
+			variousTextsDao.update(question.getQuestionTexts().getRusText());
+			variousTextsDao.update(question.getQuestionTexts().getEngText());
+			localTextsDao.update(question.getQuestionTexts());
 			questionDao.update(question);
 		} else {
+			variousTextsDao.insert(question.getQuestionTexts().getRusText());
+			variousTextsDao.insert(question.getQuestionTexts().getEngText());
+			localTextsDao.insert(question.getQuestionTexts());
 			questionDao.insert(question);
 		}
 	}
 
 	@Override
 	public List<Question> find(QuestionFilter filter) {
-		return questionDao.find(filter);
+		List<Question> questions = questionDao.find(filter);
+		return questions;
 	}
 
 	@Override
@@ -71,13 +90,13 @@ public class QuestionServiceImpl implements QuestionService {
 	}
 
 	@Override
-	public void getQuestionsWithAnswers(Examination examination) {
-		examination.setQuestions(questionDao.getQuestionsWithAnswers(examination.getId()));
+	public void getQuestionsWithAnswers(Examination examination, String language) {
+		List<Question> questions = questionDao.getQuestionsWithAnswers(examination.getId(), language);
+		examination.setQuestions(questions);
 	}
 
 	@Override
 	public Question getQuestionWithAnswers(Long id) {
 		return questionDao.getQuestionWithAnswers(id);
-		
 	}
 }

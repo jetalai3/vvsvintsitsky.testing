@@ -7,6 +7,9 @@
 
 	<entry key="abstractPage.mainText">Testing</entry>
 
+	<entry key="rusText">Russian text</entry>
+	<entry key="engText">English text</entry>
+
 	<entry key="accountEditPage.mainText">Profile edit</entry>
 	<entry key="accountEditPage.firstName">First name</entry>
 	<entry key="accountEditPage.lastName">Last name</entry>
@@ -29,15 +32,17 @@
 	<entry key="accountsListPanel.edit">Edit</entry>
 	
 	<entry key="answerEditPanel.answerText">Answer text</entry>
+	<entry key="answerEditPanel.correct">Is correct</entry>
 	<entry key="answerEditPanel.save">Save</entry>
 	<entry key="answerEditPanel.cancel">Cancel</entry>
 	
-	<entry key="answerEditPanel.id">Id</entry>
-	<entry key="answerEditPanel.answerText">Answer text</entry>
-	<entry key="answerEditPanel.correct">Correct</entry>
-	<entry key="answerEditPanel.actions">Actions</entry>
-	<entry key="answerEditPanel.delete">Delete</entry>
-	<entry key="answerEditPanel.edit">Edit</entry>
+	<entry key="answersListPanel.id">Id</entry>
+	<entry key="answersListPanel.answerText">Answer text</entry>
+	<entry key="answersListPanel.correct">Correct</entry>
+	<entry key="answersListPanel.actions">Actions</entry>
+	<entry key="answersListPanel.delete">Delete</entry>
+	<entry key="answersListPanel.edit">Edit</entry>
+	
 	
 	<entry key="completingPage.mainText">Complete the test below</entry>
 	
@@ -70,7 +75,7 @@
 	<entry key="homePage.mainText">Home page</entry>
 	
 	<entry key="loginPage.title">Logging in</entry>
-	<entry key="loginPage.loginHeader">Log in</entry>
+	<entry key="loginPage.loginHeader">Username</entry>
 	<entry key="loginPage.login">Login</entry>
 	<entry key="loginPage.email">Email</entry>
 	<entry key="loginPage.password">Password</entry>

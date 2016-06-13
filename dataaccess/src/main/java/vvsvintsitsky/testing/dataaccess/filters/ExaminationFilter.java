@@ -14,8 +14,11 @@ import org.hibernate.jpa.criteria.OrderImpl;
 import vvsvintsitsky.testing.datamodel.AccountProfile_;
 import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.datamodel.Examination_;
+import vvsvintsitsky.testing.datamodel.LocalTexts_;
 import vvsvintsitsky.testing.datamodel.Question_;
 import vvsvintsitsky.testing.datamodel.Subject_;
+import vvsvintsitsky.testing.datamodel.VariousTexts;
+import vvsvintsitsky.testing.datamodel.VariousTexts_;
 
 public class ExaminationFilter extends AbstractFilter<Examination> {
 	private Long id;
@@ -28,6 +31,7 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 	private boolean isFetchSubject;
 	private Long accountProfileId;
 	private Long subjectId;
+	private String language;
 
 	public boolean getIsFetchQuestions() {
 		return isFetchQuestions;
@@ -109,6 +113,14 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 		this.subjectId = subjectId;
 	}
 
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
 	@Override
 	public Predicate getQueryPredicate(CriteriaBuilder cb, Root<Examination> from) {
 		List<Predicate> predicateList = new ArrayList<Predicate>();
@@ -149,31 +161,58 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 	}
 
 	private Predicate namePredicate(CriteriaBuilder cb, Root<Examination> from) {
-		return cb.equal(from.get(Examination_.name), getName());
+		if (language.equals("ru")) {
+			return cb.equal(from.get(Examination_.examinationNames).get(LocalTexts_.rusText).get(VariousTexts_.txt),
+					getName());
+		}
+		if (language.equals("en")) {
+			return cb.equal(from.get(Examination_.examinationNames).get(LocalTexts_.engText).get(VariousTexts_.txt),
+					getName());
+		}
+		return null;
 	}
-	
+
 	private Predicate accountProfilePredicate(CriteriaBuilder cb, Root<Examination> from) {
 		return cb.equal(from.get(Examination_.accountProfile).get(AccountProfile_.id), getAccountProfileId());
 	}
-	
+
 	private Predicate subjectPredicate(CriteriaBuilder cb, Root<Examination> from) {
 		return cb.equal(from.get(Examination_.subject).get(Subject_.id), getSubjectId());
 	}
 
 	public void setFetching(Root<Examination> from) {
-		if (isFetchQuestions) {
-			from.fetch(Examination_.questions, JoinType.LEFT);
-		}
 		if (isFetchAccountProfile) {
 			from.fetch(Examination_.accountProfile, JoinType.LEFT);
 		}
 		if (isFetchResults) {
 			from.fetch(Examination_.results, JoinType.LEFT);
 		}
-		if (isFetchSubject) {
-			from.fetch(Examination_.subject, JoinType.LEFT);
+		if (language.equals("ru")) {
+			from.fetch(Examination_.examinationNames, JoinType.LEFT).fetch(LocalTexts_.rusText, JoinType.LEFT);
 		}
-
+		if (language.equals("en")) {
+			from.fetch(Examination_.examinationNames, JoinType.LEFT).fetch(LocalTexts_.engText, JoinType.LEFT);
+		}
+		if (language.equals("ru")) {
+			if (isFetchQuestions) {
+				from.fetch(Examination_.questions, JoinType.LEFT).fetch(Question_.questionTexts, JoinType.LEFT)
+						.fetch(LocalTexts_.rusText, JoinType.LEFT);
+			}
+			if (isFetchSubject) {
+				from.fetch(Examination_.subject, JoinType.LEFT).fetch(Subject_.subjectNames, JoinType.LEFT)
+						.fetch(LocalTexts_.rusText, JoinType.LEFT);
+			}
+		}
+		if (language.equals("en")) {
+			if (isFetchQuestions) {
+				from.fetch(Examination_.questions, JoinType.LEFT).fetch(Question_.questionTexts, JoinType.LEFT)
+						.fetch(LocalTexts_.engText, JoinType.LEFT);
+			}
+			if (isFetchSubject) {
+				from.fetch(Examination_.subject, JoinType.LEFT).fetch(Subject_.subjectNames, JoinType.LEFT)
+						.fetch(LocalTexts_.engText, JoinType.LEFT);
+			}
+		}
 	}
 
 	@Override
@@ -182,10 +221,7 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
 			return;
 		}
-		if (getSortProperty() == Examination_.name) {
-			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
-			return;
-		}
+
 		if (getSortProperty() == Examination_.beginDate) {
 			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
 			return;
@@ -194,15 +230,38 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
 			return;
 		}
-		if (getSortProperty() == Subject_.name) {
-			query.orderBy(new OrderImpl(from.get(Examination_.subject).get(getSortProperty()), isSortOrder()));
-			return;
+		if (language.equals("ru")) {
+			if (getSortProperty() == Examination_.examinationNames) {
+				query.orderBy(new OrderImpl(
+						from.get(Examination_.examinationNames).get(LocalTexts_.rusText).get(VariousTexts_.txt),
+						isSortOrder()));
+				return;
+			}
+			if (getSortProperty() == Subject_.subjectNames) {
+				query.orderBy(new OrderImpl(from.get(Examination_.subject).get(Subject_.subjectNames)
+						.get(LocalTexts_.rusText).get(VariousTexts_.txt), isSortOrder()));
+				return;
+			}
 		}
+		if (language.equals("en")) {
+			if (getSortProperty() == Examination_.examinationNames) {
+				query.orderBy(new OrderImpl(
+						from.get(Examination_.examinationNames).get(LocalTexts_.engText).get(VariousTexts_.txt),
+						isSortOrder()));
+				return;
+			}
+			if (getSortProperty() == Subject_.subjectNames) {
+				query.orderBy(new OrderImpl(from.get(Examination_.subject).get(Subject_.subjectNames)
+						.get(LocalTexts_.engText).get(VariousTexts_.txt), isSortOrder()));
+				return;
+			}
+		}
+
 		if (getSortProperty() == AccountProfile_.id) {
 			query.orderBy(new OrderImpl(from.get(Examination_.accountProfile).get(getSortProperty()), isSortOrder()));
 			return;
 		}
-		
+
 	}
 
 }

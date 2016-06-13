@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
+
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.event.IEvent;
@@ -21,6 +23,8 @@ import org.apache.wicket.model.Model;
 
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Answer;
+import vvsvintsitsky.testing.datamodel.LocalTexts;
+import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.AnswerService;
 import vvsvintsitsky.testing.webapp.common.events.AnswerAddEvent;
 import vvsvintsitsky.testing.webapp.page.answer.AnswerEditPanel;
@@ -30,10 +34,13 @@ public class AnswersListPanel extends Panel {
 	@Inject
 	private AnswerService answerService;
 
+	@Inject
+	private QuestionService questionService;
+
 	private List<Answer> answers;
 
 	private Question question;
-
+	
 	public AnswersListPanel(String id, Question question) {
 		super(id);
 
@@ -46,12 +53,17 @@ public class AnswersListPanel extends Panel {
 
 		ListDataProvider<Answer> listDataProvider = new ListDataProvider<Answer>(answers);
 		DataView<Answer> dataView = new DataView<Answer>("rows", listDataProvider) {
+			
+			private String language = Session.get().getLocale().getLanguage();
+			
 			@Override
 			protected void populateItem(Item<Answer> item) {
 				Answer answer = item.getModelObject();
 
 				item.add(new Label("id", answer.getId()));
-				item.add(new Label("text", answer.getText()));
+				LocalTexts localTexts = answer.getAnswerTexts();
+				language = Session.get().getLocale().getLanguage();
+				item.add(new Label("text", localTexts.getText(language)));
 				CheckBox checkbox = new CheckBox("correct", Model.of(answer.getCorrect()));
 				item.add(checkbox.setEnabled(false));
 				ModalWindow modalWindow = new ModalWindow("modal");
@@ -64,7 +76,6 @@ public class AnswersListPanel extends Panel {
 					public void onClick(AjaxRequestTarget target) {
 						modalWindow.setContent(new AnswerEditPanel(modalWindow, answer));
 						modalWindow.show(target);
-
 					}
 				});
 
@@ -80,12 +91,10 @@ public class AnswersListPanel extends Panel {
 							if (answer.getId() != null) {
 								answerService.delete(answer.getId());
 							}
-
 						} catch (PersistenceException e) {
 							System.out.println("caught PersistenceException");
 						}
 						target.add(rowsContainer);
-
 					}
 				});
 
@@ -100,13 +109,9 @@ public class AnswersListPanel extends Panel {
 					}
 				});
 			}
-
 		};
-
 		rowsContainer.add(dataView);
-
 		add(rowsContainer);
-
 	}
 
 	@Override
@@ -117,9 +122,7 @@ public class AnswersListPanel extends Panel {
 			if (!(this.question.getAnswers().contains(answer))) {
 				this.question.getAnswers().add(answer);
 			}
-
 			answers.clear();
-
 			answers.addAll(question.getAnswers());
 
 		}

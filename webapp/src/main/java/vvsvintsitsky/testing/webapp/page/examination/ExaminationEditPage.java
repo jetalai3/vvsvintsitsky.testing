@@ -1,15 +1,16 @@
 package vvsvintsitsky.testing.webapp.page.examination;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.authorization.Action;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeAction;
+import org.apache.wicket.event.Broadcast;
+import org.apache.wicket.event.IEvent;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.extensions.markup.html.form.palette.theme.DefaultTheme;
@@ -25,20 +26,23 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.CollectionModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-
-import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
-
 import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
 import vvsvintsitsky.testing.dataaccess.filters.SubjectFilter;
+import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.Examination;
+import vvsvintsitsky.testing.datamodel.LocalTexts;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Subject;
+import vvsvintsitsky.testing.datamodel.VariousTexts;
 import vvsvintsitsky.testing.service.ExaminationService;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.SubjectService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.QuestionChoiceRenderer;
 import vvsvintsitsky.testing.webapp.common.SubjectChoiceRenderer;
+import vvsvintsitsky.testing.webapp.common.events.AnswerAddEvent;
+import vvsvintsitsky.testing.webapp.common.events.LanguageChangedEvent;
+import vvsvintsitsky.testing.webapp.common.events.SubjectChangeEvent;
 import vvsvintsitsky.testing.webapp.page.AbstractPage;
 
 public class ExaminationEditPage extends AbstractPage {
@@ -54,13 +58,38 @@ public class ExaminationEditPage extends AbstractPage {
 
 	private Examination examination;
 
+	private List<Question> exQuestions;
+	
+	private List<Question> allQuestions;
+	
+	QuestionFilter questionFilter;
+	
+	private LocalTexts texts;
+
+	private VariousTexts rusText;
+
+	private VariousTexts engText;
+
+	private String language;
+
 	public ExaminationEditPage(PageParameters parameters) {
 		super(parameters);
 	}
 
 	public ExaminationEditPage(Examination examination) {
 		super();
-		this.examination = examination;
+		language = Session.get().getLocale().getLanguage();
+		if(examination.getId() == null) {
+			this.examination = examination;
+			rusText = new VariousTexts();
+			engText = new VariousTexts();
+			texts = new LocalTexts();
+		} else {
+			this.examination = examinationService.getWithAllTexts(examination.getId(), language);
+			texts = this.examination.getExaminationNames();
+			rusText = texts.getRusText();
+			engText = texts.getEngText();
+		}
 	}
 
 	@Override
@@ -70,11 +99,22 @@ public class ExaminationEditPage extends AbstractPage {
 		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
 		rowsContainer.setOutputMarkupId(true);
 		add(rowsContainer);
-		
+
 		Form<Examination> form = new Form<Examination>("form", new CompoundPropertyModel<>(examination));
 		rowsContainer.add(form);
 
-		form.add(new TextField<>("name").setRequired(true));
+		Form<VariousTexts> formRusText = new Form<VariousTexts>("formRusText", new CompoundPropertyModel<>(rusText));
+		form.add(formRusText);
+		formRusText.add(new TextField<>("txt").setRequired(true));
+		
+		Form<VariousTexts> formEngText = new Form<VariousTexts>("formEngText", new CompoundPropertyModel<>(engText));
+		form.add(formEngText);
+		formEngText.add(new TextField<>("txt").setRequired(true));
+		
+		FeedbackPanel feedBackPanel = new FeedbackPanel("feedback");
+		feedBackPanel.setOutputMarkupId(true);
+		form.add(feedBackPanel);
+		
 		DateTextField beginDateField = new DateTextField("beginDate");
 		beginDateField.add(new DatePicker());
 		beginDateField.setRequired(true);
@@ -83,11 +123,25 @@ public class ExaminationEditPage extends AbstractPage {
 		endDateField.add(new DatePicker());
 		endDateField.setRequired(true);
 		form.add(endDateField);
-		List<Subject> allSubjects = subjectService.find(new SubjectFilter());
-		QuestionFilter questionFilter = new QuestionFilter();
-		List<Question> allQuestions = questionService.find(questionFilter);
-		DropDownChoice<Subject> dropDownChoice = new DropDownChoice<>("subject", allSubjects,
-				SubjectChoiceRenderer.INSTANCE);
+
+		List<Subject> allSubjects = subjectService.getAllWithLanguageText(Session.get().getLocale().getLanguage());
+		questionFilter = new QuestionFilter();
+		questionFilter.setFetchTexts(true);
+		questionFilter.setLanguage(Session.get().getLocale().getLanguage());
+		allQuestions = questionService.find(questionFilter);
+		
+		
+		DropDownChoice<Subject> dropDownChoice = new DropDownChoice<Subject>("subject", allSubjects,
+				SubjectChoiceRenderer.INSTANCE){
+			@Override
+			public void onEvent(IEvent<?> event) {
+				if (event.getPayload() instanceof LanguageChangedEvent) {
+					allSubjects.clear();
+					SubjectChoiceRenderer.language = Session.get().getLocale().getLanguage();
+					allSubjects.addAll(subjectService.getAllWithLanguageText(SubjectChoiceRenderer.language));
+				}
+			}
+		};
 		dropDownChoice.setRequired(true);
 		form.add(dropDownChoice);
 		dropDownChoice.add(new AjaxEventBehavior("change") {
@@ -95,43 +149,53 @@ public class ExaminationEditPage extends AbstractPage {
 			protected void onEvent(AjaxRequestTarget target) {
 				dropDownChoice.onSelectionChanged();
 				Subject subject = dropDownChoice.getModelObject();
-				questionFilter.setSubjectName(subject.getName());
+
+				language = Session.get().getLocale().getLanguage();
+
+				questionFilter.setSubjectName(subject.getSubjectNames().getText(language));
 				allQuestions.clear();
 				allQuestions.addAll(questionService.find(questionFilter));
 				target.add(rowsContainer);
 			}
 		});
 
-		
 		final Palette<Question> palette = new Palette<Question>("questions", Model.ofList(examination.getQuestions()),
 				new CollectionModel<Question>(allQuestions), QuestionChoiceRenderer.INSTANCE, 15, false, true);
 		palette.add(new DefaultTheme());
 		form.add(palette);
 
-		FeedbackPanel feedbackPanel = new JQueryFeedbackPanel("feedback");
-		feedbackPanel.setOutputMarkupId(true);
-		form.add(feedbackPanel);
-		
-		form.add(new AjaxSubmitLink("save") {
+		form.add(new SubmitLink("save") {
 			@Override
-			public void onSubmit(AjaxRequestTarget target, Form<?> form) {
-				super.onSubmit(target, form);
-				Date currentDate = new Date();
-				boolean conditionOne = beginDateField.getModelObject().getTime() > endDateField.getModelObject().getTime();
-				boolean conditionTwo = beginDateField.getModelObject().getTime() < currentDate.getTime();
-				if(conditionOne || conditionTwo){
-					feedbackPanel.info("Wrong dates");
-					target.add(rowsContainer);
-				} else {
-					examination.setAccountProfile(AuthorizedSession.get().getLoggedUser());
-					examinationService.saveOrUpdate(examination);
-					setResponsePage(new ExaminationsPage());
-				}
-				
+			public void onSubmit() {
+				super.onSubmit();
+				texts.setRusText(rusText);
+				texts.setEngText(engText);
+				examination.setExaminationNames(texts);
+				examination.setAccountProfile(AuthorizedSession.get().getLoggedUser());
+				examinationService.saveOrUpdate(examination);
+				setResponsePage(new ExaminationsPage());
 			}
 		});
 	}
 
+	@Override
+	public void onEvent(IEvent<?> event) {
+		if (event.getPayload() instanceof LanguageChangedEvent) {
+			
+			
+			allQuestions.clear();
+			QuestionChoiceRenderer.language = Session.get().getLocale().getLanguage();
+			questionFilter.setLanguage(QuestionChoiceRenderer.language);
+			allQuestions.addAll(questionService.find(questionFilter));
+//			answers.clear();
+//			answers.addAll(question.getAnswers());
+
+		}
+
+	}
+
+	
+	
 	@AuthorizeAction(roles = { "ADMIN" }, action = Action.ENABLE)
 	private class ExaminationForm<T> extends Form<T> {
 

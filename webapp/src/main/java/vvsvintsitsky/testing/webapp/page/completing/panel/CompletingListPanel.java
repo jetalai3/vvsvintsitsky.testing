@@ -2,13 +2,17 @@ package vvsvintsitsky.testing.webapp.page.completing.panel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import javax.inject.Inject;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
 import org.apache.wicket.authorization.Action;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeAction;
+import org.apache.wicket.event.IEvent;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -26,6 +30,8 @@ import vvsvintsitsky.testing.datamodel.Result;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.ResultService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
+import vvsvintsitsky.testing.webapp.common.QuestionChoiceRenderer;
+import vvsvintsitsky.testing.webapp.common.events.LanguageChangedEvent;
 import vvsvintsitsky.testing.webapp.common.iterator.CustomIterator;
 import vvsvintsitsky.testing.webapp.page.home.HomePage;
 
@@ -44,10 +50,20 @@ public class CompletingListPanel extends Panel {
 
 	private Examination examination;
 	
+	CustomIterator<Question> sListiterator;
+	
+	List<Answer> answers;
+	
+	Model<String> questionModel;
+	
+	private String language = Session.get().getLocale().getLanguage();
+	
 	public CompletingListPanel(String id, Examination examination) {
 		super(id);
 		this.examination = examination;
-		questionService.getQuestionsWithAnswers(this.examination);
+		Locale locale = Session.get().getLocale();
+		
+		questionService.getQuestionsWithAnswers(this.examination, locale.getLanguage());
 		this.questions = examination.getQuestions();
 
 	}
@@ -61,16 +77,16 @@ public class CompletingListPanel extends Panel {
 		rowsContainer.setOutputMarkupId(true);
 		add(rowsContainer);
 
-		CustomIterator<Question> sListiterator = new CustomIterator<Question>(questions);
+		sListiterator = new CustomIterator<Question>(questions);
 
 		if (sListiterator.hasNext()) {
 			question = sListiterator.next();
 		}
 
-		Model<String> questionModel = Model.of(question.getText());
+		questionModel = Model.of(question.getQuestionTexts().getText(language));
 		rowsContainer.add(new Label("question-text", questionModel));
 
-		List<Answer> answers = new ArrayList<Answer>(question.getAnswers());
+		answers = new ArrayList<Answer>(question.getAnswers());
 
 		DataView<Answer> dataView = new DataView<Answer>("rows", new ListDataProvider<Answer>(answers)) {
 			@Override
@@ -79,7 +95,7 @@ public class CompletingListPanel extends Panel {
 				Form<Answer> form = new Form<Answer>("form", new CompoundPropertyModel<>(answer));
 
 				item.add(new Label("id", answer.getId()));
-				item.add(new Label("answer-text", answer.getText()));
+				item.add(new Label("answer-text", answer.getAnswerTexts().getText(language)));
 				form.add(new AjaxCheckBox("answered") {
 					@Override
 					protected void onUpdate(AjaxRequestTarget target) {
@@ -133,7 +149,7 @@ public class CompletingListPanel extends Panel {
 
 					answers.addAll(question.getAnswers());
 
-					questionModel.setObject(question.getText());
+					questionModel.setObject(question.getQuestionTexts().getText(language));
 
 				} else {
 					this.setVisible(false);
@@ -159,7 +175,7 @@ public class CompletingListPanel extends Panel {
 					answers.clear();
 					answers.addAll(question.getAnswers());
 
-					questionModel.setObject(question.getText());
+					questionModel.setObject(question.getQuestionTexts().getText(language));
 				}
 				target.add(rowsContainer);
 
@@ -170,6 +186,27 @@ public class CompletingListPanel extends Panel {
 
 	}
 
+	
+	@Override
+	public void onEvent(IEvent<?> event) {
+		if (event.getPayload() instanceof LanguageChangedEvent) {
+			
+			this.questions.clear();
+			language = Session.get().getLocale().getLanguage();
+			questionService.getQuestionsWithAnswers(this.examination,  language);
+			this.questions = examination.getQuestions();
+			sListiterator = new CustomIterator<Question>(questions);
+			if (sListiterator.hasNext()) {
+				question = sListiterator.next();
+			}
+			questionModel.setObject(question.getQuestionTexts().getText(language));
+			answers.clear();
+			answers.addAll(question.getAnswers());
+
+		}
+
+	}
+	
 
 	@AuthorizeAction(roles = { "ADMIN" }, action = Action.ENABLE)
 	private class QuestionForm<T> extends Form<T> {

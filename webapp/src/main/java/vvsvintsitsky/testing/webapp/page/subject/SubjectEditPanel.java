@@ -26,9 +26,12 @@ import org.apache.wicket.validation.validator.RangeValidator;
 
 import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
+import vvsvintsitsky.testing.datamodel.Answer;
+import vvsvintsitsky.testing.datamodel.LocalTexts;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Subject;
 import vvsvintsitsky.testing.datamodel.UserRole;
+import vvsvintsitsky.testing.datamodel.VariousTexts;
 import vvsvintsitsky.testing.service.AccountService;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.SubjectService;
@@ -38,49 +41,73 @@ import vvsvintsitsky.testing.webapp.page.AbstractPage;
 
 public class SubjectEditPanel extends Panel {
 
-    @Inject
-    private SubjectService subjectService;
+	@Inject
+	private SubjectService subjectService;
 
-    
-    
-    private Subject subject;
+	private Subject subject;
 
-    private ModalWindow modalWindow;
-    
-    public SubjectEditPanel(ModalWindow modalWindow, Subject subject) {
-    		super(modalWindow.getContentId());
-    		this.subject = subject;
-    		this.modalWindow = modalWindow;
-    	}
+	private LocalTexts texts;
 
-    	@Override
-    	protected void onInitialize() {
-    		super.onInitialize();
-    		Form<Subject> form = new Form<Subject>("form", new CompoundPropertyModel<>(subject));
-    		add(form);
+	private VariousTexts rusText;
 
-    		form.add(new TextField<>("name").setRequired(true));
+	private VariousTexts engText;
 
-    		form.add(new AjaxSubmitLink("save") {
+	private ModalWindow modalWindow;
 
-    			private static final long serialVersionUID = -5210362644590530669L;
+	public SubjectEditPanel(ModalWindow modalWindow, Subject subject) {
+		super(modalWindow.getContentId());
+		if (subject.getId() != null) {
+			this.subject = subjectService.getWithAllTexts(subject.getId());
+			this.texts = this.subject.getSubjectNames();
+			this.rusText = this.texts.getRusText();
+			this.engText = this.texts.getEngText();
 
-    			@Override
-    			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-    				super.onSubmit(target, form);
-    				subjectService.saveOrUpdate(subject);
-    				modalWindow.close(target);
-    			}
-    		});
-    		
-    		form.add(new AjaxLink<Object>("cancel") {
+		} else {
+			this.subject = new Subject();
+			this.texts = new LocalTexts();
+			this.rusText = new VariousTexts();
+			this.engText = new VariousTexts();
+		}
+		this.modalWindow = modalWindow;
+	}
 
-    			private static final long serialVersionUID = 2020843267475126323L;
+	@Override
+	protected void onInitialize() {
+		super.onInitialize();
+		Form<Subject> form = new Form<Subject>("form", new CompoundPropertyModel<>(subject));
+		add(form);
 
-    			@Override
-    			public void onClick(AjaxRequestTarget target) {
-    				modalWindow.close(target);
-    			}
-    		});
-    	}
+		Form<VariousTexts> formRusText = new Form<VariousTexts>("formRusText", new CompoundPropertyModel<>(rusText));
+		form.add(formRusText);
+		formRusText.add(new TextField<>("txt").setRequired(true));
+
+		Form<VariousTexts> formEngText = new Form<VariousTexts>("formEngText", new CompoundPropertyModel<>(engText));
+		form.add(formEngText);
+		formEngText.add(new TextField<>("txt").setRequired(true));
+
+		form.add(new AjaxSubmitLink("save") {
+
+			private static final long serialVersionUID = -5210362644590530669L;
+
+			@Override
+			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				super.onSubmit(target, form);
+				texts.setRusText(rusText);
+				texts.setEngText(engText);
+				subject.setSubjectNames(texts);
+				subjectService.saveOrUpdate(subject);
+				modalWindow.close(target);
+			}
+		});
+
+		form.add(new AjaxLink<Object>("cancel") {
+
+			private static final long serialVersionUID = 2020843267475126323L;
+
+			@Override
+			public void onClick(AjaxRequestTarget target) {
+				modalWindow.close(target);
+			}
+		});
+	}
 }

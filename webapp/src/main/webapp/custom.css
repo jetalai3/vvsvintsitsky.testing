@@ -1,5 +1,18 @@
+form.formAccountProfile {
+	margin: auto;
+}
+form.form{
+	margin: auto;
+}
+
+table.general-table {
+	border: none;
+	margin: auto;
+}
+
 table.list-table {
 	border-collapse: collapse;
+	margin: auto;
 }
 
 table.list-table tr th {

@@ -7,11 +7,14 @@ import java.util.Locale;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.event.Broadcast;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 
 import vvsvintsitsky.testing.webapp.common.LocaleChoiceRenderer;
+import vvsvintsitsky.testing.webapp.common.events.AnswerAddEvent;
+import vvsvintsitsky.testing.webapp.common.events.LanguageChangedEvent;
 
 public class LanguageSelectionComponent extends Panel {
     public static final List<Locale> SUPPORTED_LOCALES = new ArrayList<>();
@@ -39,6 +42,7 @@ public class LanguageSelectionComponent extends Panel {
             protected void onUpdate(AjaxRequestTarget target) {
                 Locale selectedLocale = dropDownChoice.getModelObject();
                 Session.get().setLocale(selectedLocale);
+                send(getPage(), Broadcast.BREADTH, new LanguageChangedEvent());
                 setResponsePage(getPage());
             }
         });

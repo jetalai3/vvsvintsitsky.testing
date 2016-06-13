@@ -7,6 +7,8 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import vvsvintsitsky.testing.dataaccess.ExaminationDao;
+import vvsvintsitsky.testing.dataaccess.LocalTextsDao;
+import vvsvintsitsky.testing.dataaccess.VariousTextsDao;
 import vvsvintsitsky.testing.dataaccess.filters.AnswerFilter;
 import vvsvintsitsky.testing.dataaccess.filters.ExaminationFilter;
 import vvsvintsitsky.testing.datamodel.Answer;
@@ -18,7 +20,13 @@ public class ExaminationServiceImpl implements ExaminationService {
 
 	@Inject
 	private ExaminationDao examinationDao;
-	
+
+	@Inject
+	private LocalTextsDao localTextsDao;
+
+	@Inject
+	private VariousTextsDao variousTextsDao;
+
 	@Override
 	public void createExamination(Examination examination) {
 		examinationDao.insert(examination);
@@ -38,9 +46,9 @@ public class ExaminationServiceImpl implements ExaminationService {
 	public void delete(Long id) {
 		examinationDao.delete(id);
 	}
-	
+
 	@Override
-	public void deleteAll(){
+	public void deleteAll() {
 		examinationDao.deleteAll();
 	}
 
@@ -57,15 +65,26 @@ public class ExaminationServiceImpl implements ExaminationService {
 	@Override
 	public void saveOrUpdate(Examination examination) {
 		if (examination.getId() != null) {
+			variousTextsDao.update(examination.getExaminationNames().getRusText());
+			variousTextsDao.update(examination.getExaminationNames().getEngText());
+			localTextsDao.update(examination.getExaminationNames());
 			examinationDao.update(examination);
 		} else {
+			variousTextsDao.insert(examination.getExaminationNames().getRusText());
+			variousTextsDao.insert(examination.getExaminationNames().getEngText());
+			localTextsDao.insert(examination.getExaminationNames());
 			examinationDao.insert(examination);
 		}
 	}
-	
+
 	@Override
 	public long count(ExaminationFilter examinationFilter) {
 		return examinationDao.count(examinationFilter);
+	}
+
+	@Override
+	public Examination getWithAllTexts(Long id, String language) {
+		return examinationDao.getWithAllTexts(id, language);
 	}
 
 }

@@ -10,31 +10,16 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.jpa.criteria.OrderImpl;
 
+import vvsvintsitsky.testing.datamodel.LocalTexts_;
 import vvsvintsitsky.testing.datamodel.Question_;
 import vvsvintsitsky.testing.datamodel.Subject;
 import vvsvintsitsky.testing.datamodel.Subject_;
+import vvsvintsitsky.testing.datamodel.VariousTexts_;
 
 public class SubjectFilter extends AbstractFilter<Subject> {
 	private Long id;
 	private String name;
-	private boolean isFetchExaminations;
-	private boolean isFetchQuestions;
-
-	public boolean getIsFetchExaminations() {
-		return isFetchExaminations;
-	}
-
-	public void setIsFetchExaminations(boolean isFetchExaminations) {
-		this.isFetchExaminations = isFetchExaminations;
-	}
-
-	public boolean getIsFetchQuestions() {
-		return isFetchQuestions;
-	}
-
-	public void setIsFetchQuestions(boolean isFetchQuestions) {
-		this.isFetchQuestions = isFetchQuestions;
-	}
+	private String language;
 
 	public Long getId() {
 		return id;
@@ -50,6 +35,14 @@ public class SubjectFilter extends AbstractFilter<Subject> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 	@Override
@@ -72,15 +65,21 @@ public class SubjectFilter extends AbstractFilter<Subject> {
 	}
 
 	private Predicate namePredicate(CriteriaBuilder cb, Root<Subject> from) {
-		return cb.equal(from.get(Subject_.name), getName());
+		if (language.equals("ru")) {
+			return cb.equal(from.get(Subject_.subjectNames).get(LocalTexts_.rusText).get(VariousTexts_.txt), getName());
+		}
+		if (language.equals("en")) {
+			return cb.equal(from.get(Subject_.subjectNames).get(LocalTexts_.engText).get(VariousTexts_.txt), getName());
+		}
+		return null;
 	}
 
 	public void setFetching(Root<Subject> from) {
-		if (isFetchExaminations) {
-			from.fetch(Subject_.examinations, JoinType.LEFT);
+		if (language.equals("ru")) {
+			from.fetch(Subject_.subjectNames, JoinType.LEFT).fetch(LocalTexts_.rusText, JoinType.LEFT);
 		}
-		if (isFetchQuestions) {
-			from.fetch(Subject_.questions, JoinType.LEFT);
+		if (language.equals("en")) {
+			from.fetch(Subject_.subjectNames, JoinType.LEFT).fetch(LocalTexts_.engText, JoinType.LEFT);
 		}
 	}
 
@@ -90,10 +89,15 @@ public class SubjectFilter extends AbstractFilter<Subject> {
 			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
 			return;
 		}
-		if (getSortProperty() == Subject_.name) {
-			query.orderBy(new OrderImpl(from.get(getSortProperty()), isSortOrder()));
-			return;
-
+		if (getSortProperty() == Subject_.subjectNames) {
+			if (language.equals("ru")) {
+				query.orderBy(new OrderImpl(from.get(Subject_.subjectNames).get(LocalTexts_.rusText).get(VariousTexts_.txt), isSortOrder()));
+				return;
+			}
+			if (language.equals("en")) {
+				query.orderBy(new OrderImpl(from.get(Subject_.subjectNames).get(LocalTexts_.engText).get(VariousTexts_.txt), isSortOrder()));
+				return;
+			}
 		}
 	}
 }

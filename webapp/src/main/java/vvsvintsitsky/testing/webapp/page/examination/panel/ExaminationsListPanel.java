@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.metamodel.SingularAttribute;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
@@ -54,6 +55,8 @@ public class ExaminationsListPanel extends Panel {
 
 	@Inject
 	private ExaminationService examinationService;
+	
+	private String language;
 
 	public ExaminationsListPanel(String id) {
 		super(id);
@@ -65,11 +68,13 @@ public class ExaminationsListPanel extends Panel {
 			protected void populateItem(Item<Examination> item) {
 				Examination examination = item.getModelObject();
 
+				language = Session.get().getLocale().getLanguage();
+				
 				item.add(new Label("id", examination.getId()));
-				item.add(new Label("name", examination.getName()));
+				item.add(new Label("name", examination.getExaminationNames().getText(language)));
 				item.add(DateLabel.forDatePattern("beginDate", Model.of(examination.getBeginDate()), "dd-MM-yyyy"));
 				item.add(DateLabel.forDatePattern("endDate", Model.of(examination.getEndDate()), "dd-MM-yyyy"));
-				item.add(new Label("subject", examination.getSubject().getName()));
+				item.add(new Label("subject", examination.getSubject().getSubjectNames().getText(language)));
 				item.add(new Label("accountId", examination.getAccountProfile().getId()));
 
 				item.add(new Link<Void>("edit-link") {
@@ -127,7 +132,7 @@ public class ExaminationsListPanel extends Panel {
 		};
 		rowsContainer.add(ajaxFallbackOrderByBorderId);
 		
-		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderName = new AjaxFallbackOrderByBorder("sort-name", Examination_.name,
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderName = new AjaxFallbackOrderByBorder("sort-name", Examination_.examinationNames,
 				examinationsDataProvider) {
 			private static final long serialVersionUID = 1L;
 
@@ -227,10 +232,10 @@ public class ExaminationsListPanel extends Panel {
 		public Iterator<Examination> iterator(long first, long count) {
 			Serializable property = getSort().getProperty();
 			SortOrder propertySortOrder = getSortState().getPropertySortOrder(property);
-
+			String language = Session.get().getLocale().getLanguage();
 			examinationFilter.setSortProperty((SingularAttribute) property);
 			examinationFilter.setSortOrder(propertySortOrder.equals(SortOrder.ASCENDING) ? true : false);
-
+			examinationFilter.setLanguage(language);
 			examinationFilter.setLimit((int) count);
 			examinationFilter.setOffset((int) first);
 			return examinationService.find(examinationFilter).iterator();

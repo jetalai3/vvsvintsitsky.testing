@@ -5,12 +5,13 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import vvsvintsitsky.testing.dataaccess.filters.AnswerFilter;
+import vvsvintsitsky.testing.datamodel.LocalTexts;
 import vvsvintsitsky.testing.datamodel.Answer;
 
 public interface AnswerService {
 
 	@Transactional
-	void createAnswer(Answer answer);
+	void createAnswer(Answer answer, LocalTexts texts);
 
 	Answer getAnswer(Long id);
 
@@ -34,4 +35,6 @@ public interface AnswerService {
 
 	@Transactional
 	void deleteAll();
+	
+	Answer getWithAllTexts(Long id);
 }

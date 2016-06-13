@@ -7,7 +7,10 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import vvsvintsitsky.testing.dataaccess.AnswerDao;
+import vvsvintsitsky.testing.dataaccess.LocalTextsDao;
+import vvsvintsitsky.testing.dataaccess.VariousTextsDao;
 import vvsvintsitsky.testing.dataaccess.filters.AnswerFilter;
+import vvsvintsitsky.testing.datamodel.LocalTexts;
 import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.service.AnswerService;
 
@@ -17,8 +20,15 @@ public class AnswerServiceImpl implements AnswerService {
 	@Inject
 	private AnswerDao answerDao;
 
+	@Inject
+	private LocalTextsDao localTextsDao;
+
+	@Inject
+	private VariousTextsDao variousTextsDao;
+	
 	@Override
-	public void createAnswer(Answer answer) {
+	public void createAnswer(Answer answer, LocalTexts texts) {
+		answer.setAnswerTexts(texts);
 		answerDao.insert(answer);
 	}
 
@@ -36,9 +46,9 @@ public class AnswerServiceImpl implements AnswerService {
 	public void delete(Long id) {
 		answerDao.delete(id);
 	}
-	
+
 	@Override
-	public void deleteAll(){
+	public void deleteAll() {
 		answerDao.deleteAll();
 	}
 
@@ -55,8 +65,14 @@ public class AnswerServiceImpl implements AnswerService {
 	@Override
 	public void saveOrUpdate(Answer answer) {
 		if (answer.getId() != null) {
+			variousTextsDao.update(answer.getAnswerTexts().getRusText());
+			variousTextsDao.update(answer.getAnswerTexts().getEngText());
+			localTextsDao.update(answer.getAnswerTexts());
 			answerDao.update(answer);
 		} else {
+			variousTextsDao.insert(answer.getAnswerTexts().getRusText());
+			variousTextsDao.insert(answer.getAnswerTexts().getEngText());
+			localTextsDao.insert(answer.getAnswerTexts());
 			answerDao.insert(answer);
 		}
 	}
@@ -67,7 +83,12 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public void deleteAnswerByQuestionId(Long id){
+	public void deleteAnswerByQuestionId(Long id) {
 		answerDao.deleteAnswerByQuestionId(id);
+	}
+
+	@Override
+	public Answer getWithAllTexts(Long id) {
+		return answerDao.getWithAllTexts(id);
 	}
 }

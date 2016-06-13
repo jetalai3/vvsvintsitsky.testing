@@ -72,5 +72,10 @@ public class ResultServiceImpl implements ResultService {
 	public Result getResultWithAnswersAndQuestions(Long id){
 		return resultDao.getResultWithAnswersAndQuestions(id);
 	}
+
+	@Override
+	public List<Question> getResultQuestionsWithAnswers(Long id, String language) {
+		return resultDao.getResultQuestionsWithAnswers(id, language);
+	}
 	
 }

@@ -32,4 +32,5 @@ public interface ExaminationService {
 	@Transactional
 	void deleteAll();
 
+	Examination getWithAllTexts(Long id, String language);
 }

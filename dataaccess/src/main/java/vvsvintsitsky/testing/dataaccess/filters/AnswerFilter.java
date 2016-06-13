@@ -18,6 +18,7 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 	private boolean isFetchResults;
 	private boolean isFetchQuestion;
 	private Long questionId;
+	private String language;
 
 	public Long getQuestionId() {
 		return questionId;
@@ -81,9 +82,6 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 		if (id != null) {
 			predicateList.add(idPredicate(cb, from));
 		}
-		if (text != null) {
-			predicateList.add(textPredicate(cb, from));
-		}
 		if (correct != null) {
 			predicateList.add(correctPredicate(cb, from));
 		}
@@ -98,10 +96,6 @@ public class AnswerFilter extends AbstractFilter<Answer> {
 
 	private Predicate idPredicate(CriteriaBuilder cb, Root<Answer> from) {
 		return cb.equal(from.get(Answer_.id), getId());
-	}
-
-	private Predicate textPredicate(CriteriaBuilder cb, Root<Answer> from) {
-		return cb.equal(from.get(Answer_.text), getText());
 	}
 
 	private Predicate correctPredicate(CriteriaBuilder cb, Root<Answer> from) {

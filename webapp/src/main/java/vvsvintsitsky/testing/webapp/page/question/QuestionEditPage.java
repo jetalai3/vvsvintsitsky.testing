@@ -5,10 +5,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.authorization.Action;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeAction;
+import org.apache.wicket.event.IEvent;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow.WindowClosedCallback;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -22,12 +24,15 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import vvsvintsitsky.testing.datamodel.Answer;
+import vvsvintsitsky.testing.datamodel.LocalTexts;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Subject;
+import vvsvintsitsky.testing.datamodel.VariousTexts;
 import vvsvintsitsky.testing.service.AnswerService;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.SubjectService;
 import vvsvintsitsky.testing.webapp.common.SubjectChoiceRenderer;
+import vvsvintsitsky.testing.webapp.common.events.LanguageChangedEvent;
 import vvsvintsitsky.testing.webapp.page.AbstractPage;
 import vvsvintsitsky.testing.webapp.page.answer.AnswerEditPanel;
 import vvsvintsitsky.testing.webapp.page.answer.panel.AnswersListPanel;
@@ -45,6 +50,12 @@ public class QuestionEditPage extends AbstractPage {
 
 	private Question question;
 
+	private LocalTexts texts;
+
+	private VariousTexts rusText;
+
+	private VariousTexts engText;
+
 	public QuestionEditPage(PageParameters parameters) {
 		super(parameters);
 	}
@@ -54,12 +65,16 @@ public class QuestionEditPage extends AbstractPage {
 
 		if (question.getId() != null) {
 			this.question = questionService.getQuestionWithAnswers(question.getId());
+			this.texts = this.question.getQuestionTexts();
 			this.question.setSubject(question.getSubject());
+			this.rusText = this.texts.getRusText();
+			this.engText = this.texts.getEngText();
 		} else {
 			this.question = question;
-
+			this.texts = new LocalTexts();
+			this.rusText = new VariousTexts();
+			this.engText = new VariousTexts();
 			this.question.setAnswers(new ArrayList<Answer>());
-
 		}
 	}
 
@@ -72,14 +87,28 @@ public class QuestionEditPage extends AbstractPage {
 
 		add(form);
 
-		TextField<String> textField = new TextField<>("text");
-		textField.setRequired(true);
-		form.add(textField);
-
-		DropDownChoice<Subject> subjectField = new DropDownChoice<>("subject", subjectService.getAll(),
-				SubjectChoiceRenderer.INSTANCE);
+		List<Subject> subjects = subjectService.getAllWithLanguageText(Session.get().getLocale().getLanguage());
+		DropDownChoice<Subject> subjectField = new DropDownChoice<Subject>("subject", subjects,
+				SubjectChoiceRenderer.INSTANCE) {
+			@Override
+			public void onEvent(IEvent<?> event) {
+				if (event.getPayload() instanceof LanguageChangedEvent) {
+					subjects.clear();
+					SubjectChoiceRenderer.language = Session.get().getLocale().getLanguage();
+					subjects.addAll(subjectService.getAllWithLanguageText(SubjectChoiceRenderer.language));
+				}
+			}
+		};
 		subjectField.setRequired(true);
 		form.add(subjectField);
+
+		Form<VariousTexts> formRusText = new Form<VariousTexts>("formRusText", new CompoundPropertyModel<>(rusText));
+		form.add(formRusText);
+		formRusText.add(new TextField<>("txt").setRequired(true));
+		
+		Form<VariousTexts> formEngText = new Form<VariousTexts>("formEngText", new CompoundPropertyModel<>(engText));
+		form.add(formEngText);
+		formEngText.add(new TextField<>("txt").setRequired(true));
 
 		form.add(new SubmitLink("save") {
 			@Override
@@ -87,8 +116,11 @@ public class QuestionEditPage extends AbstractPage {
 				super.onSubmit();
 
 				List<Answer> answers = question.getAnswers();
-
+				texts.setRusText(rusText);
+				texts.setEngText(engText);
+				question.setQuestionTexts(texts);
 				questionService.saveOrUpdate(question);
+
 				for (Answer answer : answers) {
 					answer.setQuestion(question);
 					answerService.saveOrUpdate(answer);
@@ -109,7 +141,7 @@ public class QuestionEditPage extends AbstractPage {
 			@Override
 			public void onClick(AjaxRequestTarget target) {
 
-				modalWindow.setContent(new AnswerEditPanel(modalWindow, question));
+				modalWindow.setContent(new AnswerEditPanel(modalWindow, new Answer()));
 
 				modalWindow.show(target);
 
@@ -130,7 +162,7 @@ public class QuestionEditPage extends AbstractPage {
 
 	}
 
-	@AuthorizeAction(roles = { "ADMIN" }, action = Action.ENABLE)
+	 @AuthorizeAction(roles = { "ADMIN" }, action = Action.ENABLE)
 	private class QuestionForm<T> extends Form<T> {
 
 		public QuestionForm(String id, IModel<T> model) {

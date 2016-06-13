@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="form.name.Required">Name field is empty</entry>
+	<!-- <entry key="form.capacity.RangeValidator.range">capacity must be between ${minimum} and ${maximum}</entry>
+	<entry key="form.capacity.IConverter.Integer">capacity must be an integer</entry> -->
+
+</properties>

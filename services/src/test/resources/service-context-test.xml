@@ -22,6 +22,6 @@
 		p:driverClassName="org.postgresql.Driver"
 		p:url="jdbc:postgresql://localhost:5432/testing" 
 		p:username="postgres" 
-		p:password="postgres"
+		p:password="7muCC"
 		p:schema="test" />
 </beans>

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.metamodel.SingularAttribute;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
@@ -36,6 +37,8 @@ import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.AccountProfile_;
 import vvsvintsitsky.testing.datamodel.Account_;
+import vvsvintsitsky.testing.datamodel.LocalTexts;
+import vvsvintsitsky.testing.datamodel.LocalTexts_;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Question_;
 import vvsvintsitsky.testing.datamodel.Subject_;
@@ -57,6 +60,8 @@ public class QuestionsListPanel extends Panel {
 	
 	private QuestionFilter questionFilter;
 
+	private String language;
+	
 	public QuestionsListPanel(String id) {
 		super(id);
 
@@ -67,14 +72,14 @@ public class QuestionsListPanel extends Panel {
 		DataView<Question> dataView = new DataView<Question>("rows", questionsDataProvider, 5) {
 
 			private static final long serialVersionUID = -5461684826840940846L;
-
+			
 			@Override
 			protected void populateItem(Item<Question> item) {
 				Question question = item.getModelObject();
-
+				LocalTexts localTexts = question.getQuestionTexts();
 				item.add(new Label("question-id", question.getId()));
-				item.add(new Label("question-text", question.getText()));
-				item.add(new Label("subject", question.getSubject().getName()));
+				item.add(new Label("question-text", localTexts.getText(language)));
+				item.add(new Label("subject", question.getSubject().getSubjectNames().getText(language)));
 
 				item.add(new Link<Void>("edit-link") {
 					@Override
@@ -109,8 +114,6 @@ public class QuestionsListPanel extends Panel {
 			}
 		});
 
-		
-
 		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderId = new AjaxFallbackOrderByBorder("sort-id", Question_.id,
 				questionsDataProvider) {
 			private static final long serialVersionUID = 1L;
@@ -127,23 +130,41 @@ public class QuestionsListPanel extends Panel {
 		};
 		rowsContainer.add(ajaxFallbackOrderByBorderId);
 
-		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderText = new AjaxFallbackOrderByBorder("sort-text",
-				Question_.text, questionsDataProvider) {
-			private static final long serialVersionUID = 1L;
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderText;
+		if(Session.get().getLocale().getLanguage().equals("ru")) {
+			ajaxFallbackOrderByBorderText = new AjaxFallbackOrderByBorder("sort-text",
+					Question_.id, questionsDataProvider) {
+				private static final long serialVersionUID = 1L;
 
-			@Override
-			protected void onSortChanged() {
-				dataView.setCurrentPage(0);
-			}
+				@Override
+				protected void onSortChanged() {
+					dataView.setCurrentPage(0);
+				}
 
-			@Override
-			protected void onAjaxClick(AjaxRequestTarget target) {
-				target.add(rowsContainer);
-			}
-		};
+				@Override
+				protected void onAjaxClick(AjaxRequestTarget target) {
+					target.add(rowsContainer);
+				}
+			};
+		} else {
+			ajaxFallbackOrderByBorderText = new AjaxFallbackOrderByBorder("sort-text",
+					Question_.id, questionsDataProvider) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				protected void onSortChanged() {
+					dataView.setCurrentPage(0);
+				}
+
+				@Override
+				protected void onAjaxClick(AjaxRequestTarget target) {
+					target.add(rowsContainer);
+				}
+			};
+		}
 		rowsContainer.add(ajaxFallbackOrderByBorderText);
 		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderSubject = new AjaxFallbackOrderByBorder("sort-subject",
-				Subject_.name, questionsDataProvider) {
+				Subject_.subjectNames, questionsDataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -166,6 +187,8 @@ public class QuestionsListPanel extends Panel {
 			super();
 			questionFilter = new QuestionFilter();
 			questionFilter.setFetchSubject(true);
+			questionFilter.setFetchTexts(true);
+			
 			setSort((Serializable) Question_.id, SortOrder.ASCENDING);
 		}
 
@@ -173,10 +196,11 @@ public class QuestionsListPanel extends Panel {
 		public Iterator<Question> iterator(long first, long count) {
 			Serializable property = getSort().getProperty();
 			SortOrder propertySortOrder = getSortState().getPropertySortOrder(property);
-
+			
+			language = Session.get().getLocale().getLanguage();
 			questionFilter.setSortProperty((SingularAttribute) property);
 			questionFilter.setSortOrder(propertySortOrder.equals(SortOrder.ASCENDING) ? true : false);
-
+			questionFilter.setLanguage(language);
 			questionFilter.setLimit((int) count);
 			questionFilter.setOffset((int) first);
 			return questionService.find(questionFilter).iterator();

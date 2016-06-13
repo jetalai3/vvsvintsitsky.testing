@@ -14,7 +14,7 @@ public abstract class Examination_ extends vvsvintsitsky.testing.datamodel.Abstr
 	public static volatile SingularAttribute<Examination, AccountProfile> accountProfile;
 	public static volatile SingularAttribute<Examination, Date> endDate;
 	public static volatile SingularAttribute<Examination, Subject> subject;
-	public static volatile SingularAttribute<Examination, String> name;
+	public static volatile SingularAttribute<Examination, LocalTexts> examinationNames;
 	public static volatile ListAttribute<Examination, Question> questions;
 	public static volatile ListAttribute<Examination, Result> results;
 

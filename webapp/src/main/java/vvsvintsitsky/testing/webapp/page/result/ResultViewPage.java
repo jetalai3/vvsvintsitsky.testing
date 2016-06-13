@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import javax.inject.Inject;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.authorization.Action;
@@ -53,6 +54,8 @@ public class ResultViewPage extends AbstractPage {
 	
 	private Result result;
 
+	private String language;
+	
 	public ResultViewPage(PageParameters parameters) {
 		super(parameters);
 	}
@@ -66,7 +69,8 @@ public class ResultViewPage extends AbstractPage {
 	protected void onInitialize() {
 		super.onInitialize();
 		
-		add(new Label("examination-name", result.getExamination().getName()));
+		language = Session.get().getLocale().getLanguage();
+		add(new Label("examination-name", result.getExamination().getExaminationNames().getText(language)));
 		add(new Label("accountProfile-firstName", result.getAccountProfile().getFirstName()));
 		add(new Label("accountProfile-lastName", result.getAccountProfile().getLastName()));
 

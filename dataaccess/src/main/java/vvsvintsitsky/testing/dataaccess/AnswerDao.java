@@ -6,4 +6,5 @@ public interface AnswerDao extends AbstractDao<Answer, Long> {
 
 	void deleteAnswerByQuestionId(Long id);
 
+	Answer getWithAllTexts(Long id);
 }

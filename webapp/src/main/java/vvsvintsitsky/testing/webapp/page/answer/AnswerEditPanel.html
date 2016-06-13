@@ -1,11 +1,31 @@
 <wicket:panel>
 	<form wicket:id="form">
 
-		<table>
+		<table class="general-table">
 			<tr>
-				<td><b><wicket:message key="answerEditPanel.answerText" />:</b></td>
-				<td><input type="text" wicket:id="text" /></td>
+				<td><b><wicket:message key="answerEditPanel.correct" />:</b></td>
 				<td><input type="checkbox" wicket:id="correct" /></td>
+			</tr>
+
+			<tr>
+				<td>
+					<form wicket:id="formRusText">
+						<table>
+							<tr>
+								<td><b><wicket:message key="rusText" />:</b></td>
+								<td><input type="text" wicket:id="txt" /></td>
+							</tr>
+						</table>
+					</form>
+					<form wicket:id="formEngText">
+						<table>
+							<tr>
+								<td><b><wicket:message key="engText" />:</b></td>
+								<td><input type="text" wicket:id="txt" /></td>
+							</tr>
+						</table>
+					</form>
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2">

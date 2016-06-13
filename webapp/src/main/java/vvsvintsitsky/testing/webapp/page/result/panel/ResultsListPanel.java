@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.metamodel.SingularAttribute;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
 import org.apache.wicket.extensions.ajax.markup.html.repeater.data.sort.AjaxFallbackOrderByBorder;
@@ -28,6 +29,7 @@ import org.apache.wicket.validation.validator.RangeValidator;
 import vvsvintsitsky.testing.dataaccess.filters.ResultFilter;
 import vvsvintsitsky.testing.datamodel.AccountProfile_;
 import vvsvintsitsky.testing.datamodel.Examination_;
+import vvsvintsitsky.testing.datamodel.LocalTexts;
 import vvsvintsitsky.testing.datamodel.Question_;
 import vvsvintsitsky.testing.datamodel.Result;
 import vvsvintsitsky.testing.datamodel.Result_;
@@ -46,6 +48,8 @@ public class ResultsListPanel extends Panel {
 
 	private ResultFilter resultFilter;
 
+	private String language;
+	
 	public ResultsListPanel(String id) {
 		super(id);
 			if(AuthorizedSession.get().getLoggedUser().getAccount().getRole() == UserRole.USER){
@@ -69,9 +73,9 @@ public class ResultsListPanel extends Panel {
 			@Override
 			protected void populateItem(Item<Result> item) {
 				Result result = item.getModelObject();
-
+				LocalTexts exName = result.getExamination().getExaminationNames();
 				item.add(new Label("result-id", result.getId()));
-				item.add(new Label("examination-name", result.getExamination().getName()));
+				item.add(new Label("examination-name", exName.getText(language)));
 				item.add(new Label("account", result.getAccountProfile().getLastName()));
 				item.add(new Label("points", result.getPoints()));
 				
@@ -126,7 +130,7 @@ public class ResultsListPanel extends Panel {
 		rowsContainer.add(ajaxFallbackOrderByBorderId);
 
 		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderExamination = new AjaxFallbackOrderByBorder("sort-examination",
-				Examination_.name, resultsDataProvider) {
+				Examination_.examinationNames, resultsDataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -191,7 +195,8 @@ public class ResultsListPanel extends Panel {
 
 			resultFilter.setSortProperty((SingularAttribute) property);
 			resultFilter.setSortOrder(propertySortOrder.equals(SortOrder.ASCENDING) ? true : false);
-
+			language = Session.get().getLocale().getLanguage();
+			resultFilter.setLanguage(language);
 			resultFilter.setLimit((int) count);
 			resultFilter.setOffset((int) first);
 			return resultService.find(resultFilter).iterator();

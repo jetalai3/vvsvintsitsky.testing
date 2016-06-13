@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import vvsvintsitsky.testing.dataaccess.filters.ResultFilter;
+import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Result;
 
 public interface ResultService {
@@ -33,4 +34,6 @@ public interface ResultService {
 
 	@Transactional
 	void deleteAll();
+	
+	List<Question> getResultQuestionsWithAnswers(Long id, String language);
 }

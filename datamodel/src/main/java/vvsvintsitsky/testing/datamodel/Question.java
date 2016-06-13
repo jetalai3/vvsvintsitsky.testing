@@ -10,12 +10,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Question extends AbstractModel {
-
-	@Column
-	private String text;
 
 	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
 	private List<Answer> answers;
@@ -27,6 +26,9 @@ public class Question extends AbstractModel {
 			@JoinColumn(name = "question_id") }, inverseJoinColumns = { @JoinColumn(name = "examination_id") })
 	@ManyToMany(targetEntity = Examination.class, fetch = FetchType.LAZY)
 	private List<Examination> examinations;
+	
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	private LocalTexts questionTexts;
 
 	public List<Examination> getExaminations() {
 		return examinations;
@@ -34,14 +36,6 @@ public class Question extends AbstractModel {
 
 	public void setExaminations(List<Examination> examinations) {
 		this.examinations = examinations;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
 	}
 
 	public Subject getSubject() {
@@ -60,31 +54,14 @@ public class Question extends AbstractModel {
 		this.answers = answers;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((text == null) ? 0 : text.hashCode());
-		return result;
+	public LocalTexts getQuestionTexts() {
+		return questionTexts;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Question other = (Question) obj;
-		if (getId() == null) {
-			if (other.getId() != null)
-				return false;
-		} else if (!getId().equals(other.getId()))
-			return false;
-		return true;
+	public void setQuestionTexts(LocalTexts questionTexts) {
+		this.questionTexts = questionTexts;
 	}
-	
+
 	
 
 }

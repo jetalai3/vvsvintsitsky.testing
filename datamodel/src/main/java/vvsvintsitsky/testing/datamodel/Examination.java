@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.NamedQuery;
 
@@ -27,8 +28,8 @@ public class Examination extends AbstractModel {
 	@Column
 	private Date endDate;
 
-	@Column
-	private String name;
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	private LocalTexts examinationNames;
 
 	@JoinTable(name = "examination_2_question", joinColumns = {
 			@JoinColumn(name = "examination_id") }, inverseJoinColumns = { @JoinColumn(name = "question_id") })
@@ -81,12 +82,12 @@ public class Examination extends AbstractModel {
 		this.endDate = endDate;
 	}
 
-	public String getName() {
-		return name;
+	public LocalTexts getExaminationNames() {
+		return examinationNames;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setExaminationNames(LocalTexts examinationNames) {
+		this.examinationNames = examinationNames;
 	}
 
 	public List<Question> getQuestions() {
