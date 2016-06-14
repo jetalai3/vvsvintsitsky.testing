@@ -24,6 +24,8 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.slf4j.Logger;
 
 import vvsvintsitsky.testing.dataaccess.filters.AccountFilter;
 import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
@@ -33,6 +35,7 @@ import vvsvintsitsky.testing.datamodel.AccountProfile_;
 import vvsvintsitsky.testing.datamodel.Account_;
 import vvsvintsitsky.testing.datamodel.Question_;
 import vvsvintsitsky.testing.service.AccountService;
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.page.account.AccountEditPage;
 import vvsvintsitsky.testing.webapp.page.account.AccountsPage;
 
@@ -41,9 +44,12 @@ public class AccountsListPanel extends Panel {
 	@Inject
 	private AccountService accountService;
 
+	private Logger logger;
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public AccountsListPanel(String id) {
 		super(id);
+		this.logger = org.slf4j.LoggerFactory.getLogger(AccountsListPanel.class);
 
 		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
 		rowsContainer.setOutputMarkupId(true);
@@ -70,10 +76,15 @@ public class AccountsListPanel extends Panel {
 				item.add(new Link<Void>("delete-link") {
 					@Override
 					public void onClick() {
+						logger.warn("User {} attepmpted to delete account",
+								AuthorizedSession.get().getLoggedUser().getId());
 						try {
 							accountService.delete(accountProfile.getId());
 						} catch (PersistenceException e) {
 							System.out.println("caughth persistance exception");
+							logger.error("User {} failed to delete account",
+									AuthorizedSession.get().getLoggedUser().getId());
+
 						}
 
 						setResponsePage(new AccountsPage());
@@ -83,15 +94,14 @@ public class AccountsListPanel extends Panel {
 			}
 		};
 		rowsContainer.add(dataView);
-		rowsContainer.add(new AjaxPagingNavigator("paging", dataView){
+		rowsContainer.add(new AjaxPagingNavigator("paging", dataView) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-		    protected void onAjaxEvent(AjaxRequestTarget target) {
-		        target.add(rowsContainer);
-		    }
+			protected void onAjaxEvent(AjaxRequestTarget target) {
+				target.add(rowsContainer);
+			}
 		});
-		
 
 		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderId = new AjaxFallbackOrderByBorder("sort-id",
 				AccountProfile_.id, accountsDataProvider) {
@@ -171,7 +181,7 @@ public class AccountsListPanel extends Panel {
 			}
 		};
 		rowsContainer.add(ajaxFallbackOrderByBorderPassword);
-		
+
 		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderRole = new AjaxFallbackOrderByBorder("sort-role",
 				Account_.role, accountsDataProvider) {
 			private static final long serialVersionUID = 1L;

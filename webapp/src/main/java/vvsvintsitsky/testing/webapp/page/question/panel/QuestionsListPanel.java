@@ -29,6 +29,8 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.validation.validator.RangeValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import vvsvintsitsky.testing.dataaccess.filters.AccountFilter;
 import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
@@ -45,6 +47,7 @@ import vvsvintsitsky.testing.datamodel.Subject_;
 import vvsvintsitsky.testing.service.AccountService;
 import vvsvintsitsky.testing.service.AnswerService;
 import vvsvintsitsky.testing.service.QuestionService;
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.page.account.AccountEditPage;
 import vvsvintsitsky.testing.webapp.page.account.AccountsPage;
 import vvsvintsitsky.testing.webapp.page.question.QuestionEditPage;
@@ -62,8 +65,11 @@ public class QuestionsListPanel extends Panel {
 
 	private String language;
 	
+	private Logger logger;
+	
 	public QuestionsListPanel(String id) {
 		super(id);
+		this.logger = LoggerFactory.getLogger(QuestionsListPanel.class);
 
 		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
 		rowsContainer.setOutputMarkupId(true);
@@ -91,11 +97,13 @@ public class QuestionsListPanel extends Panel {
 				item.add(new Link<Void>("delete-link") {
 					@Override
 					public void onClick() {
+						logger.warn("User {} attepmpted to delete question", AuthorizedSession.get().getLoggedUser().getId());
 						try {
 							answerService.deleteAnswerByQuestionId(question.getId());
 							questionService.delete(question.getId());
 						} catch (PersistenceException e) {
 							System.out.println("caughth persistance exception");
+							logger.error("User {} failed to delete question", AuthorizedSession.get().getLoggedUser().getId());
 						}
 
 						setResponsePage(new QuestionsPage());

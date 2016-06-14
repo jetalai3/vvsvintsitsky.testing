@@ -10,7 +10,7 @@
 	<entry key="rusText">Russian text</entry>
 	<entry key="engText">English text</entry>
 
-	<entry key="accountEditPage.mainText">Profile edit</entry>
+	<entry key="accountEditPage.mainText">Enter profile data</entry>
 	<entry key="accountEditPage.firstName">First name</entry>
 	<entry key="accountEditPage.lastName">Last name</entry>
 	<entry key="accountEditPage.save">Save</entry>
@@ -66,7 +66,7 @@
 	<entry key="examinationListPanel.beginDate">Begin date</entry>
 	<entry key="examinationListPanel.endDate">End date</entry>
 	<entry key="examinationListPanel.subject">Subject</entry>
-	<entry key="examinationListPanel.accountProfileId">Account profile id</entry>
+	<entry key="examinationListPanel.accountProfileId">Author</entry>
 	<entry key="examinationListPanel.actions">Actions</entry>
 	<entry key="examinationListPanel.delete">Delete</entry>
 	<entry key="examinationListPanel.edit">Edit</entry>
@@ -133,6 +133,7 @@
 	<entry key="menuPanel.login">Login</entry>
 	<entry key="menuPanel.personal">Personal</entry>
 	<entry key="menuPanel.result">Result</entry>
+	<entry key="menuPanel.register">Register</entry>
 	
 	<entry key="resultViewPanel.noMistakes">No mistakes</entry>
 	

@@ -54,7 +54,7 @@ public class MenuPanel extends Panel {
                 setResponsePage(new QuestionsPage());
             }
             
-        }.setVisible(isSignedIn));
+        }.setVisible(isSignedIn && role.equals(UserRole.ADMIN)));
         
         add(new Link("link-subjects") {
             @Override
@@ -96,6 +96,16 @@ public class MenuPanel extends Panel {
 			@Override
 			public void onClick() {
 				setResponsePage(LoginPage.class);
+			}
+		}.setVisible(!isSignedIn));
+        
+        add(new Link<Void>("link-registration") {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick() {
+				setResponsePage(new AccountEditPage(new AccountProfile()));
 			}
 		}.setVisible(!isSignedIn));
         

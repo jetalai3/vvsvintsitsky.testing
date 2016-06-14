@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="formAccountProfile.firstName.Required">First name required</entry>
+	<entry key="formAccountProfile.lastName.Required">Last name required</entry>
+	<entry key="formAccountProfile.formAccount.email.Required">E-mail required</entry>
+	<entry key="formAccountProfile.formAccount.password.Required">Password required</entry>
+	<entry key="formAccountProfile.formAccount.role.Required">Role must be selected</entry>
+
+</properties>

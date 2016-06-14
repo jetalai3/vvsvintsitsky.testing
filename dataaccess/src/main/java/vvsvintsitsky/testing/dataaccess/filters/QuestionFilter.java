@@ -94,11 +94,11 @@ public class QuestionFilter extends AbstractFilter<Question> {
 	}
 
 	private Predicate subjectNamePredicate(CriteriaBuilder cb, Root<Question> from) {
-		if (language.equals("ru")) {
+		if (language == "ru") {
 			return cb.equal(from.get(Question_.subject).get(Subject_.subjectNames).get(LocalTexts_.rusText)
 					.get(VariousTexts_.txt), getSubjectName());
 		}
-		if (language.equals("en")) {
+		if (language == "en") {
 			return cb.equal(from.get(Question_.subject).get(Subject_.subjectNames).get(LocalTexts_.engText)
 					.get(VariousTexts_.txt), getSubjectName());
 		}

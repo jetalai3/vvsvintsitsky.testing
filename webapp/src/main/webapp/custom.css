@@ -4,10 +4,25 @@ form.formAccountProfile {
 form.form{
 	margin: auto;
 }
+form.formEngText{
+	margin:auto;
+	text-align: center;
+}
+form.formRusText{
+	margin:auto;
+	text-align: center;
+}
 
 table.general-table {
 	border: none;
 	margin: auto;
+	width: 80%;
+}
+
+table.general-table tr td {
+	border: none;
+	margin: auto;
+	width: 80%;
 }
 
 table.list-table {
@@ -22,6 +37,7 @@ table.list-table tr th {
 table.list-table tr td, table.list-table tr th {
 	border: 1px solid black;
 	border-collapse: collapse;
+	margin-left: auto;
 }
 
 .language-comp select {

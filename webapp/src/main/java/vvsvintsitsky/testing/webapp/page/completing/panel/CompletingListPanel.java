@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -23,6 +24,9 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.datamodel.Question;
@@ -56,11 +60,14 @@ public class CompletingListPanel extends Panel {
 	
 	Model<String> questionModel;
 	
+	private Logger logger;
+	
 	private String language = Session.get().getLocale().getLanguage();
 	
 	public CompletingListPanel(String id, Examination examination) {
 		super(id);
 		this.examination = examination;
+		this.logger = LoggerFactory.getLogger(CompletingListPanel.class);
 		Locale locale = Session.get().getLocale();
 		
 		questionService.getQuestionsWithAnswers(this.examination, locale.getLanguage());
@@ -111,6 +118,7 @@ public class CompletingListPanel extends Panel {
 
 			@Override
 			public void onClick(AjaxRequestTarget target) {
+				logger.warn("User {} attepmpted to submit new result", AuthorizedSession.get().getLoggedUser().getId());
 				int total = 0;
 				target.add(rowsContainer);
 				List<Answer> mistakes = new ArrayList<Answer>();
@@ -129,7 +137,11 @@ public class CompletingListPanel extends Panel {
 				result.setExamination(examination);
 				total = (total - mistakes.size()) * 100 / total;
 				result.setPoints(total);
+				try{
 				resultService.insert(result);
+				} catch(PersistenceException e) {
+					logger.error("User {} failed to submit new result", AuthorizedSession.get().getLoggedUser().getId());
+				}
 				setResponsePage(new HomePage());
 			}
 		};

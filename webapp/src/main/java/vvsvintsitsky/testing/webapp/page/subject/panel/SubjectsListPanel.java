@@ -32,6 +32,8 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.validation.validator.RangeValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import vvsvintsitsky.testing.dataaccess.filters.AccountFilter;
 import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
@@ -49,6 +51,7 @@ import vvsvintsitsky.testing.datamodel.Subject_;
 import vvsvintsitsky.testing.service.AccountService;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.SubjectService;
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.page.account.AccountEditPage;
 import vvsvintsitsky.testing.webapp.page.account.AccountsPage;
 import vvsvintsitsky.testing.webapp.page.question.QuestionEditPage;
@@ -64,8 +67,11 @@ public class SubjectsListPanel extends Panel {
 
 	private String language;
 	
+	private Logger logger;
+	
 	public SubjectsListPanel(String id) {
 		super(id);
+		this.logger = LoggerFactory.getLogger(SubjectsListPanel.class);
 		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
 		rowsContainer.setOutputMarkupId(true);
 		SubjectsDataProvider subjectsDataProvider = new SubjectsDataProvider();
@@ -97,10 +103,12 @@ public class SubjectsListPanel extends Panel {
 
 					@Override
 					public void onClick(AjaxRequestTarget target) {
+						logger.warn("User {} attepmpted delete subject", AuthorizedSession.get().getLoggedUser().getId());
 						try {
-							subjectService.delete(subject);
+							subjectService.delete(subject.getId());
 						} catch (PersistenceException e) {
 							System.out.println("caught PersistenceException");
+							logger.error("User {} failed to delete subject", AuthorizedSession.get().getLoggedUser().getId());
 						}
 						target.add(rowsContainer);
 					}

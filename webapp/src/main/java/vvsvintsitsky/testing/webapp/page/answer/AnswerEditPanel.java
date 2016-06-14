@@ -11,13 +11,18 @@ import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.VariousTexts;
 import vvsvintsitsky.testing.service.AnswerService;
 import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.LocalTexts;
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.events.AnswerAddEvent;
 
 public class AnswerEditPanel extends Panel {
@@ -34,10 +39,13 @@ public class AnswerEditPanel extends Panel {
 	private VariousTexts engText;
 	
 	private ModalWindow modalWindow;
+	
+	private Logger logger;
 
 	public AnswerEditPanel(ModalWindow modalWindow, Answer answer) {
 		super(modalWindow.getContentId());
 		this.modalWindow = modalWindow;
+		this.logger = LoggerFactory.getLogger(AnswerEditPanel.class);
 //		if(answer.getId() != null) {
 		if(answer.getCorrect() != null) {
 			this.answer = answer;
@@ -76,6 +84,7 @@ public class AnswerEditPanel extends Panel {
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
 				super.onSubmit(target, form);
+				logger.warn("User {} attepmpted to create/update answer", AuthorizedSession.get().getLoggedUser().getId());
 
 				texts.setRusText(rusText);
 				texts.setEngText(engText);
@@ -101,5 +110,6 @@ public class AnswerEditPanel extends Panel {
 				modalWindow.close(target);
 			}
 		});
+		add(new FeedbackPanel("feedback"));
 	}
 }

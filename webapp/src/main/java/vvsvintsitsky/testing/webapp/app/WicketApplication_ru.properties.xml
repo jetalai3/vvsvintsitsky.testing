@@ -11,7 +11,7 @@
 	<entry key="rusText">Русский текст</entry>
 	<entry key="engText">Английский текст</entry>
 	
-	<entry key="accountEditPage.mainText">Редактирование профиля</entry>
+	<entry key="accountEditPage.mainText">Ввод данных профиля</entry>
 	<entry key="accountEditPage.firstName">Имя</entry>
 	<entry key="accountEditPage.lastName">Фамилия</entry>
 	<entry key="accountEditPage.save">Сохранить</entry>
@@ -66,7 +66,7 @@
 	<entry key="examinationListPanel.beginDate">Дата от</entry>
 	<entry key="examinationListPanel.endDate">Дата по</entry>
 	<entry key="examinationListPanel.subject">Предмет</entry>
-	<entry key="examinationListPanel.accountProfileId">Идентификатор профиля</entry>
+	<entry key="examinationListPanel.accountProfileId">Автор</entry>
 	<entry key="examinationListPanel.actions">Действия</entry>
 	<entry key="examinationListPanel.delete">Удалить</entry>
 	<entry key="examinationListPanel.edit">Редактировать</entry>
@@ -133,6 +133,7 @@
 	<entry key="menuPanel.login">Вход</entry>
 	<entry key="menuPanel.personal">Личный кабинет</entry>
 	<entry key="menuPanel.result">Результаты</entry>
+	<entry key="menuPanel.register">Регистрация</entry>
 	
 	<entry key="resultViewPanel.noMistakes">Ошибок нет</entry>
 	

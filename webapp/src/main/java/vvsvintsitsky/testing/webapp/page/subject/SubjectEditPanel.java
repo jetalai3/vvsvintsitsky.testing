@@ -3,6 +3,7 @@ package vvsvintsitsky.testing.webapp.page.subject;
 import java.util.Arrays;
 
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -23,6 +24,8 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.validation.validator.RangeValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
@@ -35,6 +38,7 @@ import vvsvintsitsky.testing.datamodel.VariousTexts;
 import vvsvintsitsky.testing.service.AccountService;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.SubjectService;
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.SubjectChoiceRenderer;
 import vvsvintsitsky.testing.webapp.common.UserRoleChoiceRenderer;
 import vvsvintsitsky.testing.webapp.page.AbstractPage;
@@ -54,8 +58,11 @@ public class SubjectEditPanel extends Panel {
 
 	private ModalWindow modalWindow;
 
+	private Logger logger;
+	
 	public SubjectEditPanel(ModalWindow modalWindow, Subject subject) {
 		super(modalWindow.getContentId());
+		this.logger = LoggerFactory.getLogger(SubjectEditPanel.class);
 		if (subject.getId() != null) {
 			this.subject = subjectService.getWithAllTexts(subject.getId());
 			this.texts = this.subject.getSubjectNames();
@@ -92,10 +99,15 @@ public class SubjectEditPanel extends Panel {
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
 				super.onSubmit(target, form);
+				logger.warn("User {} attepmpted to create/update subject", AuthorizedSession.get().getLoggedUser().getId());
 				texts.setRusText(rusText);
 				texts.setEngText(engText);
 				subject.setSubjectNames(texts);
+				try{
 				subjectService.saveOrUpdate(subject);
+				} catch(PersistenceException e){
+					logger.error("User {} failed to submit account", AuthorizedSession.get().getLoggedUser().getId());
+				}
 				modalWindow.close(target);
 			}
 		});
@@ -109,5 +121,6 @@ public class SubjectEditPanel extends Panel {
 				modalWindow.close(target);
 			}
 		});
+		 form.add(new FeedbackPanel("feedbackpanel"));
 	}
 }

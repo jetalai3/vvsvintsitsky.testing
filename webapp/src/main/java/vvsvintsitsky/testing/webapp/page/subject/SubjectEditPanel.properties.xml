@@ -4,6 +4,5 @@
 
 	<entry key="form.formRusText.txt.Required">Russian name field is empty</entry>
 	<entry key="form.formEngText.txt.Required">English name field is empty</entry>
-	<entry key="form.subject.Required">Subject must be selected</entry>
 
 </properties>

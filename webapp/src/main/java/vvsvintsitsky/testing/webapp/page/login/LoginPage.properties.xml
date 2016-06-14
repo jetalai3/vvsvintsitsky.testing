@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="ID_FORM.email.Required">E-mail is required</entry>
+	<entry key="ID_FORM.password.Required">Password is required</entry>
+	
+
+</properties>

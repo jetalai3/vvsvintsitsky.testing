@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -22,6 +23,8 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.LocalTexts;
@@ -31,6 +34,7 @@ import vvsvintsitsky.testing.datamodel.VariousTexts;
 import vvsvintsitsky.testing.service.AnswerService;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.SubjectService;
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.SubjectChoiceRenderer;
 import vvsvintsitsky.testing.webapp.common.events.LanguageChangedEvent;
 import vvsvintsitsky.testing.webapp.page.AbstractPage;
@@ -55,13 +59,17 @@ public class QuestionEditPage extends AbstractPage {
 	private VariousTexts rusText;
 
 	private VariousTexts engText;
+	
+	private Logger logger;
 
 	public QuestionEditPage(PageParameters parameters) {
 		super(parameters);
+		this.logger = LoggerFactory.getLogger(QuestionEditPage.class);
 	}
 
 	public QuestionEditPage(Question question) {
 		super();
+		this.logger = LoggerFactory.getLogger(QuestionEditPage.class);
 
 		if (question.getId() != null) {
 			this.question = questionService.getQuestionWithAnswers(question.getId());
@@ -114,23 +122,27 @@ public class QuestionEditPage extends AbstractPage {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-
+				logger.warn("User {} attepmpted to create/update question", AuthorizedSession.get().getLoggedUser().getId());
 				List<Answer> answers = question.getAnswers();
 				texts.setRusText(rusText);
 				texts.setEngText(engText);
 				question.setQuestionTexts(texts);
+				try{
 				questionService.saveOrUpdate(question);
 
 				for (Answer answer : answers) {
 					answer.setQuestion(question);
 					answerService.saveOrUpdate(answer);
 				}
-
+				} catch(PersistenceException e) {
+					logger.error("User {} failed to submit question", AuthorizedSession.get().getLoggedUser().getId());
+				}
 				setResponsePage(new QuestionsPage());
 			}
 		});
 
 		ModalWindow modalWindow = new ModalWindow("modal");
+		modalWindow.setAutoSize(true);
 		AnswersListPanel answersListPanel = new AnswersListPanel("answers-panel", question);
 		answersListPanel.setOutputMarkupId(true);
 		rowsContainer.add(answersListPanel);

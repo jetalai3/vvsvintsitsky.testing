@@ -35,6 +35,7 @@ public class SubjectsPage extends AbstractPage {
 	
 	private void addModalWindow(SubjectsListPanel subjectsListPanel) {
 		ModalWindow modalWindow = new ModalWindow("modal");
+		modalWindow.setAutoSize(true);
 		add(modalWindow);
 
 		add(new AjaxLink<Void>("create") {

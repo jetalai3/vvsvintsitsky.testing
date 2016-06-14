@@ -3,11 +3,13 @@ package vvsvintsitsky.testing.webapp.page.account;
 import java.util.Arrays;
 
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 
 import org.apache.wicket.authorization.Action;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeAction;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -18,6 +20,8 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.validation.validator.RangeValidator;
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.slf4j.Logger;
 
 import vvsvintsitsky.testing.datamodel.Account;
 import vvsvintsitsky.testing.datamodel.AccountProfile;
@@ -26,6 +30,7 @@ import vvsvintsitsky.testing.service.AccountService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.UserRoleChoiceRenderer;
 import vvsvintsitsky.testing.webapp.page.AbstractPage;
+import vvsvintsitsky.testing.webapp.page.home.HomePage;
 
 public class AccountEditPage extends AbstractPage {
 
@@ -36,8 +41,11 @@ public class AccountEditPage extends AbstractPage {
 
 	private AccountProfile accountProfile;
 
+	private Logger logger;
+
 	public AccountEditPage(PageParameters parameters) {
 		super(parameters);
+		this.logger = org.slf4j.LoggerFactory.getLogger(AccountEditPage.class);
 	}
 
 	public AccountEditPage(AccountProfile accountProfile) {
@@ -49,19 +57,24 @@ public class AccountEditPage extends AbstractPage {
 		if (accountProfile.getAccount() != null) {
 			this.account = accountProfile.getAccount();
 		}
+		this.logger = org.slf4j.LoggerFactory.getLogger(AccountEditPage.class);
 	}
 
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
 
+		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
+		rowsContainer.setOutputMarkupId(true);
+		add(rowsContainer);
+		
 		Form<AccountProfile> formAccountProfile = new AccountProfileForm<AccountProfile>("formAccountProfile",
 				new CompoundPropertyModel<AccountProfile>(accountProfile));
-		add(formAccountProfile);
+		rowsContainer.add(formAccountProfile);
 
 		Form<Account> formAccount = new AccountForm<Account>("formAccount",
 				new CompoundPropertyModel<Account>(account));
-		add(formAccount);
+		rowsContainer.add(formAccount);
 		formAccountProfile.add(formAccount);
 		TextField<String> firstNameField = new TextField<>("firstName");
 		firstNameField.setRequired(true);
@@ -79,29 +92,43 @@ public class AccountEditPage extends AbstractPage {
 		passwordField.setRequired(true);
 		formAccount.add(passwordField);
 
-		DropDownChoice<UserRole> roleField = new DropDownChoice<>("role", Arrays.asList(UserRole.values()), UserRoleChoiceRenderer.INSTANCE);
-        roleField.setRequired(true);
-        roleField.setVisible(AuthorizedSession.get().isSignedIn() && AuthorizedSession.get().getLoggedUser().getAccount().getRole().equals(UserRole.ADMIN));
+		DropDownChoice<UserRole> roleField = new DropDownChoice<>("role", Arrays.asList(UserRole.values()),
+				UserRoleChoiceRenderer.INSTANCE);
+		roleField.setRequired(true);
+		roleField.setVisible(AuthorizedSession.get().isSignedIn()
+				&& AuthorizedSession.get().getLoggedUser().getAccount().getRole().equals(UserRole.ADMIN));
 
-        formAccount.add(roleField);
+		formAccount.add(roleField);
 
-		
-		
-		formAccountProfile.add(new SubmitLink("save") {
+		rowsContainer.add(new SubmitLink("save") {
 			@Override
 			public void onSubmit() {
 				super.onSubmit();
-				accountService.saveOrUpdate(account);
-				 accountProfile.setAccount(account);
-				 accountService.saveOrUpdate(accountProfile);
-				setResponsePage(new AccountsPage());
+				logger.warn("Account registration/edit attempt");
+				try {
+					if (account.getId() == null) {
+						account.setRole(UserRole.USER);
+						setResponsePage(new HomePage());
+						accountService.register(account, accountProfile);
+					} else {
+						accountService.saveOrUpdate(account);
+						accountProfile.setAccount(account);
+						accountService.saveOrUpdate(accountProfile);
+					}
+				} catch (PersistenceException e) {
+					// logger.error("User {} failed to submit
+					// registration/edit",
+					// AuthorizedSession.get().getLoggedUser().getId());
+				}
+
 			}
 		});
 
-		add(new FeedbackPanel("feedback"));
+		rowsContainer.add(new FeedbackPanel("feedback"));
 	}
 
-	@AuthorizeAction(roles = { "ADMIN" }, action = Action.ENABLE)
+	// @AuthorizeAction(roles = { "ADMIN", "USER", "GUEST" }, action =
+	// Action.ENABLE)
 	private class AccountProfileForm<T> extends Form<T> {
 
 		public AccountProfileForm(String id, IModel<T> model) {
@@ -109,7 +136,8 @@ public class AccountEditPage extends AbstractPage {
 		}
 	}
 
-	@AuthorizeAction(roles = { "ADMIN" }, action = Action.ENABLE)
+	// @AuthorizeAction(roles = { "ADMIN", "USER", "GUEST" }, action =
+	// Action.ENABLE)
 	private class AccountForm<T> extends Form<T> {
 
 		public AccountForm(String id, IModel<T> model) {

@@ -18,15 +18,21 @@
 	</Appenders>
 	<Loggers>
 
-		<Logger name="by.vvsvintsitsky.testing.dataaccess"
+		<Logger name="vvsvintsitsky.testing.dataaccess"
 			level="DEBUG" additivity="false">
 			<AppenderRef ref="CONSOLE" />
 		</Logger>
 
 
-		<Logger name="by.vvsvintsitsky.testing.service"
+		<Logger name="vvsvintsitsky.testing.service"
 			level="WARN" additivity="false">
 			<AppenderRef ref="CONSOLE" />
+			<AppenderRef ref="SERVER_LOGFILE" />
+		</Logger>
+		
+		<Logger name="vvsvintsitsky.testing.webapp"
+			level="WARN" additivity="false">
+			<!--  <AppenderRef ref="CONSOLE" />-->
 			<AppenderRef ref="SERVER_LOGFILE" />
 		</Logger>
 

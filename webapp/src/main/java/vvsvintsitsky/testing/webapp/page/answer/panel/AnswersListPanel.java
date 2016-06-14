@@ -20,12 +20,15 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.Model;
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.slf4j.Logger;
 
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.LocalTexts;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.AnswerService;
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.events.AnswerAddEvent;
 import vvsvintsitsky.testing.webapp.page.answer.AnswerEditPanel;
 
@@ -41,10 +44,13 @@ public class AnswersListPanel extends Panel {
 
 	private Question question;
 	
+	private Logger logger;
+	
 	public AnswersListPanel(String id, Question question) {
 		super(id);
 
 		this.question = question;
+		this.logger = org.slf4j.LoggerFactory.getLogger(AnswersListPanel.class);
 
 		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
 		rowsContainer.setOutputMarkupId(true);
@@ -85,6 +91,7 @@ public class AnswersListPanel extends Panel {
 
 					@Override
 					public void onClick(AjaxRequestTarget target) {
+						logger.warn("User {} attepmpted to delete answer", AuthorizedSession.get().getLoggedUser().getId());
 						try {
 							answers.remove(answer);
 							question.setAnswers(answers);
@@ -93,6 +100,7 @@ public class AnswersListPanel extends Panel {
 							}
 						} catch (PersistenceException e) {
 							System.out.println("caught PersistenceException");
+							logger.error("User {} failed to delete answer", AuthorizedSession.get().getLoggedUser().getId());
 						}
 						target.add(rowsContainer);
 					}

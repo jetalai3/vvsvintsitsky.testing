@@ -25,6 +25,8 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.validation.validator.RangeValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import vvsvintsitsky.testing.dataaccess.filters.ResultFilter;
 import vvsvintsitsky.testing.datamodel.AccountProfile_;
@@ -50,8 +52,11 @@ public class ResultsListPanel extends Panel {
 
 	private String language;
 	
+	private Logger logger;
+	
 	public ResultsListPanel(String id) {
 		super(id);
+		this.logger = LoggerFactory.getLogger(ResultsListPanel.class);
 			if(AuthorizedSession.get().getLoggedUser().getAccount().getRole() == UserRole.USER){
 				resultFilter = new ResultFilter();
 				resultFilter.setAccountProfileId(AuthorizedSession.get().getLoggedUser().getId());
@@ -89,15 +94,17 @@ public class ResultsListPanel extends Panel {
 				item.add(new Link<Void>("delete-link") {
 					@Override
 					public void onClick() {
+						logger.warn("User {} attepmpted to delete result", AuthorizedSession.get().getLoggedUser().getId());
 						try {
 							resultService.delete(result.getId());
 						} catch (PersistenceException e) {
 							System.out.println("caughth persistance exception");
+							logger.error("User {} failed to delete result", AuthorizedSession.get().getLoggedUser().getId());
 						}
 
 						setResponsePage(new ResultsPage());
 					}
-				});
+				}.setVisible(AuthorizedSession.get().getLoggedUser().getAccount().getRole() == UserRole.ADMIN));
 
 			}
 		};

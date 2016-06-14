@@ -1,12 +1,15 @@
 package vvsvintsitsky.testing.webapp.page.examination;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.authorization.Action;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeAction;
 import org.apache.wicket.event.Broadcast;
@@ -26,6 +29,9 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.util.CollectionModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
 import vvsvintsitsky.testing.dataaccess.filters.SubjectFilter;
 import vvsvintsitsky.testing.datamodel.Answer;
@@ -59,11 +65,11 @@ public class ExaminationEditPage extends AbstractPage {
 	private Examination examination;
 
 	private List<Question> exQuestions;
-	
+
 	private List<Question> allQuestions;
-	
+
 	QuestionFilter questionFilter;
-	
+
 	private LocalTexts texts;
 
 	private VariousTexts rusText;
@@ -72,6 +78,8 @@ public class ExaminationEditPage extends AbstractPage {
 
 	private String language;
 
+	private Logger logger;
+
 	public ExaminationEditPage(PageParameters parameters) {
 		super(parameters);
 	}
@@ -79,7 +87,8 @@ public class ExaminationEditPage extends AbstractPage {
 	public ExaminationEditPage(Examination examination) {
 		super();
 		language = Session.get().getLocale().getLanguage();
-		if(examination.getId() == null) {
+		this.logger = LoggerFactory.getLogger(ExaminationEditPage.class);
+		if (examination.getId() == null) {
 			this.examination = examination;
 			rusText = new VariousTexts();
 			engText = new VariousTexts();
@@ -106,15 +115,15 @@ public class ExaminationEditPage extends AbstractPage {
 		Form<VariousTexts> formRusText = new Form<VariousTexts>("formRusText", new CompoundPropertyModel<>(rusText));
 		form.add(formRusText);
 		formRusText.add(new TextField<>("txt").setRequired(true));
-		
+
 		Form<VariousTexts> formEngText = new Form<VariousTexts>("formEngText", new CompoundPropertyModel<>(engText));
 		form.add(formEngText);
 		formEngText.add(new TextField<>("txt").setRequired(true));
-		
+
 		FeedbackPanel feedBackPanel = new FeedbackPanel("feedback");
 		feedBackPanel.setOutputMarkupId(true);
 		form.add(feedBackPanel);
-		
+
 		DateTextField beginDateField = new DateTextField("beginDate");
 		beginDateField.add(new DatePicker());
 		beginDateField.setRequired(true);
@@ -129,10 +138,9 @@ public class ExaminationEditPage extends AbstractPage {
 		questionFilter.setFetchTexts(true);
 		questionFilter.setLanguage(Session.get().getLocale().getLanguage());
 		allQuestions = questionService.find(questionFilter);
-		
-		
+
 		DropDownChoice<Subject> dropDownChoice = new DropDownChoice<Subject>("subject", allSubjects,
-				SubjectChoiceRenderer.INSTANCE){
+				SubjectChoiceRenderer.INSTANCE) {
 			@Override
 			public void onEvent(IEvent<?> event) {
 				if (event.getPayload() instanceof LanguageChangedEvent) {
@@ -164,16 +172,38 @@ public class ExaminationEditPage extends AbstractPage {
 		palette.add(new DefaultTheme());
 		form.add(palette);
 
-		form.add(new SubmitLink("save") {
+		form.add(new AjaxSubmitLink("save") {
 			@Override
-			public void onSubmit() {
-				super.onSubmit();
+			public void onSubmit(AjaxRequestTarget target, Form<?> form) {
+				super.onSubmit(target, form);
+				logger.warn("User {} attepmpted to create/update examination",
+						AuthorizedSession.get().getLoggedUser().getId());
 				texts.setRusText(rusText);
 				texts.setEngText(engText);
 				examination.setExaminationNames(texts);
 				examination.setAccountProfile(AuthorizedSession.get().getLoggedUser());
-				examinationService.saveOrUpdate(examination);
-				setResponsePage(new ExaminationsPage());
+				Date currentDate = new Date();
+				boolean conditionOne = beginDateField.getModelObject().getTime() > endDateField.getModelObject()
+						.getTime();
+				boolean conditionTwo = beginDateField.getModelObject().getTime() < currentDate.getTime();
+				if (conditionOne || conditionTwo) {
+					feedBackPanel.info(getString("wrongDates"));
+					target.add(rowsContainer);
+				} else {
+					try {
+						examinationService.saveOrUpdate(examination);
+					} catch (PersistenceException e) {
+						logger.error("User {} failed to submit examination",
+								AuthorizedSession.get().getLoggedUser().getId());
+					}
+					setResponsePage(new ExaminationsPage());
+				}
+				
+			}
+
+			@Override
+			protected void onError(AjaxRequestTarget target, Form<?> form) {
+				target.add(feedBackPanel);
 			}
 		});
 	}
@@ -181,21 +211,18 @@ public class ExaminationEditPage extends AbstractPage {
 	@Override
 	public void onEvent(IEvent<?> event) {
 		if (event.getPayload() instanceof LanguageChangedEvent) {
-			
-			
+
 			allQuestions.clear();
 			QuestionChoiceRenderer.language = Session.get().getLocale().getLanguage();
 			questionFilter.setLanguage(QuestionChoiceRenderer.language);
 			allQuestions.addAll(questionService.find(questionFilter));
-//			answers.clear();
-//			answers.addAll(question.getAnswers());
+			// answers.clear();
+			// answers.addAll(question.getAnswers());
 
 		}
 
 	}
 
-	
-	
 	@AuthorizeAction(roles = { "ADMIN" }, action = Action.ENABLE)
 	private class ExaminationForm<T> extends Form<T> {
 

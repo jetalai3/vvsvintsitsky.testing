@@ -4,7 +4,6 @@
 
 	<entry key="form.formRusText.txt.Required">Поле "Русский текст" не должно быть пустым</entry>
 	<entry key="form.formEngText.txt.Required">Поле "Английский текст" не должно быть пустым</entry>
-	<entry key="form.subject.Required">Предмет не выбран</entry>
 	
 
 </properties>

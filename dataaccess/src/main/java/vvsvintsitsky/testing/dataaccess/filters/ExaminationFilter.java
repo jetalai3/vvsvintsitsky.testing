@@ -161,11 +161,11 @@ public class ExaminationFilter extends AbstractFilter<Examination> {
 	}
 
 	private Predicate namePredicate(CriteriaBuilder cb, Root<Examination> from) {
-		if (language.equals("ru")) {
+		if (language == "ru") {
 			return cb.equal(from.get(Examination_.examinationNames).get(LocalTexts_.rusText).get(VariousTexts_.txt),
 					getName());
 		}
-		if (language.equals("en")) {
+		if (language == "en") {
 			return cb.equal(from.get(Examination_.examinationNames).get(LocalTexts_.engText).get(VariousTexts_.txt),
 					getName());
 		}

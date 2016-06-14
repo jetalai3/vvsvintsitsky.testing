@@ -1,6 +1,7 @@
 package vvsvintsitsky.testing.webapp.page.examination.panel;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Iterator;
 
 import javax.inject.Inject;
@@ -26,6 +27,8 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import vvsvintsitsky.testing.dataaccess.filters.AccountFilter;
 import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
@@ -55,11 +58,14 @@ public class ExaminationsListPanel extends Panel {
 
 	@Inject
 	private ExaminationService examinationService;
-	
+
+	private Logger logger;
+
 	private String language;
 
 	public ExaminationsListPanel(String id) {
 		super(id);
+		this.logger = LoggerFactory.getLogger(ExaminationsListPanel.class);
 		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
 		rowsContainer.setOutputMarkupId(true);
 		ExaminationsDataProvider examinationsDataProvider = new ExaminationsDataProvider();
@@ -69,40 +75,50 @@ public class ExaminationsListPanel extends Panel {
 				Examination examination = item.getModelObject();
 
 				language = Session.get().getLocale().getLanguage();
-				
+
 				item.add(new Label("id", examination.getId()));
 				item.add(new Label("name", examination.getExaminationNames().getText(language)));
 				item.add(DateLabel.forDatePattern("beginDate", Model.of(examination.getBeginDate()), "dd-MM-yyyy"));
 				item.add(DateLabel.forDatePattern("endDate", Model.of(examination.getEndDate()), "dd-MM-yyyy"));
 				item.add(new Label("subject", examination.getSubject().getSubjectNames().getText(language)));
-				item.add(new Label("accountId", examination.getAccountProfile().getId()));
+				item.add(new Label("accountId", examination.getAccountProfile().getLastName()));
 
+				Date currentDate = new Date();
+				boolean dateCondition = (currentDate.getTime() > examination.getBeginDate().getTime())
+						&& (currentDate.getTime() < examination.getEndDate().getTime());
 				item.add(new Link<Void>("edit-link") {
 					@Override
 					public void onClick() {
 						setResponsePage(new ExaminationEditPage(examination));
 					}
-				}.setVisible(AuthorizedSession.get().isSignedIn() && AuthorizedSession.get().getLoggedUser().getAccount().getRole().equals(UserRole.ADMIN)));
+				}.setVisible(AuthorizedSession.get().isSignedIn()
+						&& dateCondition && AuthorizedSession.get().getLoggedUser().getAccount().getRole().equals(UserRole.ADMIN)));
 
 				item.add(new Link<Void>("delete-link") {
 					@Override
 					public void onClick() {
+						logger.error("User {} attempted to delete examination",
+								AuthorizedSession.get().getLoggedUser().getId());
+
 						try {
 							examinationService.delete(examination.getId());
 						} catch (PersistenceException e) {
 							System.out.println("caughth persistance exception");
+							logger.error("User {} failed to delete examination",
+									AuthorizedSession.get().getLoggedUser().getId());
 						}
 
 						setResponsePage(new ExaminationsPage());
 					}
-				}.setVisible(AuthorizedSession.get().isSignedIn() && AuthorizedSession.get().getLoggedUser().getAccount().getRole().equals(UserRole.ADMIN)));
-				
+				}.setVisible(AuthorizedSession.get().isSignedIn()
+						&& AuthorizedSession.get().getLoggedUser().getAccount().getRole().equals(UserRole.ADMIN)));
+
 				item.add(new Link<Void>("complete-link") {
 					@Override
 					public void onClick() {
 						setResponsePage(new CompletingPage(examination));
 					}
-				});
+				}.setVisible(dateCondition));
 
 			}
 		};
@@ -116,8 +132,8 @@ public class ExaminationsListPanel extends Panel {
 			}
 		});
 
-		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderId = new AjaxFallbackOrderByBorder("sort-id", Examination_.id,
-				examinationsDataProvider) {
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderId = new AjaxFallbackOrderByBorder("sort-id",
+				Examination_.id, examinationsDataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -131,9 +147,9 @@ public class ExaminationsListPanel extends Panel {
 			}
 		};
 		rowsContainer.add(ajaxFallbackOrderByBorderId);
-		
-		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderName = new AjaxFallbackOrderByBorder("sort-name", Examination_.examinationNames,
-				examinationsDataProvider) {
+
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderName = new AjaxFallbackOrderByBorder("sort-name",
+				Examination_.examinationNames, examinationsDataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -147,9 +163,9 @@ public class ExaminationsListPanel extends Panel {
 			}
 		};
 		rowsContainer.add(ajaxFallbackOrderByBorderName);
-		
-		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderBeginDate = new AjaxFallbackOrderByBorder("sort-beginDate", Examination_.beginDate,
-				examinationsDataProvider) {
+
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderBeginDate = new AjaxFallbackOrderByBorder("sort-beginDate",
+				Examination_.beginDate, examinationsDataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -163,9 +179,9 @@ public class ExaminationsListPanel extends Panel {
 			}
 		};
 		rowsContainer.add(ajaxFallbackOrderByBorderBeginDate);
-		
-		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderEndDate = new AjaxFallbackOrderByBorder("sort-endDate", Examination_.endDate,
-				examinationsDataProvider) {
+
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderEndDate = new AjaxFallbackOrderByBorder("sort-endDate",
+				Examination_.endDate, examinationsDataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -179,9 +195,9 @@ public class ExaminationsListPanel extends Panel {
 			}
 		};
 		rowsContainer.add(ajaxFallbackOrderByBorderEndDate);
-		
-		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderSubject = new AjaxFallbackOrderByBorder("sort-subject", Examination_.subject,
-				examinationsDataProvider) {
+
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderSubject = new AjaxFallbackOrderByBorder("sort-subject",
+				Examination_.subject, examinationsDataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -195,9 +211,9 @@ public class ExaminationsListPanel extends Panel {
 			}
 		};
 		rowsContainer.add(ajaxFallbackOrderByBorderSubject);
-		
-		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderAccountProfileId = new AjaxFallbackOrderByBorder("sort-accountProfileId", Examination_.accountProfile,
-				examinationsDataProvider) {
+
+		AjaxFallbackOrderByBorder ajaxFallbackOrderByBorderAccountProfileId = new AjaxFallbackOrderByBorder(
+				"sort-accountProfileId", Examination_.accountProfile, examinationsDataProvider) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -217,7 +233,6 @@ public class ExaminationsListPanel extends Panel {
 	private class ExaminationsDataProvider extends SortableDataProvider<Examination, Serializable> {
 
 		private ExaminationFilter examinationFilter;
-		
 
 		public ExaminationsDataProvider() {
 			super();

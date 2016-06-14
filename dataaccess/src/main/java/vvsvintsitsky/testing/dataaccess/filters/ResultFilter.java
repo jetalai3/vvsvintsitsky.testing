@@ -130,7 +130,7 @@ public class ResultFilter extends AbstractFilter<Result> {
 	}
 
 	public void setFetching(Root<Result> from) {
-		if(language.equals("ru")) {
+		if(language == "ru") {
 			if (isFetchAnswers) {
 				from.fetch(Result_.answers, JoinType.LEFT).fetch(Answer_.answerTexts, JoinType.LEFT).fetch(LocalTexts_.rusText, JoinType.LEFT);
 			}
@@ -138,7 +138,7 @@ public class ResultFilter extends AbstractFilter<Result> {
 				from.fetch(Result_.examination, JoinType.LEFT).fetch(Examination_.examinationNames, JoinType.LEFT).fetch(LocalTexts_.rusText, JoinType.LEFT);
 			}
 		}
-		if(language.equals("en")) {
+		if(language == "en") {
 			if (isFetchAnswers) {
 				from.fetch(Result_.answers, JoinType.LEFT).fetch(Answer_.answerTexts, JoinType.LEFT).fetch(LocalTexts_.engText, JoinType.LEFT);
 			}

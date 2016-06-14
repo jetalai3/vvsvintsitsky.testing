@@ -10,7 +10,10 @@ import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.util.string.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.page.AbstractPage;
 
 /**
@@ -22,13 +25,14 @@ public class LoginPage extends AbstractPage {
 
     public static final String ID_FORM = "form";
 
+    private Logger logger;
     private String email;
     private String password;
 
     @Override
     protected void onInitialize() {
         super.onInitialize();
-
+        this.logger = LoggerFactory.getLogger(LoginPage.class);
         // if already logged then should not see login page at all
         if (AuthenticatedWebSession.get().isSignedIn()) {
             setResponsePage(Application.get().getHomePage());
@@ -43,6 +47,7 @@ public class LoginPage extends AbstractPage {
             @Override
             public void onSubmit() {
                 super.onSubmit();
+                logger.warn("Login attempted");
                 if (Strings.isEmpty(email) || Strings.isEmpty(password)) {
                     return;
                 }
@@ -51,6 +56,7 @@ public class LoginPage extends AbstractPage {
                     // continueToOriginalDestination();
                     setResponsePage(Application.get().getHomePage());
                 } else {
+					logger.error("Failed login");
                     error("authorization error");
                 }
             }
