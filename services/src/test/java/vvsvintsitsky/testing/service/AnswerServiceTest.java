@@ -1,7 +1,6 @@
 package vvsvintsitsky.testing.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -13,16 +12,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import vvsvintsitsky.testing.dataaccess.filters.AnswerFilter;
-import vvsvintsitsky.testing.datamodel.Account;
-import vvsvintsitsky.testing.datamodel.AccountProfile;
 import vvsvintsitsky.testing.datamodel.Answer;
-import vvsvintsitsky.testing.datamodel.Answer_;
-import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.datamodel.LocalTexts;
 import vvsvintsitsky.testing.datamodel.Question;
-import vvsvintsitsky.testing.datamodel.Result;
 import vvsvintsitsky.testing.datamodel.Subject;
-import vvsvintsitsky.testing.datamodel.UserRole;
 import vvsvintsitsky.testing.datamodel.VariousTexts;
 import vvsvintsitsky.testing.service.AnswerService;
 import vvsvintsitsky.testing.service.QuestionService;
@@ -145,32 +138,6 @@ public class AnswerServiceTest {
 		clearDataTables();
 	}
 
-	private List<Examination> fillDatabaseWithExaminations(int quantity, AccountProfile accountProfile,
-			Subject subject) {
-		List<Examination> examinations = new ArrayList<Examination>();
-		// List<Question> questions = fillDatabaseWithQuestions(quantity);
-		LocalTexts examinationNames;
-		Examination examination;
-
-		for (int i = 0; i < quantity; i++) {
-			examination = new Examination();
-			examination.setAccountProfile(accountProfile);
-			examination.setBeginDate(new Date());
-			examination.setEndDate(new Date());
-			examination.setSubject(subject);
-			
-			examinationNames = createLocalTexts("ex" + i);
-			examination.setExaminationNames(examinationNames);
-			
-			List<Question> questions = fillDatabaseWithQuestions(quantity, subject);
-			examination.setQuestions(questions);
-
-			examinations.add(examination);
-			examinationService.saveOrUpdate(examination);
-		}
-		return examinations;
-	}
-
 	private List<Question> fillDatabaseWithQuestions(int quantity, Subject subject) {
 		List<Question> questions = new ArrayList<Question>();
 		Question question;
@@ -224,29 +191,6 @@ public class AnswerServiceTest {
 		return answers;
 	}
 
-	private List<LocalTexts> fillDatabaseWithLocalTexts(int quantity, String text) {
-		List<LocalTexts> localTexts = new ArrayList<LocalTexts>();
-		LocalTexts localText;
-		VariousTexts rusText;
-		VariousTexts engText;
-
-		for (int i = 0; i < quantity; i++) {
-			rusText = new VariousTexts();
-			rusText.setTxt(text + "rus" + i);
-			engText = new VariousTexts();
-			engText.setTxt(text + "eng" + i);
-
-			localText = new LocalTexts();
-			localText.setRusText(rusText);
-			localText.setEngText(engText);
-
-			localTextsService.insert(localText);
-			localTexts.add(localText);
-		}
-
-		return localTexts;
-	}
-
 	private List<Subject> fillDatabaseWithSubjects(int quantity) {
 		List<Subject> subjects = new ArrayList<Subject>();
 		Subject subject;
@@ -260,51 +204,6 @@ public class AnswerServiceTest {
 			subjectService.saveOrUpdate(subject);
 		}
 		return subjects;
-	}
-
-	private List<AccountProfile> fillDatabaseWithAccountsAndAccountProfiles(int quantity) {
-		List<AccountProfile> profiles = new ArrayList<AccountProfile>();
-		Account account;
-		AccountProfile profile;
-
-		for (int i = 0; i < quantity; i++) {
-			account = new Account();
-			account.setEmail("email" + i);
-			account.setPassword("password" + i);
-			account.setRole(UserRole.ADMIN);
-
-			profile = new AccountProfile();
-			profile.setFirstName("firstName" + i);
-			profile.setLastName("lastName" + i);
-
-			accountService.register(account, profile);
-			profiles.add(profile);
-		}
-
-		return profiles;
-	}
-	
-	private List<Result> fillDatabaseWithResults(int quantity){
-		List<Result> results = new ArrayList<Result>();
-		AccountProfile accountProfile = fillDatabaseWithAccountsAndAccountProfiles(1).get(0);
-		Subject subject = fillDatabaseWithSubjects(1).get(0);
-		Question question = fillDatabaseWithQuestions(1, subject).get(0);
-		List<Examination> examinations = fillDatabaseWithExaminations(quantity, accountProfile, subject);
-		List<AccountProfile> accountProfiles = fillDatabaseWithAccountsAndAccountProfiles(quantity);
-		List<Answer> answers = fillDatabaseWithAnswers(2, question);
-		
-		Result result;
-		
-		for(int i = 0; i < quantity; i++){
-			result = new Result();
-			result.setAccountProfile(accountProfiles.get(i));
-			result.setExamination(examinations.get(i));
-			result.setAnswers(answers);
-			result.setPoints(i);
-			resultService.saveOrUpdate(result);
-			results.add(result);
-		}
-		return results;
 	}
 
 	private void clearDataTables() {

@@ -60,20 +60,6 @@ public class QuestionDaoImpl extends AbstractDaoImpl<Question, Long> implements 
 				+ "rt.rusText art left join fetch rt.engText aet where q.id = " + ":questionId order by q.id");
 		q.setParameter("questionId", id);
 
-		// CriteriaBuilder cb = em.getCriteriaBuilder();
-		// CriteriaQuery<Question> cq = cb.createQuery(Question.class);
-		// Root<Question> from = cq.from(Question.class);
-		// cq.select(from);
-		//
-		// cq.where(cb.equal(from.get(Question_.id), id));
-		//
-		// from.fetch(Question_.questionTexts).fetch(LocalTexts_.rusText);
-		// from.fetch(Question_.questionTexts).fetch(LocalTexts_.engText);
-		// from.fetch(Question_.answers).fetch(Answer_.answerTexts).fetch(LocalTexts_.rusText).fetch(LocalTexts_.engText);
-		// from.fetch(Question_.answers).fetch(Answer_.answerTexts).fetch(LocalTexts_.engText);
-		//
-		// TypedQuery<Question> q = em.createQuery(cq);
-
 		return (Question) q.getResultList().get(0);
 
 	}

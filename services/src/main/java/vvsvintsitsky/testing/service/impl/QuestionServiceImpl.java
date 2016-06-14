@@ -9,14 +9,8 @@ import org.springframework.stereotype.Service;
 import vvsvintsitsky.testing.dataaccess.LocalTextsDao;
 import vvsvintsitsky.testing.dataaccess.QuestionDao;
 import vvsvintsitsky.testing.dataaccess.VariousTextsDao;
-import vvsvintsitsky.testing.dataaccess.filters.AccountProfileFilter;
 import vvsvintsitsky.testing.dataaccess.filters.QuestionFilter;
-import vvsvintsitsky.testing.datamodel.Account;
-import vvsvintsitsky.testing.datamodel.AccountProfile;
-import vvsvintsitsky.testing.datamodel.Answer;
-import vvsvintsitsky.testing.datamodel.LocalTexts;
 import vvsvintsitsky.testing.datamodel.Examination;
-import vvsvintsitsky.testing.datamodel.LanguageVariant;
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.service.QuestionService;
 

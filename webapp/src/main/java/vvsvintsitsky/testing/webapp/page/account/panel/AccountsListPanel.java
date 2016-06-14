@@ -8,6 +8,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.extensions.ajax.markup.html.repeater.data.sort.AjaxFallbackOrderByBorder;
@@ -73,9 +74,9 @@ public class AccountsListPanel extends Panel {
 					}
 				});
 
-				item.add(new Link<Void>("delete-link") {
+				item.add(new AjaxLink<Void>("delete-link") {
 					@Override
-					public void onClick() {
+					public void onClick(AjaxRequestTarget target) {
 						logger.warn("User {} attepmpted to delete account",
 								AuthorizedSession.get().getLoggedUser().getId());
 						try {
@@ -87,7 +88,7 @@ public class AccountsListPanel extends Panel {
 
 						}
 
-						setResponsePage(new AccountsPage());
+						target.add(rowsContainer);
 					}
 				});
 

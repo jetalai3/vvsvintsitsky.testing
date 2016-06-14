@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import vvsvintsitsky.testing.dataaccess.ExaminationDao;
 import vvsvintsitsky.testing.dataaccess.LocalTextsDao;
 import vvsvintsitsky.testing.dataaccess.VariousTextsDao;
-import vvsvintsitsky.testing.dataaccess.filters.AnswerFilter;
 import vvsvintsitsky.testing.dataaccess.filters.ExaminationFilter;
-import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.Examination;
 import vvsvintsitsky.testing.service.ExaminationService;
 

@@ -20,13 +20,11 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.Model;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.slf4j.Logger;
 
 import vvsvintsitsky.testing.datamodel.Question;
 import vvsvintsitsky.testing.datamodel.Answer;
 import vvsvintsitsky.testing.datamodel.LocalTexts;
-import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.AnswerService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
 import vvsvintsitsky.testing.webapp.common.events.AnswerAddEvent;
@@ -36,9 +34,6 @@ public class AnswersListPanel extends Panel {
 
 	@Inject
 	private AnswerService answerService;
-
-	@Inject
-	private QuestionService questionService;
 
 	private List<Answer> answers;
 

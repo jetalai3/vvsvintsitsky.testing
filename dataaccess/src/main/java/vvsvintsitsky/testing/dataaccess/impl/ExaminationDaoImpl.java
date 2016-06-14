@@ -50,9 +50,9 @@ public class ExaminationDaoImpl extends AbstractDaoImpl<Examination, Long> imple
 		List<Examination> list = q.getResultList();
 		
 		if(list.size() > 1) {
-			throw new IllegalStateException("more than one subject found!");
+			throw new IllegalStateException("more than one examination found!");
 		} else if(list.size() != 1) {
-			throw new IllegalStateException("none subject found!");
+			throw new IllegalStateException("none examination found!");
 		} else {
 			return list.get(0);
 		}

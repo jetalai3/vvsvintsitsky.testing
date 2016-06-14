@@ -2,6 +2,7 @@ package vvsvintsitsky.testing.webapp.app;
 
 import javax.inject.Inject;
 
+import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AnnotationsRoleAuthorizationStrategy;
@@ -54,6 +55,11 @@ public class WicketApplication extends AuthenticatedWebApplication {
     @Override
     protected Class<? extends WebPage> getSignInPageClass() {
         return LoginPage.class;
+    }
+    
+    @Override
+    public RuntimeConfigurationType getConfigurationType(){
+    	return RuntimeConfigurationType.DEPLOYMENT;
     }
 
     

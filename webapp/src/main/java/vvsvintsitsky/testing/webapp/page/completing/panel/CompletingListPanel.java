@@ -34,7 +34,6 @@ import vvsvintsitsky.testing.datamodel.Result;
 import vvsvintsitsky.testing.service.QuestionService;
 import vvsvintsitsky.testing.service.ResultService;
 import vvsvintsitsky.testing.webapp.app.AuthorizedSession;
-import vvsvintsitsky.testing.webapp.common.QuestionChoiceRenderer;
 import vvsvintsitsky.testing.webapp.common.events.LanguageChangedEvent;
 import vvsvintsitsky.testing.webapp.common.iterator.CustomIterator;
 import vvsvintsitsky.testing.webapp.page.home.HomePage;

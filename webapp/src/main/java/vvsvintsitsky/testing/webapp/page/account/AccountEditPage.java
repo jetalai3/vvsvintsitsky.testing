@@ -67,7 +67,7 @@ public class AccountEditPage extends AbstractPage {
 		WebMarkupContainer rowsContainer = new WebMarkupContainer("rowsContainer");
 		rowsContainer.setOutputMarkupId(true);
 		add(rowsContainer);
-		
+
 		Form<AccountProfile> formAccountProfile = new AccountProfileForm<AccountProfile>("formAccountProfile",
 				new CompoundPropertyModel<AccountProfile>(accountProfile));
 		rowsContainer.add(formAccountProfile);
@@ -116,9 +116,12 @@ public class AccountEditPage extends AbstractPage {
 						accountService.saveOrUpdate(accountProfile);
 					}
 				} catch (PersistenceException e) {
-					// logger.error("User {} failed to submit
-					// registration/edit",
-					// AuthorizedSession.get().getLoggedUser().getId());
+					if (account.getId() == null) {
+						logger.error("New user failed to register");
+					} else {
+						logger.error("User {} failed to submit registration/edit",
+								AuthorizedSession.get().getLoggedUser().getId());
+					}
 				}
 
 			}
