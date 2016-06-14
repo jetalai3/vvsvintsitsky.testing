@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	
+	<entry key="US">English</entry>
+	<entry key="RU">Russian</entry>
+
+	<entry key="abstractPage.mainText">Testing</entry>
+
+	<entry key="rusText">Russian text</entry>
+	<entry key="engText">English text</entry>
+
+	<entry key="accountEditPage.mainText">Enter profile data</entry>
+	<entry key="accountEditPage.firstName">First name</entry>
+	<entry key="accountEditPage.lastName">Last name</entry>
+	<entry key="accountEditPage.save">Save</entry>
+	<entry key="accountEditPage.email">e-mail</entry>
+	<entry key="accountEditPage.password">Password</entry>
+	<entry key="accountEditPage.role">Role</entry>
+	
+	<entry key="accountsPage.mainText">Accounts</entry>
+	<entry key="accountsPage.create">Create</entry>
+
+	<entry key="accountsListPanel.id">Id</entry>
+	<entry key="accountsListPanel.firstName">First name</entry>
+	<entry key="accountsListPanel.lastName">Last name</entry>
+	<entry key="accountsListPanel.email">e-mail</entry>
+	<entry key="accountsListPanel.password">Password</entry>
+	<entry key="accountsListPanel.role">Role</entry>
+	<entry key="accountsListPanel.actions">Actions</entry>
+	<entry key="accountsListPanel.delete">Delete</entry>
+	<entry key="accountsListPanel.edit">Edit</entry>
+	
+	<entry key="answerEditPanel.answerText">Answer text</entry>
+	<entry key="answerEditPanel.correct">Is correct</entry>
+	<entry key="answerEditPanel.save">Save</entry>
+	<entry key="answerEditPanel.cancel">Cancel</entry>
+	
+	<entry key="answersListPanel.id">Id</entry>
+	<entry key="answersListPanel.answerText">Answer text</entry>
+	<entry key="answersListPanel.correct">Correct</entry>
+	<entry key="answersListPanel.actions">Actions</entry>
+	<entry key="answersListPanel.delete">Delete</entry>
+	<entry key="answersListPanel.edit">Edit</entry>
+	
+	
+	<entry key="completingPage.mainText">Complete the test below</entry>
+	
+	<entry key="completingListPanel.previousQuestion">Previous question</entry>
+	<entry key="completingListPanel.nextQuestion">Next question</entry>
+	<entry key="completingListPanel.finish">Finish</entry>
+	
+	<entry key="examinationEditPage.mainText">Examination data insert</entry>
+	<entry key="examinationEditPage.examinationName">Examination name</entry>
+	<entry key="examinationEditPage.beginDate">Begin date</entry>
+	<entry key="examinationEditPage.endDate">End date</entry>
+	<entry key="examinationEditPage.subject">Subject</entry>
+	<entry key="examinationEditPage.questions">Questions</entry>
+	<entry key="examinationEditPage.save">Save</entry>
+	
+	<entry key="examinationsPage.mainText">Examinations</entry>
+	<entry key="examinationsPage.create">Create</entry>
+	
+	<entry key="examinationListPanel.id">Id</entry>
+	<entry key="examinationListPanel.name">Name</entry>
+	<entry key="examinationListPanel.beginDate">Begin date</entry>
+	<entry key="examinationListPanel.endDate">End date</entry>
+	<entry key="examinationListPanel.subject">Subject</entry>
+	<entry key="examinationListPanel.accountProfileId">Author</entry>
+	<entry key="examinationListPanel.actions">Actions</entry>
+	<entry key="examinationListPanel.delete">Delete</entry>
+	<entry key="examinationListPanel.edit">Edit</entry>
+	<entry key="examinationListPanel.complete">Complete</entry>
+	
+	<entry key="homePage.mainText">Home page</entry>
+	
+	<entry key="loginPage.title">Logging in</entry>
+	<entry key="loginPage.loginHeader">Username</entry>
+	<entry key="loginPage.login">Login</entry>
+	<entry key="loginPage.email">Email</entry>
+	<entry key="loginPage.password">Password</entry>
+	
+	<entry key="questionEditPage.mainText">Question data input</entry>
+	<entry key="questionEditPage.questionText">Question text</entry>
+	<entry key="questionEditPage.subject">Subject</entry>
+	<entry key="questionEditPage.save">Save</entry>
+	<entry key="questionEditPage.newAnswer">New answer</entry>
+	
+	<entry key="questionsPage.mainText">Questions</entry>
+	<entry key="questionsPage.create">Create</entry>
+	
+	<entry key="questionListPanel.id">Id</entry>
+	<entry key="questionListPanel.questionText">Question text</entry>
+	<entry key="questionListPanel.subject">Subject</entry>
+	<entry key="questionListPanel.actions">Actions</entry>
+	<entry key="questionListPanel.delete">Delete</entry>
+	<entry key="questionListPanel.edit">Edit</entry>
+	
+	<entry key="resultsPage.mainText">Result list</entry>
+	
+	<entry key="resultViewPage.mainText">Result info</entry>
+	
+	<entry key="resultsListPanel.id">Id</entry>
+	<entry key="resultsListPanel.examination">Examination name</entry>
+	<entry key="resultsListPanel.account">User</entry>
+	<entry key="resultsListPanel.points">Points</entry>
+	<entry key="resultsListPanel.actions">Actions</entry>
+	<entry key="resultsListPanel.delete">Delete</entry>
+	<entry key="resultsListPanel.view">View</entry>
+	
+	<entry key="resultViewPanel.previousQuestion">Previous mistake</entry>
+	<entry key="resultViewPanel.nextQuestion">Next mistake</entry>
+	
+	<entry key="subjectEditPanel.subjectName">Subject name</entry>
+	<entry key="subjectEditPanel.save">Save</entry>
+	<entry key="subjectEditPanel.cancel">Cancel</entry>
+	
+	<entry key="subjectsPage.mainText">Subjects</entry>
+	<entry key="subjectsPage.create">Create</entry>
+	
+	<entry key="subjectsListPanel.id">Id</entry>
+	<entry key="subjectsListPanel.name">Name</entry>
+	<entry key="subjectsListPanel.actions">Actions</entry>
+	<entry key="subjectsListPanel.delete">Delete</entry>
+	<entry key="subjectsListPanel.edit">Edit</entry>
+	
+	<entry key="menuPanel.home">Home</entry>
+	<entry key="menuPanel.accounts">Accounts</entry>
+	<entry key="menuPanel.question">Questions</entry>
+	<entry key="menuPanel.subjects">Subjects</entry>
+	<entry key="menuPanel.examinations">Examinations</entry>
+	<entry key="menuPanel.logout">Logout</entry>
+	<entry key="menuPanel.login">Login</entry>
+	<entry key="menuPanel.personal">Personal</entry>
+	<entry key="menuPanel.result">Result</entry>
+	<entry key="menuPanel.register">Register</entry>
+	
+	<entry key="resultViewPanel.noMistakes">No mistakes</entry>
+	
+	<entry key="examination.name.title">Enter examination name</entry>
+
+
+	
+</properties>

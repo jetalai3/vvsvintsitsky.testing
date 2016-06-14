@@ -1,0 +1,48 @@
+<wicket:extend xmlns:wicket="http://wicket.apache.org">
+	<h2>
+		<wicket:message key="accountEditPage.mainText" />
+	</h2>
+<div wicket:id="rowsContainer">
+	<form wicket:id="formAccountProfile">
+
+		<table class="general-table">
+			<tr>
+				<td><b><wicket:message key="accountEditPage.firstName" />:</b>
+					<input type="text" wicket:id="firstName" /></td>
+			</tr>
+			<tr>
+				<td><b><wicket:message key="accountEditPage.lastName" />:</b>
+					<input type="text" wicket:id="lastName" /></td>
+			</tr>
+			<tr>
+				<form wicket:id="formAccount">
+					<table class="general-table">
+						<tr>
+							<td><b><wicket:message key="accountEditPage.email" />:
+							</b> <input type="text" wicket:id="email" /></td>
+						</tr>
+						<tr>
+							<td><b><wicket:message key="accountEditPage.password" />:
+							</b> <input type="text" wicket:id="password" /></td>
+						</tr>
+						<tr>
+							<wicket:enclosure>
+								<td><b><wicket:message key="accountEditPage.role" />:</b>
+									<select wicket:id="role" /></td>
+							</wicket:enclosure>
+						</tr>
+
+					</table>
+				</form>
+			</tr>
+
+
+		</table>
+
+	</form>
+	<button class="submitButton" type="submit" wicket:id="save">
+		<wicket:message key="accountEditPage.save" />
+	</button>
+	<div wicket:id="feedback" style="margin: auto; text-align: center;"></div>
+</div>
+</wicket:extend>

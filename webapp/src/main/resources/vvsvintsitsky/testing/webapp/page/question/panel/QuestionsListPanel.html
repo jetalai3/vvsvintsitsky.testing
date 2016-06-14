@@ -1,0 +1,31 @@
+<wicket:panel>
+	<div wicket:id="rowsContainer">
+		<table class="list-table">
+			<thead>
+				<tr>
+					<th><a wicket:id="sort-id"><wicket:message
+								key="questionListPanel.id" /></a></th>
+					<th><a wicket:id="sort-text"><wicket:message
+								key="questionListPanel.questionText" /></a></th>
+					<th><a wicket:id="sort-subject"><wicket:message
+								key="questionListPanel.subject" /></a></th>
+
+
+					<th><wicket:message key="questionListPanel.actions" /></th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr wicket:id="rows">
+					<td><span wicket:id="question-id" /></td>
+					<td><span wicket:id="question-text" /></td>
+					<td><span wicket:id="subject" /></td>
+					<td><a wicket:id="delete-link"><wicket:message
+								key="questionListPanel.delete" /></a>/<a wicket:id="edit-link"><wicket:message
+								key="questionListPanel.edit" /></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div wicket:id="paging"></div>
+	</div>
+</wicket:panel>

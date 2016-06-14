@@ -1,0 +1,25 @@
+<wicket:panel>
+<div wicket:id="rowsContainer">
+	<table class="list-table">
+		<thead>
+			<tr>
+				<th><wicket:message key="answersListPanel.id" /></th>
+				<th><wicket:message key="answersListPanel.answerText" /></th>
+				<th><wicket:message key="answersListPanel.correct" /></th>
+				<th><wicket:message key="answersListPanel.actions" /></th>
+			</tr>
+		
+		</thead>
+		<tbody>
+			<tr wicket:id="rows">
+				<td><span wicket:id="id"/></td>
+				<td><span wicket:id="text"/></td>
+				<td><input type="checkbox" wicket:id="correct" /></td>
+				<td><a wicket:id="delete-link"><wicket:message key="answersListPanel.delete" /></a>/<a wicket:id="edit-link"><wicket:message key="answersListPanel.edit" /></a> <div wicket:id="modal"></div></td>
+				
+			</tr>
+		</tbody>
+	</table>
+	
+</div>
+</wicket:panel>

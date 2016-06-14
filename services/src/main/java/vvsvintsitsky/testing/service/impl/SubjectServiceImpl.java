@@ -48,7 +48,11 @@ public class SubjectServiceImpl implements SubjectService {
 
 	@Override
 	public void delete(Long id) {
+		Subject subject = subjectDao.get(id);
 		subjectDao.delete(id);
+		localTextsDao.delete(subject.getSubjectNames().getId());
+		variousTextsDao.delete(subject.getSubjectNames().getRusText().getId());
+		variousTextsDao.delete(subject.getSubjectNames().getEngText().getId());
 	}
 	
 	@Override

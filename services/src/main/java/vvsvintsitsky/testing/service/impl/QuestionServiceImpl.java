@@ -49,7 +49,11 @@ public class QuestionServiceImpl implements QuestionService {
 
 	@Override
 	public void delete(Long id) {
+		Question question = questionDao.get(id);
 		questionDao.delete(id);
+		localTextsDao.delete(question.getQuestionTexts().getId());
+		variousTextsDao.delete(question.getQuestionTexts().getRusText().getId());
+		variousTextsDao.delete(question.getQuestionTexts().getEngText().getId());
 	}
 	
 	@Override

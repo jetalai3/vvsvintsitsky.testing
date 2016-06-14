@@ -1,0 +1,21 @@
+<wicket:panel>
+	<div wicket:id="rowsContainer">
+		<td><span wicket:id="question-text" /></td>
+		<table class="list-table">
+			<tbody>
+				<tr wicket:id="rows">
+					<td><span wicket:id="id" /></td>
+					<td><span wicket:id="answer-text" /></td>
+					<td><form wicket:id="form">
+							<input type="checkbox" wicket:id="answered" />
+						</form></td>
+				</tr>
+			</tbody>
+		</table>
+		<button class="generalButton" wicket:id="previous-question"><wicket:message key="completingListPanel.previousQuestion" /></button>
+		<button class="generalButton" wicket:id="next-question"><wicket:message key="completingListPanel.nextQuestion" /></button>
+		<wicket:enclosure>
+			<button class="submitButton" wicket:id="finish-examination"><wicket:message key="completingListPanel.finish" /></button>
+		</wicket:enclosure>
+	</div>
+</wicket:panel>

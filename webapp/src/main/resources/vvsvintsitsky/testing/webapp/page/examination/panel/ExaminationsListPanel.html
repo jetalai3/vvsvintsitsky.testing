@@ -1,0 +1,34 @@
+<wicket:panel>
+	<div wicket:id="rowsContainer">
+		<table class="list-table">
+			<thead>
+				<tr>
+					<th><a wicket:id="sort-id"><wicket:message key="examinationListPanel.id" /></a></th>
+					<th><a wicket:id="sort-name"><wicket:message key="examinationListPanel.name" /></a></th>
+					<th><a wicket:id="sort-beginDate"><wicket:message key="examinationListPanel.beginDate" /></a></th>
+					<th><a wicket:id="sort-endDate"><wicket:message key="examinationListPanel.endDate" /></a></th>
+					<th><a wicket:id="sort-subject"><wicket:message key="examinationListPanel.subject" /></a></th>
+					<th><a wicket:id="sort-accountProfileId"><wicket:message key="examinationListPanel.accountProfileId" /></a></th>
+
+
+					<th><wicket:message key="examinationListPanel.actions" /></th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr wicket:id="rows">
+					<td><span wicket:id="id" /></td>
+					<td><span wicket:id="name" /></td>
+					<td><span wicket:id="beginDate" /></td>
+					<td><span wicket:id="endDate" /></td>
+					<td><span wicket:id="subject" /></td>
+					<td><span wicket:id="accountId" /></td>
+					<td><wicket:enclosure>
+							<a wicket:id="delete-link"><wicket:message key="examinationListPanel.delete" /></a>/</wicket:enclosure> <wicket:enclosure>
+							<a wicket:id="edit-link"><wicket:message key="examinationListPanel.edit" /></a>/</wicket:enclosure> <a wicket:id="complete-link"><wicket:message key="examinationListPanel.complete" /></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div wicket:id="paging"></div>
+	</div>
+</wicket:panel>

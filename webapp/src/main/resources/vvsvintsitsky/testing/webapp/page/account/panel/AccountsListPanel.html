@@ -1,0 +1,32 @@
+<wicket:panel>
+	<div wicket:id="rowsContainer">
+		<table class="list-table">
+			<thead>
+				<tr>
+					<th><a wicket:id="sort-id"><wicket:message key="accountsListPanel.id" /></a></th>
+					<th><a wicket:id="sort-firstName"><wicket:message key="accountsListPanel.firstName" /></a></th>
+					<th><a wicket:id="sort-lastName"><wicket:message key="accountsListPanel.lastName" /></a></th>
+					<th><a wicket:id="sort-email"><wicket:message key="accountsListPanel.email" /></a></th>
+					<th><a wicket:id="sort-password"><wicket:message key="accountsListPanel.password" /></a></th>
+					<th><a wicket:id="sort-role"><wicket:message key="accountsListPanel.role" /></a></th>
+
+					<th><wicket:message key="accountsListPanel.actions" /></th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr wicket:id="rows">
+					<td><span wicket:id="id" /></td>
+					<td><span wicket:id="firstName" /></td>
+					<td><span wicket:id="lastName" /></td>
+					<td><span wicket:id="email" /></td>
+					<td><span wicket:id="password" /></td>
+					<td><span wicket:id="role" /></td>
+					<td><a wicket:id="delete-link"><wicket:message key="accountsListPanel.delete" /></a>/<a
+						wicket:id="edit-link"><wicket:message key="accountsListPanel.edit" /></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div wicket:id="paging"></div>
+	</div>
+</wicket:panel>

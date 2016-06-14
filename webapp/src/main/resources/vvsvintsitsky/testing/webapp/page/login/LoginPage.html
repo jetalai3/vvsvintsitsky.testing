@@ -1,0 +1,37 @@
+<wicket:extend xmlns:wicket="http://wicket.apache.org">
+	<head>
+<meta charset="utf-8" />
+<title><wicket:message key="loginPage.title" /></title>
+<link
+	href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold'
+	rel='stylesheet' type='text/css' />
+
+
+
+
+	</head>
+	<body>
+
+		<div class="login">
+			<h2>
+				<wicket:message key="loginPage.loginHeader" />
+			</h2>
+			<form wicket:id="form">
+				<b><wicket:message key="loginPage.email" /></b>
+				<p class="input">
+					<input type="text" wicket:id="email" autocomplete="off" />
+				</p>
+				<b><wicket:message key="loginPage.password" /></b>
+				<p class="input">
+					<input type="password" wicket:id="password" />
+				</p>
+				<button class="submitButton" type="submit" wicket:id="submit-btn">
+					<b><wicket:message key="loginPage.login" /></b>
+				</button>
+			</form>
+			<div wicket:id="feedbackpanel" style="margin: auto; text-align: center;"></div>
+		</div>
+
+	</body>
+</wicket:extend>
+

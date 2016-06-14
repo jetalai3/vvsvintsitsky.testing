@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="formAccountProfile.firstName.Required">Поле "Имя" не может быть пустым</entry>
+	<entry key="formAccountProfile.lastName.Required">Поле "Фамилия" не может быть пустым</entry>
+	<entry key="formAccountProfile.formAccount.email.Required">Поле "E-mail" не может быть пустым</entry>
+	<entry key="formAccountProfile.formAccount.password.Required">Поле "Пароль" не может быть пустым</entry>
+	<entry key="formAccountProfile.formAccount.role.Required">Необходимо выбрать роль</entry>
+
+</properties>

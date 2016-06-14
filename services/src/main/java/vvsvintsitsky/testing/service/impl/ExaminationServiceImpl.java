@@ -44,7 +44,10 @@ public class ExaminationServiceImpl implements ExaminationService {
 
 	@Override
 	public void delete(Long id) {
-		examinationDao.delete(id);
+		Examination examination = examinationDao.get(id);
+		localTextsDao.delete(examination.getExaminationNames().getId());
+		variousTextsDao.delete(examination.getExaminationNames().getRusText().getId());
+		variousTextsDao.delete(examination.getExaminationNames().getEngText().getId());
 	}
 
 	@Override

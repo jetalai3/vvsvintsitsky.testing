@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="form.formRusText.txt.Required">Поле "Русский текст" не должно быть пустым</entry>
+	<entry key="form.formEngText.txt.Required">Поле "Английский текст" не должно быть пустым</entry>
+	
+
+</properties>

@@ -44,7 +44,11 @@ public class AnswerServiceImpl implements AnswerService {
 
 	@Override
 	public void delete(Long id) {
+		Answer answer = answerDao.get(id);
 		answerDao.delete(id);
+		localTextsDao.delete(answer.getAnswerTexts().getId());
+		variousTextsDao.delete(answer.getAnswerTexts().getRusText().getId());
+		variousTextsDao.delete(answer.getAnswerTexts().getEngText().getId());
 	}
 
 	@Override

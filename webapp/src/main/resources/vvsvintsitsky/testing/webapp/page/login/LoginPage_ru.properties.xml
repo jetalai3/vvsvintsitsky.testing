@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key="ID_FORM.email.Required">Поле "E-mail" не может быть пустым</entry>
+	<entry key="ID_FORM.password.Required">Поле "Пароль" не может быть пустым</entry>
+	
+	
+
+</properties>

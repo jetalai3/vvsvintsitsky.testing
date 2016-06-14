@@ -1,0 +1,50 @@
+<wicket:extend xmlns:wicket="http://wicket.apache.org">
+	<h2>
+		<wicket:message key="questionEditPage.mainText" />
+	</h2>
+
+	<form wicket:id="form">
+		<table class="general-table">
+			<tr>
+				<td><b><wicket:message key="questionEditPage.subject" />:</b>
+					<select wicket:id="subject" /></td>
+			</tr>
+
+			<tr>
+				<td>
+					<form wicket:id="formRusText">
+						<table class="general-table">
+							<tr>
+								<td><b><wicket:message key="rusText" />:</b> <input
+									type="text" wicket:id="txt" /></td>
+							</tr>
+						</table>
+					</form>
+					<form wicket:id="formEngText">
+						<table class="general-table">
+							<tr>
+								<td><b><wicket:message key="engText" />:</b> <input
+									type="text" wicket:id="txt" /></td>
+							</tr>
+						</table>
+					</form>
+				</td>
+			</tr>
+		</table>
+		<button class="submitButton" type="submit" wicket:id="save">
+			<wicket:message key="questionEditPage.save" />
+		</button>
+	</form>
+	<div wicket:id="rowsContainer">
+		<table class="general-table">
+			<tr>
+				<td><div wicket:id="answers-panel"></div>
+					<button class="generalButton" wicket:id="new-answer">
+						<wicket:message key="questionEditPage.newAnswer" />
+					</button></td>
+			</tr>
+		</table>
+		<div wicket:id="modal"></div>
+	</div>
+	<div wicket:id="feedback" style="margin: auto; text-align: center;"></div>
+</wicket:extend>

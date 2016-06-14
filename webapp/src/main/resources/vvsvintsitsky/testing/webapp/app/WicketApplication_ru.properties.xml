@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	
+
+	<entry key="US">Английский</entry>
+	<entry key="RU">Русский</entry>
+	
+	<entry key="abstractPage.mainText">Тестирование</entry>
+	
+	<entry key="rusText">Русский текст</entry>
+	<entry key="engText">Английский текст</entry>
+	
+	<entry key="accountEditPage.mainText">Ввод данных профиля</entry>
+	<entry key="accountEditPage.firstName">Имя</entry>
+	<entry key="accountEditPage.lastName">Фамилия</entry>
+	<entry key="accountEditPage.save">Сохранить</entry>
+	<entry key="accountEditPage.email">e-mail</entry>
+	<entry key="accountEditPage.password">Пароль</entry>
+	<entry key="accountEditPage.role">Роль</entry>
+	
+	<entry key="accountsPage.mainText">Учетные записи</entry>
+	<entry key="accountsPage.create">Создать</entry>
+	
+	<entry key="accountsListPanel.id">Идентификатор</entry>
+	<entry key="accountsListPanel.firstName">Имя</entry>
+	<entry key="accountsListPanel.lastName">Фамилия</entry>
+	<entry key="accountsListPanel.email">e-mail</entry>
+	<entry key="accountsListPanel.password">Пароль</entry>
+	<entry key="accountsListPanel.role">Роль</entry>
+	<entry key="accountsListPanel.actions">Действия</entry>
+	<entry key="accountsListPanel.delete">Удалить</entry>
+	<entry key="accountsListPanel.edit">Редактировать</entry>
+	
+	<entry key="answerEditPanel.answerText">Текст ответа</entry>
+	<entry key="answerEditPanel.correct">Правильный</entry>
+	<entry key="answerEditPanel.save">Сохранить</entry>
+	<entry key="answerEditPanel.cancel">Отмена</entry>
+	
+	<entry key="answersListPanel.id">Идентификатор</entry>
+	<entry key="answersListPanel.answerText">Текст ответа</entry>
+	<entry key="answersListPanel.correct">Правильный</entry>
+	<entry key="answersListPanel.actions">Действия</entry>
+	<entry key="answersListPanel.delete">Удалить</entry>
+	<entry key="answersListPanel.edit">Редактировать</entry>
+	
+	<entry key="completingPage.mainText">Ответьте на вопросы теста</entry>
+	
+	<entry key="completingListPanel.previousQuestion">Предыдущий вопрос</entry>
+	<entry key="completingListPanel.nextQuestion">Следующий вопрос</entry>
+	<entry key="completingListPanel.finish">Закончить тест</entry>
+	
+	<entry key="examinationEditPage.mainText">Ввод данных теста</entry>
+	<entry key="examinationEditPage.examinationName">Название теста</entry>
+	<entry key="examinationEditPage.beginDate">Дата с</entry>
+	<entry key="examinationEditPage.endDate">Дата по</entry>
+	<entry key="examinationEditPage.subject">Предмет</entry>
+	<entry key="examinationEditPage.questions">Вопросы</entry>
+	<entry key="examinationEditPage.save">Сохранить</entry>
+	
+	<entry key="examinationsPage.mainText">Тесты</entry>
+	<entry key="examinationsPage.create">Создать</entry>
+	
+	<entry key="examinationListPanel.id">Идентификатор</entry>
+	<entry key="examinationListPanel.name">Название</entry>
+	<entry key="examinationListPanel.beginDate">Дата от</entry>
+	<entry key="examinationListPanel.endDate">Дата по</entry>
+	<entry key="examinationListPanel.subject">Предмет</entry>
+	<entry key="examinationListPanel.accountProfileId">Автор</entry>
+	<entry key="examinationListPanel.actions">Действия</entry>
+	<entry key="examinationListPanel.delete">Удалить</entry>
+	<entry key="examinationListPanel.edit">Редактировать</entry>
+	<entry key="examinationListPanel.complete">Выполнить</entry>
+	
+	<entry key="homePage.mainText">Домашняя страница</entry>
+	
+	<entry key="loginPage.title">Вход под учетной записью</entry>
+	<entry key="loginPage.loginHeader">Имя пользователя</entry>
+	<entry key="loginPage.login">Вход</entry>
+	<entry key="loginPage.email">Электронная почта</entry>
+	<entry key="loginPage.password">Пароль</entry>
+	
+	<entry key="questionEditPage.mainText">Ввод вопроса</entry>
+	<entry key="questionEditPage.questionText">Текст вопроса</entry>
+	<entry key="questionEditPage.subject">Предмет</entry>
+	<entry key="questionEditPage.save">Сохранить</entry>
+	<entry key="questionEditPage.newAnswer">Добавить ответ</entry>
+	
+	<entry key="questionsPage.mainText">Список вопросов</entry>
+	<entry key="questionsPage.create">Создать</entry>
+	
+	<entry key="questionListPanel.id">Идентификатор</entry>
+	<entry key="questionListPanel.questionText">Текст вопроса</entry>
+	<entry key="questionListPanel.subject">Предмет</entry>
+	<entry key="questionListPanel.actions">Действия</entry>
+	<entry key="questionListPanel.delete">Удалить</entry>
+	<entry key="questionListPanel.edit">Редактировать</entry>
+	
+	<entry key="resultsPage.mainText">Список результатов</entry>
+	
+	<entry key="resultViewPage.mainText">Просмотр результата</entry>
+	
+	<entry key="resultsListPanel.id">Идентификатор</entry>
+	<entry key="resultsListPanel.examination">Название теста</entry>
+	<entry key="resultsListPanel.account">Пользователь</entry>
+	<entry key="resultsListPanel.points">Баллы</entry>
+	<entry key="resultsListPanel.actions">Действия</entry>
+	<entry key="resultsListPanel.delete">Удалить</entry>
+	<entry key="resultsListPanel.view">Просмотр результата</entry>
+	
+	<entry key="resultViewPanel.previousQuestion">Предыдущая ошибка</entry>
+	<entry key="resultViewPanel.nextQuestion">Следующая ошибка</entry>
+	
+	<entry key="subjectEditPanel.subjectName">Название предмета</entry>
+	<entry key="subjectEditPanel.save">Сохранить</entry>
+	<entry key="subjectEditPanel.cancel">Отмена</entry>
+	
+	<entry key="subjectsPage.mainText">Предметы</entry>
+	<entry key="subjectsPage.create">Создать</entry>
+	
+	<entry key="subjectsListPanel.id">Идентификатор</entry>
+	<entry key="subjectsListPanel.name">Название</entry>
+	<entry key="subjectsListPanel.actions">Действия</entry>
+	<entry key="subjectsListPanel.delete">Удалить</entry>
+	<entry key="subjectsListPanel.edit">Редактировать</entry>
+	
+	<entry key="menuPanel.home">Домашняя</entry>
+	<entry key="menuPanel.accounts">Учетные записи</entry>
+	<entry key="menuPanel.question">Вопросы</entry>
+	<entry key="menuPanel.subjects">Предметы</entry>
+	<entry key="menuPanel.examinations">Тесты</entry>
+	<entry key="menuPanel.logout">Выход</entry>
+	<entry key="menuPanel.login">Вход</entry>
+	<entry key="menuPanel.personal">Личный кабинет</entry>
+	<entry key="menuPanel.result">Результаты</entry>
+	<entry key="menuPanel.register">Регистрация</entry>
+	
+	<entry key="resultViewPanel.noMistakes">Ошибок нет</entry>
+	
+	<entry key="examination.name.title">Введите имя теста</entry>
+	
+
+
+</properties>

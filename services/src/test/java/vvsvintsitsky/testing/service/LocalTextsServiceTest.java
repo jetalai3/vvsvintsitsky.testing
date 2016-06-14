@@ -42,7 +42,22 @@ public class LocalTextsServiceTest {
 	private LocalTextsService localTextsService;
 	@Inject
 	private VariousTextsService variousTextsService;
-
+	
+	@Test
+	public void tessst() {
+		wipeDB();
+		Subject subject = fillDatabaseWithSubjects(1).get(0);
+//		AccountProfile accountProfile = fillDatabaseWithAccountsAndAccountProfiles(1).get(0);
+//
+//		List<Examination> examinations = fillDatabaseWithExaminations(2, accountProfile, subject);
+//		Examination examination = examinations.get(0);
+//		examination = examinationService.getExamination(examination.getId());
+//		examinationService.delete(examination.getId());
+		subject = subjectService.getSubject(subject.getId());
+//		subject.getSubjectNames().getRusText();
+		subjectService.delete(subject.getId());
+	}
+	
 	@Test
 	public void testSMTH() {
 		wipeDB();
